@@ -1,0 +1,191 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile containing learner progression, streaks, hearts, and XP balance.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The unique user ID matching the auth UID."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name."
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address."
+        },
+        "sageloName": {
+          "type": "string",
+          "description": "Learner Sagelo chosen moniker."
+        },
+        "region": {
+          "type": "string",
+          "description": "Country or city location."
+        },
+        "avatarKey": {
+          "type": "string",
+          "description": "Selected avatar key."
+        },
+        "xp": {
+          "type": "number",
+          "description": "Total experience points gained."
+        },
+        "streak": {
+          "type": "number",
+          "description": "Consecutive days streak."
+        },
+        "hearts": {
+          "type": "number",
+          "description": "Current heart count."
+        },
+        "cowries": {
+          "type": "number",
+          "description": "Virtual currency balance."
+        },
+        "followingIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of user IDs followed."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update."
+        }
+      },
+      "required": ["userId", "displayName", "xp", "streak", "hearts", "cowries"]
+    },
+    "UserProgress": {
+      "title": "UserProgress",
+      "description": "Tracks completion status and stars for each lesson.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The user ID of the student."
+        },
+        "lessonId": {
+          "type": "string",
+          "description": "Unique lesson identifier."
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the lesson has been completed."
+        },
+        "stars": {
+          "type": "number",
+          "description": "Stars or score achieved in the lesson."
+        },
+        "completedAt": {
+          "type": "string",
+          "description": "ISO timestamp when the lesson was completed."
+        }
+      },
+      "required": ["userId", "lessonId", "completed"]
+    },
+    "CommunityLearner": {
+      "title": "CommunityLearner",
+      "description": "Public profile card for learners to connect and compare progress.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Learner user ID."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Public learner display name."
+        },
+        "sageloName": {
+          "type": "string",
+          "description": "African / Sagelo name."
+        },
+        "region": {
+          "type": "string",
+          "description": "Region or country flag."
+        },
+        "avatarKey": {
+          "type": "string",
+          "description": "Avatar icon representation."
+        },
+        "xp": {
+          "type": "number",
+          "description": "Total XP."
+        },
+        "streak": {
+          "type": "number",
+          "description": "Current active streak."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp."
+        }
+      },
+      "required": ["userId", "displayName", "xp", "streak"]
+    },
+    "CommunityPost": {
+      "title": "CommunityPost",
+      "description": "Learner wisdom posts, practice sentences, and discussions.",
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "string",
+          "description": "Unique post ID."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Author user ID."
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Author name."
+        },
+        "authorAvatar": {
+          "type": "string",
+          "description": "Author avatar."
+        },
+        "sageloText": {
+          "type": "string",
+          "description": "Sagelo phrase."
+        },
+        "englishTranslation": {
+          "type": "string",
+          "description": "English meaning."
+        },
+        "evidentiality": {
+          "type": "string",
+          "description": "Evidential particle (ha, ra, si, ni)."
+        },
+        "shantiCount": {
+          "type": "number",
+          "description": "Number of cheers / shanti approvals."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO creation timestamp."
+        }
+      },
+      "required": ["postId", "userId", "sageloText", "englishTranslation"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Stores individual user learner profiles."
+    },
+    "/users/{userId}/progress/{lessonId}": {
+      "schema": "UserProgress",
+      "description": "Stores user completion progress per lesson."
+    },
+    "/community_learners/{learnerId}": {
+      "schema": "CommunityLearner",
+      "description": "Public learner profiles for discovery and friends leaderboards."
+    },
+    "/community_posts/{postId}": {
+      "schema": "CommunityPost",
+      "description": "Community posts and sentence exchanges."
+    }
+  }
+}

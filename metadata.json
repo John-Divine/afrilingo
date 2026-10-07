@@ -1,0 +1,8 @@
+{
+  "name": "AfriLingo",
+  "description": "Master African languages with bite-sized, culturally immersive lessons designed for beginners to speak confidently in just one week.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

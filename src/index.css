@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #FFFFFF;
+    color: #3C3C3C;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    text-wrap: balance;
+  }
+
+  .font-mono-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Duolingo Signature 3D Buttons & Card Utilities */
+.duo-btn-green {
+  background-color: #58CC02;
+  border-bottom: 4px solid #46A302;
+  color: #FFFFFF;
+  font-weight: 800;
+  border-radius: 1rem;
+  transition: all 0.1s ease-in-out;
+}
+.duo-btn-green:hover {
+  background-color: #61E002;
+}
+.duo-btn-green:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.duo-btn-blue {
+  background-color: #1CB0F6;
+  border-bottom: 4px solid #1899D6;
+  color: #FFFFFF;
+  font-weight: 800;
+  border-radius: 1rem;
+  transition: all 0.1s ease-in-out;
+}
+.duo-btn-blue:hover {
+  background-color: #24B8FB;
+}
+.duo-btn-blue:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.duo-btn-white {
+  background-color: #FFFFFF;
+  border: 2px solid #E5E5E5;
+  border-bottom-width: 4px;
+  color: #4B4B4B;
+  font-weight: 800;
+  border-radius: 1rem;
+  transition: all 0.1s ease-in-out;
+}
+.duo-btn-white:hover {
+  background-color: #F7F7F7;
+}
+.duo-btn-white:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.duo-card {
+  background-color: #FFFFFF;
+  border: 2px solid #E5E5E5;
+  border-radius: 1rem;
+}
+
+/* Subtle Pan-African Kente / Bogolanfini geometric accent */
+.bogolan-border {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #58CC02 0px,
+    #58CC02 12px,
+    #FFC800 12px,
+    #FFC800 24px,
+    #FF9600 24px,
+    #FF9600 36px,
+    #1CB0F6 36px,
+    #1CB0F6 48px
+  );
+  height: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
