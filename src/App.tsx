@@ -42,6 +42,8 @@ import { LexiconPhrasebookView } from './components/LexiconPhrasebookView';
 import { DuolingoStoriesView } from './components/DuolingoStoriesView';
 import { AuthModal } from './components/AuthModal';
 import { ConnectWithOthersView } from './components/ConnectWithOthersView';
+import { PWAInstallButton } from './components/PWAInstallButton';
+import { OfflineIndicator } from './components/OfflineIndicator';
 import { playSageloPhrase } from './utils/sageloAudio';
 import {
   auth,
@@ -569,6 +571,9 @@ export default function App() {
           </nav>
         </div>
 
+        {/* Install AfriLingo Banner in Sidebar */}
+        <PWAInstallButton variant="sidebar" />
+
         {/* Bottom Course Flag Pill */}
         <div className="p-3 bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-2xl flex items-center gap-3">
           <span className="text-2xl">🌍</span>
@@ -651,6 +656,9 @@ export default function App() {
                 {firebaseUser && !firebaseUser.isAnonymous ? user.name.split(' ')[0] : 'Sign In'}
               </span>
             </button>
+
+            {/* Install App Quick Action */}
+            <PWAInstallButton variant="compact" />
           </div>
         </header>
 
@@ -1427,6 +1435,22 @@ export default function App() {
                     ))}
                   </div>
                 </div>
+
+                {/* Install App on Device Card */}
+                <div className="p-5 bg-gradient-to-br from-[#F0FDF4] to-[#DCFCE7] border-2 border-[#86EFAC] rounded-3xl space-y-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">📲</span>
+                    <div>
+                      <h4 className="text-base font-black text-[#15803D]">
+                        Install AfriLingo on Your Device
+                      </h4>
+                      <p className="text-xs font-bold text-[#166534]">
+                        Instant home screen access, native standalone view, and offline lesson practice.
+                      </p>
+                    </div>
+                  </div>
+                  <PWAInstallButton variant="full" />
+                </div>
               </div>
             )}
           </main>
@@ -1713,6 +1737,9 @@ export default function App() {
         onAuthSuccess={handleAuthSuccess}
         defaultMode={authModalMode}
       />
+
+      {/* 8. PWA OFFLINE CONNECTIVITY INDICATOR */}
+      <OfflineIndicator />
     </div>
   );
 }

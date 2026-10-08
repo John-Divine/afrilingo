@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#58CC02"/>
+      <stop offset="100%" stop-color="#228B22"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#FF9600"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Background Squircle -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bgGrad)"/>
+
+  <!-- Geometric Adinkra / Cowrie Shield Inner Halo -->
+  <circle cx="256" cy="256" r="180" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="256" cy="256" r="156" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="16 12" opacity="0.3"/>
+
+  <!-- Stylized AfriLingo Sage / Bird / Flame Icon -->
+  <g filter="url(#shadow)">
+    <!-- Main Bird / Wisdom Body -->
+    <path d="M160 330 C160 210, 240 130, 340 130 C330 180, 290 220, 250 240 C310 240, 360 280, 350 350 C310 390, 220 390, 160 330 Z" fill="#FFFFFF"/>
+    
+    <!-- Vivid Gold Wing Flame Accent -->
+    <path d="M200 320 C210 250, 270 200, 320 180 C290 230, 260 270, 220 310 Z" fill="url(#goldGrad)"/>
+
+    <!-- Sage Beak / Cultural Torch Crest -->
+    <polygon points="340,160 395,190 335,215" fill="#FF9600"/>
+
+    <!-- Playful Expressive Eye -->
+    <circle cx="305" cy="190" r="14" fill="#1C1917"/>
+    <circle cx="309" cy="186" r="5" fill="#FFFFFF"/>
+
+    <!-- Cowrie Gem of Wisdom on Chest -->
+    <ellipse cx="235" cy="305" rx="16" ry="24" transform="rotate(-20 235 305)" fill="url(#goldGrad)"/>
+    <line x1="230" y1="288" x2="240" y2="322" stroke="#B45309" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Base Inscription -->
+  <text x="256" y="445" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="44" fill="#FFFFFF" letter-spacing="2">AFRILINGO</text>
+</svg>
