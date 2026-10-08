@@ -339,7 +339,7 @@ export const PracticeLabView: React.FC = () => {
                   return (
                     <button
                       key={`${syl.raw}-${idx}`}
-                      onClick={() => playSageloPhrase(syl.raw, { basePitchHz, playToneResonance: true })}
+                      onClick={() => playSageloPhrase(syl.raw, { basePitchHz })}
                       className="flex-1 min-w-[44px] flex flex-col items-center justify-end h-full group focus:outline-none"
                     >
                       <span className="text-[11px] font-mono-num text-[#D99B26] mb-1">
