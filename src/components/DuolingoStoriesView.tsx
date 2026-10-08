@@ -222,7 +222,7 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
     // Play first line
     const first = story.lines[0];
     if (first && first.sagelo) {
-      playSageloPhrase(first.sagelo, { useVoice: false });
+      playSageloPhrase(first.sagelo);
     }
   };
 
@@ -237,7 +237,7 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
 
       const nextLine = activeStory.lines[nextIdx];
       if (nextLine && nextLine.sagelo && !nextLine.isQuestion) {
-        playSageloPhrase(nextLine.sagelo, { useVoice: false });
+        playSageloPhrase(nextLine.sagelo);
       }
     } else {
       setStoryFinished(true);
@@ -368,9 +368,7 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
                       </div>
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() =>
-                            playSageloPhrase(line.sagelo, { useVoice: false })
-                          }
+                          onClick={() => playSageloPhrase(line.sagelo)}
                           className="w-7 h-7 rounded-full bg-[#1CB0F6]/15 hover:bg-[#1CB0F6]/25 text-[#1CB0F6] flex items-center justify-center shrink-0"
                           title="Listen to audio"
                         >

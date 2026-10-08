@@ -118,9 +118,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
   useEffect(() => {
     if (phase === 'practice' && currentExercise?.sageloAudioText) {
       const timer = setTimeout(() => {
-        playSageloPhrase(currentExercise.sageloAudioText!, {
-          useVoice: false,
-        });
+        playSageloPhrase(currentExercise.sageloAudioText!);
       }, 250);
       return () => clearTimeout(timer);
     }
@@ -248,7 +246,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                       <button
                         key={i}
                         onClick={() =>
-                          playSageloPhrase(ex.sagelo, { useVoice: false })
+                          playSageloPhrase(ex.sagelo)
                         }
                         className="p-4 rounded-2xl bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] active:translate-y-1 text-left flex items-center justify-between gap-4 transition-all"
                       >
@@ -311,9 +309,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                 <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5]">
                   <button
                     onClick={() =>
-                      playSageloPhrase(currentExercise.sageloAudioText!, {
-                        useVoice: false,
-                      })
+                      playSageloPhrase(currentExercise.sageloAudioText!)
                     }
                     className="w-14 h-14 rounded-2xl bg-[#1CB0F6] hover:bg-[#24B8FB] border-b-4 border-[#1899D6] text-white flex items-center justify-center shrink-0 active:translate-y-1 transition-all shadow-sm"
                     title="Play audio phrase"
@@ -347,7 +343,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             if (feedback !== 'idle') return;
                             setSelectedOption(opt);
                             if (opt.length < 25) {
-                              playSageloPhrase(opt, { useVoice: false });
+                              playSageloPhrase(opt);
                             }
                           }}
                           disabled={feedback !== 'idle'}
@@ -417,7 +413,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           onClick={() => {
                             if (feedback !== 'idle' || isExhausted) return;
                             setBankSelected(prev => [...prev, word]);
-                            playSageloPhrase(word, { useVoice: false });
+                            playSageloPhrase(word);
                           }}
                           disabled={isExhausted || feedback !== 'idle'}
                           className={`px-4 py-2.5 rounded-xl border-2 border-b-4 font-black text-sm transition-all ${

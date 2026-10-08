@@ -348,7 +348,7 @@ export default function App() {
     if (matchedPairs.includes(tile.id)) return;
     if (!selectedMatch) {
       setSelectedMatch(tile);
-      if (tile.type === 'sagelo') playSageloPhrase(tile.text, { useVoice: false });
+      if (tile.type === 'sagelo') playSageloPhrase(tile.text);
       return;
     }
     if (selectedMatch.type === tile.type) {
@@ -359,7 +359,7 @@ export default function App() {
       setMatchedPairs(prev => [...prev, tile.id]);
       setMatchScore(prev => prev + 10);
       setSelectedMatch(null);
-      if (tile.type === 'sagelo') playSageloPhrase(tile.text, { useVoice: false });
+      if (tile.type === 'sagelo') playSageloPhrase(tile.text);
       if (matchedPairs.length + 1 >= MATCH_PAIRS.length) {
         setTimeout(() => {
           updateUser({
@@ -1425,7 +1425,7 @@ export default function App() {
                         </div>
                         <button
                           onClick={() =>
-                            playSageloPhrase(note.sagelo, { useVoice: false })
+                            playSageloPhrase(note.sagelo)
                           }
                           className="w-9 h-9 rounded-xl bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 border-b-2 border-[#1899D6]"
                         >
@@ -1479,9 +1479,7 @@ export default function App() {
                 </p>
                 <button
                   onClick={() =>
-                    playSageloPhrase('Shanti, ndeko! Yo Dienga oni.', {
-                      useVoice: false,
-                    })
+                    playSageloPhrase('Shanti, ndeko! Yo Dienga oni.')
                   }
                   className="w-full py-2 bg-[#1CB0F6] hover:bg-[#1899D6] border-b-4 border-[#1580B8] text-white text-xs font-black uppercase rounded-xl flex items-center justify-center gap-1.5 active:translate-y-1 transition-all"
                 >
@@ -1657,7 +1655,7 @@ export default function App() {
                 <div className="space-y-2">
                   <button
                     onClick={() =>
-                      playSageloPhrase('Shanti, ndeko!', { useVoice: false })
+                      playSageloPhrase('Shanti, ndeko!')
                     }
                     className="w-full p-3 bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl flex items-center justify-between text-left font-black text-sm"
                   >
@@ -1666,7 +1664,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() =>
-                      playSageloPhrase('Yo ta sago voli ha.', { useVoice: false })
+                      playSageloPhrase('Yo ta sago voli ha.')
                     }
                     className="w-full p-3 bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl flex items-center justify-between text-left font-black text-sm"
                   >

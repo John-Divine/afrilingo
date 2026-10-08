@@ -31,6 +31,17 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [expandedRoot, setExpandedRoot] = useState<string | null>('sag');
   const [savedToast, setSavedToast] = useState<string | null>(null);
+  const [speakingPhrase, setSpeakingPhrase] = useState<string | null>(null);
+
+  const handleSpeakPhrase = (phrase: string) => {
+    if (!phrase) return;
+    setSpeakingPhrase(phrase);
+    playSageloPhrase(phrase, {
+      onComplete: () => {
+        setSpeakingPhrase(prev => (prev === phrase ? null : prev));
+      },
+    });
+  };
 
   const categories = useMemo(() => {
     const set = new Set<string>(['All']);
@@ -182,11 +193,15 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
 
                       <div className="flex items-center gap-1.5 shrink-0">
                         <button
-                          onClick={() => playSageloPhrase(entry.root)}
-                          className="p-2 rounded-lg bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white transition-colors"
+                          onClick={() => handleSpeakPhrase(entry.root)}
+                          className={`p-2 rounded-lg transition-colors ${
+                            speakingPhrase === entry.root
+                              ? 'bg-[#C84B24] text-white shadow-xs'
+                              : 'bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white'
+                          }`}
                           aria-label={`Pronounce ${entry.root}`}
                         >
-                          <Volume2 className="w-4 h-4" />
+                          <Volume2 className={`w-4 h-4 ${speakingPhrase === entry.root ? 'animate-pulse' : ''}`} />
                         </button>
                         <button
                           onClick={() =>
@@ -208,10 +223,10 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                           — <span className="text-[#5C4D43]">{entry.exampleEnglish}</span>
                         </div>
                         <button
-                          onClick={() => playSageloPhrase(entry.exampleSagelo || '')}
+                          onClick={() => handleSpeakPhrase(entry.exampleSagelo || '')}
                           className="text-[#C84B24] hover:underline font-medium shrink-0"
                         >
-                          Hear
+                          {speakingPhrase === entry.exampleSagelo ? 'Speaking...' : 'Hear'}
                         </button>
                       </div>
                     )}
@@ -316,11 +331,15 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
 
                         <div className="flex items-center gap-2 shrink-0">
                           <button
-                            onClick={() => playSageloPhrase(p.sagelo)}
-                            className="px-3 py-1.5 rounded-lg bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white text-xs font-medium inline-flex items-center gap-1.5 transition-colors whitespace-nowrap"
+                            onClick={() => handleSpeakPhrase(p.sagelo)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                              speakingPhrase === p.sagelo
+                                ? 'bg-[#C84B24] text-white shadow-xs'
+                                : 'bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white'
+                            }`}
                           >
-                            <Volume2 className="w-3.5 h-3.5" />
-                            <span>Speak</span>
+                            <Volume2 className={`w-3.5 h-3.5 ${speakingPhrase === p.sagelo ? 'animate-pulse' : ''}`} />
+                            <span>{speakingPhrase === p.sagelo ? 'Speaking...' : 'Speak'}</span>
                           </button>
                           <button
                             onClick={() => handleSavePhrase(p.sagelo, p.english)}

@@ -217,7 +217,7 @@ export const PracticeLabView: React.FC = () => {
                       key={end.ending}
                       onClick={() => {
                         setSelectedEnding(end);
-                        playSageloPhrase(word, { useVoice: false });
+                        playSageloPhrase(word);
                       }}
                       className={`p-3 rounded-xl border text-left transition-colors ${
                         isCurrent
@@ -339,7 +339,7 @@ export const PracticeLabView: React.FC = () => {
                   return (
                     <button
                       key={`${syl.raw}-${idx}`}
-                      onClick={() => playSageloPhrase(syl.raw, { basePitchHz, useVoice: false })}
+                      onClick={() => playSageloPhrase(syl.raw, { basePitchHz, playToneResonance: true })}
                       className="flex-1 min-w-[44px] flex flex-col items-center justify-end h-full group focus:outline-none"
                     >
                       <span className="text-[11px] font-mono-num text-[#D99B26] mb-1">
@@ -547,7 +547,7 @@ export const PracticeLabView: React.FC = () => {
                   return (
                     <button
                       key={syl}
-                      onClick={() => playSageloPhrase(syl, { useVoice: false })}
+                      onClick={() => playSageloPhrase(syl)}
                       className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] hover:border-[#C84B24] flex flex-col items-center gap-1 transition-colors"
                     >
                       <CeremonialSyllableBlock syllable={syl} size={52} showLabel={false} />

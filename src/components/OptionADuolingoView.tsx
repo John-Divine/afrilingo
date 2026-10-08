@@ -113,7 +113,7 @@ export const OptionADuolingoView: React.FC<OptionADuolingoViewProps> = ({
     if (!selectedMatch) {
       setSelectedMatch(tile);
       if (tile.type === 'sagelo') {
-        playSageloPhrase(tile.text, { useVoice: false });
+        playSageloPhrase(tile.text);
       }
       return;
     }
@@ -128,9 +128,7 @@ export const OptionADuolingoView: React.FC<OptionADuolingoViewProps> = ({
       setMatchedPairs(prev => [...prev, tile.id]);
       setMatchScore(prev => prev + 10);
       setSelectedMatch(null);
-      playSageloPhrase(tile.type === 'sagelo' ? tile.text : selectedMatch.text, {
-        useVoice: false,
-      });
+      playSageloPhrase(tile.type === 'sagelo' ? tile.text : selectedMatch.text);
 
       if (matchedPairs.length + 1 >= MATCH_PAIRS.length) {
         // Round won!
@@ -800,9 +798,7 @@ export const OptionADuolingoView: React.FC<OptionADuolingoViewProps> = ({
               </p>
               <button
                 onClick={() =>
-                  playSageloPhrase('Shanti, ndeko! Yo Dienga oni.', {
-                    useVoice: false,
-                  })
+                  playSageloPhrase('Shanti, ndeko! Yo Dienga oni.')
                 }
                 className="flex items-center gap-1.5 text-xs text-[#C84B24] font-bold hover:underline pt-1"
               >

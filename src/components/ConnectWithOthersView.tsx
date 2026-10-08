@@ -221,7 +221,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
   const handleCheerUser = (learner: LearnerProfile) => {
     setCheeredUsers((prev) => ({ ...prev, [learner.userId]: true }));
     // Give user a celebratory audio or XP encouragement
-    playSageloPhrase('Shanti, ndeko!', { useVoice: false });
+    playSageloPhrase('Shanti, ndeko!');
     setTimeout(() => {
       setCheeredUsers((prev) => ({ ...prev, [learner.userId]: false }));
     }, 4000);
@@ -304,7 +304,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
     };
     onUpdateUser(updated);
     syncUserProfileToFirestore(updated);
-    playSageloPhrase(sagelo, { useVoice: false });
+    playSageloPhrase(sagelo);
   };
 
   return (
@@ -524,7 +524,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                   </div>
                 </div>
                 <button
-                  onClick={() => playSageloPhrase('Shanti, ndeko!', { useVoice: false })}
+                  onClick={() => playSageloPhrase('Shanti, ndeko!')}
                   className="px-3 py-1.5 bg-[#FFC800] border-b-4 border-[#E5A500] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5"
                 >
                   🎉 Cheer
@@ -543,7 +543,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                   </div>
                 </div>
                 <button
-                  onClick={() => playSageloPhrase('Sago!', { useVoice: false })}
+                  onClick={() => playSageloPhrase('Sago!')}
                   className="px-3 py-1.5 bg-[#58CC02] border-b-4 border-[#46A302] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5"
                 >
                   ⭐ Praise
@@ -562,7 +562,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                   </div>
                 </div>
                 <button
-                  onClick={() => playSageloPhrase('Bono!', { useVoice: false })}
+                  onClick={() => playSageloPhrase('Bono!')}
                   className="px-3 py-1.5 bg-[#1CB0F6] border-b-4 border-[#1899D6] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5"
                 >
                   👏 Bravo
@@ -686,7 +686,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                         {post.sageloText}
                       </p>
                       <button
-                        onClick={() => playSageloPhrase(post.sageloText, { useVoice: false })}
+                        onClick={() => playSageloPhrase(post.sageloText)}
                         className="w-8 h-8 rounded-xl bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 border-b-2 border-[#1899D6] hover:brightness-105"
                         title="Listen to audio"
                       >

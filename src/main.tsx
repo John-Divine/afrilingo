@@ -5,7 +5,13 @@ import { testConnection } from './lib/firebase';
 import { registerSW } from 'virtual:pwa-register';
 
 // Auto-register service worker for PWA installability and offline support
-registerSW({ immediate: true });
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  try {
+    registerSW({ immediate: true });
+  } catch {
+    // Non-blocking in environments without active service workers
+  }
+}
 
 // Validate connection to Firestore on initial boot
 testConnection();
