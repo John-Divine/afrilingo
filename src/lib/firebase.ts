@@ -4,6 +4,8 @@ import {
   signInAnonymously,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   updateProfile,
   onAuthStateChanged,
@@ -128,6 +130,14 @@ export async function registerWithEmail(
 // Login with Email & Password
 export async function loginWithEmail(email: string, pass: string): Promise<User> {
   const cred = await signInWithEmailAndPassword(auth, email, pass);
+  return cred.user;
+}
+
+// Sign in with Google (Default supported provider in Firebase AI Studio)
+export async function loginWithGoogle(): Promise<User> {
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
+  const cred = await signInWithPopup(auth, provider);
   return cred.user;
 }
 
