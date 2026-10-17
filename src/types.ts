@@ -11,8 +11,11 @@ export interface UserAccount {
   dailyGoalXp: number;
   todayXp: number;
   completedLessons: string[];
+  completedCheckpoints?: string[];
   lessonScores: Record<string, number>;
   masteredWords: string[];
+  masteryCertified?: boolean;
+  graduationDate?: string;
   notebook: Array<{
     id: string;
     sagelo: string;

@@ -1,0 +1,158 @@
+// Match Madness Vocabulary Pool for AfriLingo (Sagelo)
+// Sourced from authentic Sagelo curriculum & decks: roots, qualities, body, family, nature, verbs, wisdom
+
+export interface MatchWordPair {
+  id: string;
+  sagelo: string;
+  english: string;
+  category: string;
+}
+
+export const MATCH_MADNESS_DICTIONARY: MatchWordPair[] = [
+  // Core Roots & Foundations
+  { id: 'v1', sagelo: 'shanti', english: 'peace', category: 'Wisdom' },
+  { id: 'v2', sagelo: 'saga', english: 'a sage', category: 'Roots' },
+  { id: 'v3', sagelo: 'sage', english: 'wise', category: 'Roots' },
+  { id: 'v4', sagelo: 'sagi', english: 'to know / understand', category: 'Roots' },
+  { id: 'v5', sagelo: 'sago', english: 'wisdom', category: 'Roots' },
+  { id: 'v6', sagelo: 'sagu', english: 'sanctuary / school', category: 'Roots' },
+  { id: 'v7', sagelo: 'oni', english: 'to be', category: 'Verbs' },
+  { id: 'v8', sagelo: 'wai', english: 'water', category: 'Nature' },
+  { id: 'v9', sagelo: 'jua', english: 'sun', category: 'Nature' },
+  { id: 'v10', sagelo: 'mun', english: 'world / earth', category: 'Nature' },
+  { id: 'v11', sagelo: 'fon', english: 'wind', category: 'Nature' },
+  { id: 'v12', sagelo: 'sil', english: 'tree / forest', category: 'Nature' },
+  { id: 'v13', sagelo: 'mwana', english: 'child', category: 'Family' },
+  { id: 'v14', sagelo: 'ndeko', english: 'friend / companion', category: 'Family' },
+  { id: 'v15', sagelo: 'lumi', english: 'to shine', category: 'Verbs' },
+  { id: 'v16', sagelo: 'voli', english: 'to want', category: 'Verbs' },
+  { id: 'v17', sagelo: 'kore', english: 'warm / heartfelt', category: 'Qualities' },
+  { id: 'v18', sagelo: 'grande', english: 'large / great', category: 'Qualities' },
+  { id: 'v19', sagelo: 'mikre', english: 'small', category: 'Qualities' },
+  { id: 'v20', sagelo: 'nove', english: 'new', category: 'Qualities' },
+  { id: 'v21', sagelo: 'vece', english: 'old', category: 'Qualities' },
+  { id: 'v22', sagelo: 'kiluma', english: 'lamp', category: 'Objects' },
+  { id: 'v23', sagelo: 'pensi', english: 'to think', category: 'Verbs' },
+  { id: 'v24', sagelo: 'lerni', english: 'to learn', category: 'Verbs' },
+  { id: 'v25', sagelo: 'wendi', english: 'to go', category: 'Verbs' },
+  { id: 'v26', sagelo: 'kandi', english: 'to come', category: 'Verbs' },
+  { id: 'v27', sagelo: 'veni', english: 'to see', category: 'Verbs' },
+  { id: 'v28', sagelo: 'doni', english: 'to give', category: 'Verbs' },
+  { id: 'v29', sagelo: 'bori', english: 'to stay / remain', category: 'Verbs' },
+  { id: 'v30', sagelo: 'waii', english: 'to flow', category: 'Verbs' },
+  { id: 'v31', sagelo: 'fasi', english: 'to make / build', category: 'Verbs' },
+  { id: 'v32', sagelo: 'kari', english: 'to love', category: 'Verbs' },
+  { id: 'v33', sagelo: 'audi', english: 'to hear', category: 'Verbs' },
+  { id: 'v34', sagelo: 'tanji', english: 'to touch', category: 'Verbs' },
+  { id: 'v35', sagelo: 'ridi', english: 'to laugh / smile', category: 'Verbs' },
+  // Qualities
+  { id: 'v36', sagelo: 'rapide', english: 'fast / quick', category: 'Qualities' },
+  { id: 'v37', sagelo: 'lente', english: 'slow', category: 'Qualities' },
+  { id: 'v38', sagelo: 'forte', english: 'strong', category: 'Qualities' },
+  { id: 'v39', sagelo: 'debile', english: 'weak', category: 'Qualities' },
+  { id: 'v40', sagelo: 'bela', english: 'beautiful', category: 'Qualities' },
+  { id: 'v41', sagelo: 'vera', english: 'true', category: 'Qualities' },
+  { id: 'v42', sagelo: 'justa', english: 'fair / just', category: 'Qualities' },
+  { id: 'v43', sagelo: 'libe', english: 'free', category: 'Qualities' },
+  { id: 'v44', sagelo: 'profunda', english: 'deep', category: 'Qualities' },
+  { id: 'v45', sagelo: 'alta', english: 'tall / high', category: 'Qualities' },
+  { id: 'v46', sagelo: 'basa', english: 'low', category: 'Qualities' },
+  { id: 'v47', sagelo: 'larga', english: 'wide', category: 'Qualities' },
+  { id: 'v48', sagelo: 'streta', english: 'narrow', category: 'Qualities' },
+  // Body
+  { id: 'v49', sagelo: 'moso', english: 'head', category: 'Body' },
+  { id: 'v50', sagelo: 'miso', english: 'eye', category: 'Body' },
+  { id: 'v51', sagelo: 'mito', english: 'ear', category: 'Body' },
+  { id: 'v52', sagelo: 'diko', english: 'tongue', category: 'Body' },
+  { id: 'v53', sagelo: 'kanda', english: 'hand', category: 'Body' },
+  { id: 'v54', sagelo: 'poda', english: 'foot', category: 'Body' },
+  { id: 'v55', sagelo: 'tuka', english: 'blood', category: 'Body' },
+  { id: 'v56', sagelo: 'boho', english: 'bone', category: 'Body' },
+  { id: 'v57', sagelo: 'pema', english: 'breath', category: 'Body' },
+  { id: 'v58', sagelo: 'kora', english: 'heart', category: 'Body' },
+  { id: 'v59', sagelo: 'nasa', english: 'nose', category: 'Body' },
+  { id: 'v60', sagelo: 'boka', english: 'mouth', category: 'Body' },
+  // Family & Society
+  { id: 'v61', sagelo: 'tata', english: 'father', category: 'Family' },
+  { id: 'v62', sagelo: 'nyango', english: 'mother', category: 'Family' },
+  { id: 'v63', sagelo: 'mpaka', english: 'elder / leader', category: 'Family' },
+  { id: 'v64', sagelo: 'nemwa', english: 'stranger', category: 'Family' },
+  { id: 'v65', sagelo: 'yowe', english: 'self', category: 'Mind' },
+  { id: 'v66', sagelo: 'rega', english: 'law / rule', category: 'Society' },
+  { id: 'v67', sagelo: 'fide', english: 'trust / faith', category: 'Society' },
+  { id: 'v68', sagelo: 'komuna', english: 'community', category: 'Society' },
+  { id: 'v69', sagelo: 'konsilo', english: 'council', category: 'Society' },
+  // Nature & Weather
+  { id: 'v70', sagelo: 'mwe', english: 'moon', category: 'Nature' },
+  { id: 'v71', sagelo: 'seva', english: 'sky', category: 'Nature' },
+  { id: 'v72', sagelo: 'lira', english: 'star', category: 'Nature' },
+  { id: 'v73', sagelo: 'tere', english: 'mountain', category: 'Nature' },
+  { id: 'v74', sagelo: 'dovu', english: 'river', category: 'Nature' },
+  { id: 'v75', sagelo: 'pota', english: 'rain', category: 'Nature' },
+  { id: 'v76', sagelo: 'tanoc', english: 'night', category: 'Nature' },
+  { id: 'v77', sagelo: 'tawinya', english: 'day / yesterday', category: 'Time' },
+  { id: 'v78', sagelo: 'tondra', english: 'thunder', category: 'Nature' },
+  { id: 'v79', sagelo: 'aurora', english: 'dawn-light', category: 'Nature' },
+  // Animals
+  { id: 'v80', sagelo: 'ngbo', english: 'dog', category: 'Animals' },
+  { id: 'v81', sagelo: 'nyau', english: 'cat', category: 'Animals' },
+  { id: 'v82', sagelo: 'koko', english: 'bird', category: 'Animals' },
+  { id: 'v83', sagelo: 'sisi', english: 'fish', category: 'Animals' },
+  { id: 'v84', sagelo: 'tembo', english: 'large animal', category: 'Animals' },
+  { id: 'v85', sagelo: 'mbo', english: 'goat', category: 'Animals' },
+  { id: 'v86', sagelo: 'leona', english: 'lion', category: 'Animals' },
+  // Home & Food
+  { id: 'v87', sagelo: 'dombo', english: 'house', category: 'Home' },
+  { id: 'v88', sagelo: 'dula', english: 'door', category: 'Home' },
+  { id: 'v89', sagelo: 'feka', english: 'table', category: 'Home' },
+  { id: 'v90', sagelo: 'sinda', english: 'chair', category: 'Home' },
+  { id: 'v91', sagelo: 'biya', english: 'grain / bread', category: 'Food' },
+  { id: 'v92', sagelo: 'fura', english: 'fruit', category: 'Food' },
+  { id: 'v93', sagelo: 'cai', english: 'tea', category: 'Food' },
+  { id: 'v94', sagelo: 'sowi', english: 'salt', category: 'Food' },
+  { id: 'v95', sagelo: 'dulu', english: 'sweetness', category: 'Food' },
+  { id: 'v96', sagelo: 'tayo', english: 'knife', category: 'Home' },
+  { id: 'v97', sagelo: 'kova', english: 'cloth / clothing', category: 'Home' },
+  // Mind & Emotions
+  { id: 'v98', sagelo: 'joya', english: 'joy', category: 'Mind' },
+  { id: 'v99', sagelo: 'tresa', english: 'sorrow', category: 'Mind' },
+  { id: 'v100', sagelo: 'pavo', english: 'fear', category: 'Mind' },
+  { id: 'v101', sagelo: 'espa', english: 'hope', category: 'Mind' },
+  { id: 'v102', sagelo: 'kalma', english: 'calm', category: 'Mind' },
+  { id: 'v103', sagelo: 'memo', english: 'memory', category: 'Mind' },
+  { id: 'v104', sagelo: 'dubi', english: 'to doubt', category: 'Mind' },
+  { id: 'v105', sagelo: 'klara', english: 'clarity', category: 'Mind' },
+  { id: 'v106', sagelo: 'imazi', english: 'imagination', category: 'Mind' },
+  // Numbers
+  { id: 'v107', sagelo: 'nul', english: 'zero', category: 'Numbers' },
+  { id: 'v108', sagelo: 'un', english: 'one', category: 'Numbers' },
+  { id: 'v109', sagelo: 'du', english: 'two', category: 'Numbers' },
+  { id: 'v110', sagelo: 'tri', english: 'three', category: 'Numbers' },
+  { id: 'v111', sagelo: 'kwa', english: 'four', category: 'Numbers' },
+  { id: 'v112', sagelo: 'pen', english: 'five', category: 'Numbers' },
+  { id: 'v113', sagelo: 'sek', english: 'six', category: 'Numbers' },
+  { id: 'v114', sagelo: 'sep', english: 'seven', category: 'Numbers' },
+  { id: 'v115', sagelo: 'ok', english: 'eight', category: 'Numbers' },
+  { id: 'v116', sagelo: 'nov', english: 'nine', category: 'Numbers' },
+  { id: 'v117', sagelo: 'dek', english: 'ten', category: 'Numbers' },
+  { id: 'v118', sagelo: 'cent', english: 'hundred', category: 'Numbers' },
+  { id: 'v119', sagelo: 'mil', english: 'thousand', category: 'Numbers' },
+  // Wisdom Concepts & Professions
+  { id: 'v120', sagelo: 'satya', english: 'truth', category: 'Wisdom' },
+  { id: 'v121', sagelo: 'karma', english: 'action & result', category: 'Wisdom' },
+  { id: 'v122', sagelo: 'chi', english: 'life-energy', category: 'Wisdom' },
+  { id: 'v123', sagelo: 'mana', english: 'spiritual power', category: 'Wisdom' },
+  { id: 'v124', sagelo: 'zen', english: 'stillness', category: 'Wisdom' },
+  { id: 'v125', sagelo: 'sanari', english: 'healer', category: 'Professions' },
+  { id: 'v126', sagelo: 'fasari', english: 'builder', category: 'Professions' },
+  { id: 'v127', sagelo: 'dolari', english: 'trader', category: 'Professions' },
+  { id: 'v128', sagelo: 'skrivari', english: 'writer', category: 'Professions' },
+];
+
+/**
+ * Returns a randomized subset of pairs from the dictionary
+ */
+export function getRandomMatchPairs(count: number = 20): MatchWordPair[] {
+  const shuffled = [...MATCH_MADNESS_DICTIONARY].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}

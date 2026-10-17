@@ -465,26 +465,31 @@ export function playSageloPhrase(
     return;
   }
 
-  // 1. Try Browser Web Speech API synchronously
+  // 1. Prioritize Browser Web Speech API (Real articulate human vocal speech)
   let didNativeSpeak = false;
 
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     try {
+      // Clear any hung utterances and resume in case paused
+      window.speechSynthesis.cancel();
       if (window.speechSynthesis.paused) {
         window.speechSynthesis.resume();
       }
 
-      // Synchronously instantiate utterance within current click event loop
+      // Synchronously instantiate utterance within current click/interaction loop
       const utter = new SpeechSynthesisUtterance(cleanText);
-      utter.rate = 0.92;
-      utter.pitch = 1.02;
+      utter.rate = 0.88;
+      utter.pitch = 1.0;
+      utter.volume = 1.0;
 
       const voice = selectBestVoice();
       if (voice) {
         utter.voice = voice;
+        utter.lang = voice.lang;
+      } else {
+        utter.lang = 'es-ES'; // Romance phonetic default for pure cardinal vowels /a, e, i, o, u/
       }
 
-      // Watchdog flag: did browser speech actually emit sound?
       let nativeStarted = false;
 
       utter.onstart = () => {
@@ -502,39 +507,39 @@ export function playSageloPhrase(
       };
 
       utter.onend = () => {
-        currentUtterance = null;
+        (window as unknown as { __sageloActiveUtterance: SpeechSynthesisUtterance | null }).__sageloActiveUtterance = null;
         options?.onComplete?.();
       };
 
-      utter.onerror = () => {
-        currentUtterance = null;
-        if (!nativeStarted) {
-          // If native TTS threw an error, immediately synthesize with vocal formant engine
+      utter.onerror = (e) => {
+        (window as unknown as { __sageloActiveUtterance: SpeechSynthesisUtterance | null }).__sageloActiveUtterance = null;
+        // If native speech threw an error before starting, fallback to acoustic vocal synthesis
+        if (!nativeStarted && e.error !== 'canceled' && e.error !== 'interrupted') {
           speakWithVocalFormantSynthesizer(analysis, options);
         } else {
           options?.onComplete?.();
         }
       };
 
+      // Critical Chrome bug fix: store globally to prevent V8 garbage collector from aborting speech
+      (window as unknown as { __sageloActiveUtterance: SpeechSynthesisUtterance | null }).__sageloActiveUtterance = utter;
       currentUtterance = utter;
-      window.speechSynthesis.speak(utter);
 
-      // Watchdog: In cross-origin iframes or restricted environments,
-      // window.speechSynthesis.speak() is accepted silently but never starts (onstart never fires).
-      // Check after 65ms: if native speech didn't start, run the vocal formant synthesizer!
+      window.speechSynthesis.speak(utter);
+      didNativeSpeak = true;
+
+      // Safe fallback timer: only trigger if after 1500ms neither speech started nor is pending/speaking
       setTimeout(() => {
-        if (!nativeStarted && !window.speechSynthesis.speaking) {
+        if (!nativeStarted && !window.speechSynthesis.speaking && !window.speechSynthesis.pending) {
           speakWithVocalFormantSynthesizer(analysis, options);
         }
-      }, 65);
-
-      didNativeSpeak = true;
+      }, 1500);
     } catch {
       didNativeSpeak = false;
     }
   }
 
-  // 2. If SpeechSynthesis was completely unavailable, invoke the vocal formant speech engine directly
+  // 2. If SpeechSynthesis was completely unsupported in browser, invoke acoustic vocal synthesis
   if (!didNativeSpeak) {
     speakWithVocalFormantSynthesizer(analysis, options);
   }

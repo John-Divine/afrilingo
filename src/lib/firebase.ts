@@ -167,7 +167,10 @@ export async function syncUserProfileToFirestore(account: UserAccount): Promise<
     cowries: 480 + (account.xp % 500),
     followingIds: account.followingIds || [],
     completedLessons: account.completedLessons || [],
+    completedCheckpoints: account.completedCheckpoints || [],
     masteredWords: account.masteredWords || [],
+    masteryCertified: account.masteryCertified || false,
+    graduationDate: account.graduationDate || '',
     notebook: account.notebook || [],
     updatedAt: new Date().toISOString(),
   };
@@ -187,6 +190,7 @@ export async function syncUserProfileToFirestore(account: UserAccount): Promise<
         avatarKey: account.avatarKey,
         xp: account.xp,
         streak: account.streakDays,
+        masteryCertified: account.masteryCertified || false,
         updatedAt: new Date().toISOString(),
       },
       { merge: true }
@@ -215,6 +219,9 @@ export async function fetchUserProfileFromFirestore(userId: string): Promise<Par
         hearts: data.hearts ?? 5,
         followingIds: data.followingIds || [],
         completedLessons: data.completedLessons || [],
+        completedCheckpoints: data.completedCheckpoints || [],
+        masteryCertified: data.masteryCertified || false,
+        graduationDate: data.graduationDate || '',
         masteredWords: data.masteredWords || [],
         notebook: data.notebook || [],
       };

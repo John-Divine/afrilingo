@@ -35,8 +35,13 @@ import {
   SAGELO_CURRICULUM,
   ALL_LESSONS,
   CurriculumLesson,
+  UNIT_CHECKPOINTS,
+  UnitCheckpoint,
 } from './data/sageloCurriculum';
 import { LessonSessionModal } from './components/LessonSessionModal';
+import { UnitCheckpointModal } from './components/UnitCheckpointModal';
+import { CartoonCharacter } from './components/CartoonCharacters';
+import { MatchMadnessGame } from './components/MatchMadnessGame';
 import { PracticeLabView } from './components/PracticeLabView';
 import { LexiconPhrasebookView } from './components/LexiconPhrasebookView';
 import { DuolingoStoriesView } from './components/DuolingoStoriesView';
@@ -104,6 +109,8 @@ const FALLBACK_USER: UserAccount = {
   ],
   followingIds: ['user-amina', 'user-kwame'],
   joinedAt: 'October 2026',
+  completedCheckpoints: [],
+  masteryCertified: false,
 };
 
 // Unit section color palette for authentic Duolingo multi-unit path
@@ -221,6 +228,7 @@ export default function App() {
   }, []);
 
   const [activeLesson, setActiveLesson] = useState<CurriculumLesson | null>(null);
+  const [activeCheckpoint, setActiveCheckpoint] = useState<UnitCheckpoint | null>(null);
   const [guidebookUnit, setGuidebookUnit] = useState<number | null>(null);
   const [chestModal, setChestModal] = useState<{ gems: number } | null>(null);
 
@@ -293,6 +301,26 @@ export default function App() {
     const updated: UserAccount = {
       ...user,
       ...updatedData,
+    };
+    updateUser(updated);
+  };
+
+  const handleCheckpointComplete = (
+    checkpointId: string,
+    xpEarned: number,
+    isFinalGraduation?: boolean
+  ) => {
+    const updatedCheckpoints = user.completedCheckpoints?.includes(checkpointId)
+      ? user.completedCheckpoints
+      : [...(user.completedCheckpoints || []), checkpointId];
+
+    const updated: UserAccount = {
+      ...user,
+      xp: user.xp + xpEarned,
+      todayXp: user.todayXp + xpEarned,
+      completedCheckpoints: updatedCheckpoints,
+      masteryCertified: isFinalGraduation ? true : user.masteryCertified,
+      graduationDate: isFinalGraduation ? new Date().toISOString() : user.graduationDate,
     };
     updateUser(updated);
   };
@@ -636,6 +664,21 @@ export default function App() {
               <span>{user.hearts}</span>
             </button>
 
+            {/* Master Misaga Graduation Seal Pill (if certified) */}
+            {user.masteryCertified && (
+              <button
+                onClick={() => {
+                  const masteryCp = UNIT_CHECKPOINTS['unit-mastery'];
+                  if (masteryCp) setActiveCheckpoint(masteryCp);
+                }}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#FFFBEB] hover:bg-[#FEF3C7] border-2 border-[#FDE68A] rounded-2xl text-xs font-black text-[#D97706] shadow-xs transition-colors shrink-0 animate-pulse"
+                title="View Official Master of Sagelo Graduation Diploma"
+              >
+                <span>👑</span>
+                <span className="hidden sm:inline">Master Misaga</span>
+              </button>
+            )}
+
             {/* Account Profile / Sign In Pill */}
             <button
               onClick={() => {
@@ -786,17 +829,149 @@ export default function App() {
                           </span>
                         </div>
 
-                        {/* Checkpoint Gateway Monument */}
-                        <div className="pt-2 flex flex-col items-center">
-                          <div
-                            className={`w-24 h-24 rounded-3xl ${theme.bg} ${theme.border} border-b-6 flex items-center justify-center text-4xl shadow-xl`}
-                          >
-                            🏰
+                        {/* INTERACTIVE DUOLINGO CHECKPOINT GATEWAY MONUMENT */}
+                        {(() => {
+                          const checkpoint = UNIT_CHECKPOINTS[unit.id];
+                          if (!checkpoint) return null;
+                          const allUnitLessonsCompleted = unit.lessons.every((l) =>
+                            user.completedLessons.includes(l.id)
+                          );
+                          const isCheckpointCompleted = (user.completedCheckpoints || []).includes(
+                            checkpoint.id
+                          );
+                          const isCheckpointUnlocked =
+                            allUnitLessonsCompleted || isCheckpointCompleted;
+                          const isFinalUnit = unit.id === 'unit-mastery';
+
+                          return (
+                            <div className="pt-4 flex flex-col items-center">
+                              {/* Bouncing speech bubble when unlocked but not completed */}
+                              {isCheckpointUnlocked && !isCheckpointCompleted && (
+                                <div
+                                  className={`mb-2 ${
+                                    isFinalUnit
+                                      ? 'bg-[#FF9600] border-[#D97706]'
+                                      : 'bg-[#58CC02] border-[#46A302]'
+                                  } text-white text-xs font-black uppercase px-4 py-1.5 rounded-2xl shadow-lg border-b-2 animate-bounce tracking-wider flex items-center gap-1.5 z-10`}
+                                >
+                                  <span>
+                                    {isFinalUnit
+                                      ? '👑 FINAL GRADUATION EXAM'
+                                      : `GATEWAY CHALLENGE +${checkpoint.xpReward} XP`}
+                                  </span>
+                                </div>
+                              )}
+
+                              {isCheckpointCompleted && (
+                                <div className="mb-2 flex items-center gap-1.5 px-3 py-1 bg-[#FFFBEB] border border-[#FDE68A] rounded-full text-[11px] font-black uppercase text-[#D97706] tracking-wider shadow-xs">
+                                  <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
+                                  <span>
+                                    {isFinalUnit ? 'SUPREME MASTER SEAL' : `MASTERED • ${checkpoint.badgeName}`}
+                                  </span>
+                                </div>
+                              )}
+
+                              {/* 3D Gateway Trophy Button */}
+                              <button
+                                onClick={() => isCheckpointUnlocked && setActiveCheckpoint(checkpoint)}
+                                disabled={!isCheckpointUnlocked}
+                                className={`relative w-24 h-24 rounded-3xl border-b-6 flex flex-col items-center justify-center text-4xl shadow-xl transition-all duration-150 active:translate-y-1 ${
+                                  isCheckpointCompleted
+                                    ? 'bg-[#FFC800] border-[#E5A500] hover:brightness-105 ring-4 ring-[#FFC800]/30 cursor-pointer'
+                                    : isCheckpointUnlocked
+                                    ? isFinalUnit
+                                      ? 'bg-[#FF9600] border-[#D97706] hover:brightness-105 ring-8 ring-[#FF9600]/30 animate-pulse cursor-pointer'
+                                      : `${theme.bg} ${theme.border} hover:brightness-105 ring-6 ring-[#58CC02]/30 cursor-pointer`
+                                    : 'bg-[#E5E5E5] border-[#C7C7C7] text-[#AFAFAF] cursor-not-allowed'
+                                }`}
+                                title={
+                                  isCheckpointUnlocked
+                                    ? `Challenge ${checkpoint.title}`
+                                    : `Finish all ${unit.lessons.length} lessons in Unit ${unitIndex} to unlock this Checkpoint Gateway`
+                                }
+                              >
+                                <span>{isFinalUnit ? '👑' : isCheckpointCompleted ? checkpoint.badgeIcon : '🏰'}</span>
+                                {!isCheckpointUnlocked && (
+                                  <div className="absolute inset-0 bg-[#3C3C3C]/20 rounded-3xl flex items-center justify-center">
+                                    <Lock className="w-7 h-7 text-white stroke-[3] drop-shadow-md" />
+                                  </div>
+                                )}
+                              </button>
+
+                              <div className="text-center mt-2 max-w-[210px]">
+                                <p className="text-xs font-black text-[#3C3C3C] uppercase tracking-wider">
+                                  {checkpoint.title}
+                                </p>
+                                <span className="text-[10px] font-bold text-[#AFAFAF]">
+                                  {isCheckpointCompleted
+                                    ? 'Conquered! Tap to review'
+                                    : isCheckpointUnlocked
+                                    ? isFinalUnit
+                                      ? 'Ready for Graduation Exam!'
+                                      : 'Ready for Gateway Challenge!'
+                                    : `Locked (Finish Unit ${unitIndex})`}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })()}
+
+                        {/* CARTOON CHARACTER MILESTONES ALONG THE DUOLINGO PATH */}
+                        {unitIndex === 0 && (
+                          <div className="py-4 flex items-center gap-3 bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-3xl p-4 max-w-sm w-full shadow-xs">
+                            <CartoonCharacter character="duo" mood="speaking" size="sm" animate={true} />
+                            <div className="text-left">
+                              <span className="text-[10px] font-black uppercase text-[#58CC02] tracking-wider">
+                                Duo Kuku says:
+                              </span>
+                              <p className="text-xs font-bold text-[#3C3C3C] leading-snug">
+                                "Karibu! You've stepped onto the path of sages. Build your streak daily!"
+                              </p>
+                            </div>
                           </div>
-                          <p className="text-xs font-black text-[#3C3C3C] uppercase tracking-wider mt-2">
-                            Unit {unitIndex} Checkpoint Trophy
-                          </p>
-                        </div>
+                        )}
+
+                        {unitIndex === 2 && (
+                          <div className="py-4 flex items-center gap-3 bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-3xl p-4 max-w-sm w-full shadow-xs">
+                            <CartoonCharacter character="mwana" mood="celebrating" size="sm" animate={false} />
+                            <div className="text-left">
+                              <span className="text-[10px] font-black uppercase text-[#E59900] tracking-wider">
+                                Mwana Kofi cheers:
+                              </span>
+                              <p className="text-xs font-bold text-[#3C3C3C] leading-snug">
+                                "Evidentiality lets you declare truth with honor. You're unstoppable!"
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {unitIndex === 4 && (
+                          <div className="py-4 flex items-center gap-3 bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-3xl p-4 max-w-sm w-full shadow-xs">
+                            <CartoonCharacter character="nyango" mood="thinking" size="sm" animate={false} />
+                            <div className="text-left">
+                              <span className="text-[10px] font-black uppercase text-[#C84B24] tracking-wider">
+                                Nyango Amina notes:
+                              </span>
+                              <p className="text-xs font-bold text-[#3C3C3C] leading-snug">
+                                "Every root connects to an exact mental world. Notice the pure symmetry!"
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {unitIndex === 6 && (
+                          <div className="py-4 flex items-center gap-3 bg-[#FFFDF5] border-2 border-[#FDE68A] rounded-3xl p-4 max-w-sm w-full shadow-md">
+                            <CartoonCharacter character="mpaka" mood="speaking" size="sm" animate={false} />
+                            <div className="text-left">
+                              <span className="text-[10px] font-black uppercase text-[#B45309] tracking-wider">
+                                Grand Master Mpaka invites:
+                              </span>
+                              <p className="text-xs font-bold text-[#451A03] leading-snug">
+                                "The final summit is near. Prepare yourself for the Grand Graduation Checkpoint!"
+                              </p>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -808,129 +983,15 @@ export default function App() {
             {activeTab === 'practice' && (
               <div className="space-y-8">
                 {/* Match Madness 45s Rapid-Recall Mini-game */}
-                <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
-                  <div className="flex items-center justify-between border-b-2 pb-4 border-[#E5E5E5]">
-                    <div>
-                      <h3 className="text-xl font-black text-[#3C3C3C] flex items-center gap-2">
-                        <Zap className="w-6 h-6 text-[#FF9600]" />
-                        Match Madness • Sagelo Speed Round
-                      </h3>
-                      <p className="text-xs font-bold text-[#777777] mt-0.5">
-                        Tap matching Sagelo words and English meanings before the timer runs out!
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <div className="px-3.5 py-1.5 bg-[#FFF4E5] border-2 border-[#FFD8A8] rounded-2xl font-mono-num font-black text-sm text-[#EA580C]">
-                        ⏱️ {matchTimer}s
-                      </div>
-                      <div className="px-3.5 py-1.5 bg-[#DCFCE7] border-2 border-[#86EFAC] rounded-2xl font-mono-num font-black text-sm text-[#166534]">
-                        ⭐ {matchScore} pts
-                      </div>
-                    </div>
-                  </div>
-
-                  {!matchActive ? (
-                    <div className="py-8 text-center space-y-4">
-                      <div className="w-20 h-20 rounded-3xl bg-[#FFF4E5] border-2 border-[#FFD8A8] text-[#EA580C] flex items-center justify-center mx-auto text-4xl shadow-xs">
-                        ⚡
-                      </div>
-                      <h4 className="text-xl font-black text-[#3C3C3C]">
-                        Ready to Test Your Speed?
-                      </h4>
-                      <p className="text-xs font-bold text-[#777777] max-w-md mx-auto leading-relaxed">
-                        Match core Sagelo roots to their English translations against the 45-second clock. Clean streaks earn bonus XP!
-                      </p>
-                      <button
-                        onClick={() => {
-                          setMatchActive(true);
-                          setMatchTimer(45);
-                          setMatchScore(0);
-                          setMatchedPairs([]);
-                          setSelectedMatch(null);
-                        }}
-                        className="bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm px-8 py-3.5 rounded-2xl active:translate-y-1 transition-all shadow-md"
-                      >
-                        Start 45s Round
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                        {/* Left column: Sagelo Words */}
-                        <div className="space-y-2.5">
-                          <p className="text-xs font-black uppercase text-[#AFAFAF] tracking-wider text-center">
-                            Sagelo Root
-                          </p>
-                          {MATCH_PAIRS.map(pair => {
-                            const isMatched = matchedPairs.includes(pair.id);
-                            const isSelected =
-                              selectedMatch?.type === 'sagelo' &&
-                              selectedMatch.id === pair.id;
-                            return (
-                              <button
-                                key={`sag-${pair.id}`}
-                                onClick={() =>
-                                  handleTileClick({
-                                    id: pair.id,
-                                    type: 'sagelo',
-                                    text: pair.sagelo,
-                                  })
-                                }
-                                disabled={isMatched}
-                                className={`w-full p-4 rounded-2xl border-2 border-b-4 font-black text-sm transition-all flex items-center justify-center gap-2 ${
-                                  isMatched
-                                    ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534] opacity-50 cursor-default line-through'
-                                    : isSelected
-                                    ? 'bg-[#1CB0F6] border-[#1899D6] text-white shadow-md'
-                                    : 'bg-white border-[#E5E5E5] text-[#3C3C3C] hover:bg-[#F7F7F7] active:translate-y-0.5'
-                                }`}
-                              >
-                                <span>{pair.sagelo}</span>
-                                <Volume2 className="w-4 h-4 text-current opacity-70" />
-                              </button>
-                            );
-                          })}
-                        </div>
-
-                        {/* Right column: English Meanings */}
-                        <div className="space-y-2.5">
-                          <p className="text-xs font-black uppercase text-[#AFAFAF] tracking-wider text-center">
-                            English Meaning
-                          </p>
-                          {MATCH_PAIRS.map(pair => {
-                            const isMatched = matchedPairs.includes(pair.id);
-                            const isSelected =
-                              selectedMatch?.type === 'english' &&
-                              selectedMatch.id === pair.id;
-                            return (
-                              <button
-                                key={`eng-${pair.id}`}
-                                onClick={() =>
-                                  handleTileClick({
-                                    id: pair.id,
-                                    type: 'english',
-                                    text: pair.english,
-                                  })
-                                }
-                                disabled={isMatched}
-                                className={`w-full p-4 rounded-2xl border-2 border-b-4 font-black text-sm transition-all flex items-center justify-center ${
-                                  isMatched
-                                    ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534] opacity-50 cursor-default line-through'
-                                    : isSelected
-                                    ? 'bg-[#1CB0F6] border-[#1899D6] text-white shadow-md'
-                                    : 'bg-white border-[#E5E5E5] text-[#3C3C3C] hover:bg-[#F7F7F7] active:translate-y-0.5'
-                                }`}
-                              >
-                                <span>{pair.english}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <MatchMadnessGame
+                  onEarnXp={(earnedXp) => {
+                    updateUser({
+                      ...user,
+                      xp: user.xp + earnedXp,
+                      todayXp: user.todayXp + earnedXp,
+                    });
+                  }}
+                />
 
                 {/* Sound & Tone Resonance Lab + Script Studio */}
                 <PracticeLabView />
@@ -1724,6 +1785,18 @@ export default function App() {
           lesson={activeLesson}
           onClose={() => setActiveLesson(null)}
           onComplete={handleLessonComplete}
+        />
+      )}
+
+      {/* 6B. DUOLINGO UNIT & FINAL CHECKPOINT CHALLENGE MODAL */}
+      {activeCheckpoint && (
+        <UnitCheckpointModal
+          checkpoint={activeCheckpoint}
+          isOpen={!!activeCheckpoint}
+          onClose={() => setActiveCheckpoint(null)}
+          onComplete={handleCheckpointComplete}
+          userName={user.name}
+          userSageloName={user.sageloName}
         />
       )}
 

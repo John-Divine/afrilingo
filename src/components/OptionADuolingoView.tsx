@@ -26,6 +26,7 @@ import {
   CurriculumLesson,
 } from '../data/sageloCurriculum';
 import { playSageloPhrase } from '../utils/sageloAudio';
+import { MatchMadnessGame } from './MatchMadnessGame';
 
 interface OptionADuolingoViewProps {
   user: UserAccount;
@@ -471,122 +472,15 @@ export const OptionADuolingoView: React.FC<OptionADuolingoViewProps> = ({
 
           {/* TAB 2: MATCH MADNESS MINI-GAME */}
           {activeTab === 'match' && (
-            <div className="bg-white border-2 border-[#E5DEC9] rounded-2xl p-6 shadow-sm space-y-6">
-              <div className="flex items-center justify-between border-b pb-4 border-[#E5DEC9]">
-                <div>
-                  <h3 className="text-lg font-bold text-[#1F1915] flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-[#C84B24]" />
-                    Match Madness • Sagelo Roots
-                  </h3>
-                  <p className="text-xs text-[#8C7A6B] mt-0.5">
-                    Match the Sagelo word to its English meaning as fast as you can!
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="px-3 py-1 bg-[#FEF3C7] border border-[#FDE68A] rounded-xl font-mono-num font-bold text-sm text-[#B45309]">
-                    ⏱️ {matchTimer}s
-                  </div>
-                  <div className="px-3 py-1 bg-[#DCFCE7] border border-[#86EFAC] rounded-xl font-mono-num font-bold text-sm text-[#166534]">
-                    ⭐ {matchScore} pts
-                  </div>
-                </div>
-              </div>
-
-              {!matchGameActive ? (
-                <div className="py-8 text-center space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-[#FEF2F2] text-[#C84B24] flex items-center justify-center mx-auto text-3xl">
-                    ⚡
-                  </div>
-                  <h4 className="text-base font-bold text-[#1F1915]">
-                    Ready for a Speed Round?
-                  </h4>
-                  <p className="text-xs text-[#6B5E52] max-w-sm mx-auto">
-                    Test your instant recall of core vocabulary under the clock. Earn bonus XP for clean streaks!
-                  </p>
-                  <button
-                    onClick={handleStartMatchGame}
-                    className="bg-[#C84B24] hover:bg-[#A83817] text-white font-bold text-sm px-6 py-3 rounded-xl border-b-4 border-[#8A2B0F] shadow-md transition-all active:translate-y-1"
-                  >
-                    Start Match Round (45s)
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* Left column: Sagelo Words */}
-                    <div className="space-y-2.5">
-                      <p className="text-[11px] font-bold uppercase text-[#8C7A6B] tracking-wider text-center">
-                        Sagelo Root
-                      </p>
-                      {MATCH_PAIRS.map(pair => {
-                        const isMatched = matchedPairs.includes(pair.id);
-                        const isSelected =
-                          selectedMatch?.type === 'sagelo' &&
-                          selectedMatch.id === pair.id;
-                        return (
-                          <button
-                            key={`sag-${pair.id}`}
-                            onClick={() =>
-                              handleTileClick({
-                                id: pair.id,
-                                type: 'sagelo',
-                                text: pair.sagelo,
-                              })
-                            }
-                            disabled={isMatched}
-                            className={`w-full p-3.5 rounded-xl border-2 font-bold text-sm transition-all flex items-center justify-center gap-2 ${
-                              isMatched
-                                ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534] opacity-50 cursor-default line-through'
-                                : isSelected
-                                ? 'bg-[#C84B24] border-[#8A2B0F] text-white shadow-md'
-                                : 'bg-[#FAF7F0] border-[#E5DEC9] text-[#1F1915] hover:bg-white active:translate-y-0.5'
-                            }`}
-                          >
-                            <span>{pair.sagelo}</span>
-                            <Volume2 className="w-3.5 h-3.5 text-current opacity-70" />
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Right column: English Meanings */}
-                    <div className="space-y-2.5">
-                      <p className="text-[11px] font-bold uppercase text-[#8C7A6B] tracking-wider text-center">
-                        Meaning
-                      </p>
-                      {MATCH_PAIRS.map(pair => {
-                        const isMatched = matchedPairs.includes(pair.id);
-                        const isSelected =
-                          selectedMatch?.type === 'english' &&
-                          selectedMatch.id === pair.id;
-                        return (
-                          <button
-                            key={`eng-${pair.id}`}
-                            onClick={() =>
-                              handleTileClick({
-                                id: pair.id,
-                                type: 'english',
-                                text: pair.english,
-                              })
-                            }
-                            disabled={isMatched}
-                            className={`w-full p-3.5 rounded-xl border-2 font-bold text-sm transition-all flex items-center justify-center ${
-                              isMatched
-                                ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534] opacity-50 cursor-default line-through'
-                                : isSelected
-                                ? 'bg-[#C84B24] border-[#8A2B0F] text-white shadow-md'
-                                : 'bg-[#FAF7F0] border-[#E5DEC9] text-[#1F1915] hover:bg-white active:translate-y-0.5'
-                            }`}
-                          >
-                            <span>{pair.english}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            <MatchMadnessGame
+              onEarnXp={(earnedXp) => {
+                onUpdateUser({
+                  ...user,
+                  xp: user.xp + earnedXp,
+                  todayXp: user.todayXp + earnedXp,
+                });
+              }}
+            />
           )}
 
           {/* TAB 3: SAVANNAH LEAGUES */}

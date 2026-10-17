@@ -28,14 +28,14 @@ service cloud.firestore {
 
     // Public Learner Directory for connecting with others & Leaderboard
     match /community_learners/{learnerId} {
-      allow read: if isSignedIn();
+      allow read: if true;
       allow create, update: if isOwner(learnerId) && isValidId(learnerId);
       allow delete: if isOwner(learnerId);
     }
 
     // Community Wisdom Posts & Social Interactions
     match /community_posts/{postId} {
-      allow read: if isSignedIn();
+      allow read: if true;
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
       allow update: if isSignedIn();
       allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
