@@ -15,7 +15,9 @@ import {
   CULTURAL_ESSAYS,
 } from '../data/sageloReference';
 import { playSageloPhrase, playChime } from '../utils/sageloAudio';
+import { getPhrasePhoneticDisplay, getWordPhonetic } from '../utils/sageloPhonetics';
 import { CeremonialWordRenderer } from './CeremonialScriptGlyph';
+import { PhoneticParagraph } from './PhoneticParagraph';
 
 interface StoriesCultureViewProps {
   onEarnBonusXp: (xp: number) => void;
@@ -178,44 +180,46 @@ export const StoriesCultureView: React.FC<StoriesCultureViewProps> = ({
 
               <div className="space-y-4">
                 {activePassage.sageloParagraphs.map((para, idx) => (
-                  <div
+                  <PhoneticParagraph
                     key={idx}
-                    className="p-4 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] space-y-2"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="text-lg font-display font-medium text-[#1C1613] leading-relaxed">
-                        {para}
-                      </p>
-                      <button
-                        onClick={() => playSageloPhrase(para)}
-                        className="p-2 rounded-lg bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white transition-colors shrink-0"
-                        aria-label="Listen to paragraph"
-                      >
-                        <Volume2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                    {showEnglish && activePassage.englishParagraphs[idx] && (
-                      <p className="text-sm text-[#5C4D43] leading-relaxed border-t border-[#E6DFD3]/70 pt-2">
-                        {activePassage.englishParagraphs[idx]}
-                      </p>
-                    )}
-                  </div>
+                    text={para}
+                    english={showEnglish ? activePassage.englishParagraphs[idx] : undefined}
+                    initialMode="phonetic_sub"
+                  />
                 ))}
               </div>
 
-              <div className="p-4 rounded-xl bg-[#F3EFE6] border border-[#E6DFD3] space-y-2">
-                <div className="text-xs font-semibold text-[#8F2D10]">
-                  Vocabulary & Grammar Spotlight:
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#FBF9F5] border-2 border-[#E6DFD3] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-black uppercase text-[#8F2D10] tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#C84B24]" />
+                    <span>Vocabulary & Phonetic Spotlight:</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-[#AFAFAF]">
+                    Click any word badge to listen
+                  </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-3 text-xs">
-                  {activePassage.newWords.map(nw => (
-                    <span key={nw.word} className="text-[#1C1613]">
-                      <strong className="font-mono-num text-[#C84B24]">
-                        {nw.word}
-                      </strong>{' '}
-                      = {nw.meaning}
-                    </span>
-                  ))}
+                <div className="flex flex-wrap items-center gap-2.5">
+                  {activePassage.newWords.map(nw => {
+                    const phon = getWordPhonetic(nw.word);
+                    return (
+                      <button
+                        key={nw.word}
+                        onClick={() => playSageloPhrase(nw.word)}
+                        className="px-3 py-1.5 rounded-xl bg-white border border-[#E6DFD3] hover:border-[#C84B24] active:translate-y-0.5 text-xs font-bold text-[#1C1613] flex items-center gap-1.5 transition-all shadow-2xs group cursor-pointer"
+                        title={`Hear "${nw.word}" pronounced as ${phon.display}`}
+                      >
+                        <span className="font-black text-[#C84B24] group-hover:text-[#8F2D10]">
+                          {nw.word}
+                        </span>
+                        <span className="font-mono text-[10px] font-extrabold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD]">
+                          {phon.display}
+                        </span>
+                        <span className="text-[#5C4D43]">= {nw.meaning}</span>
+                        <Volume2 className="w-3 h-3 text-[#AFAFAF] group-hover:text-[#C84B24] ml-0.5" />
+                      </button>
+                    );
+                  })}
                 </div>
                 <p className="text-xs text-[#5C4D43] pt-1">
                   {activePassage.grammarNotes}
@@ -288,9 +292,14 @@ export const StoriesCultureView: React.FC<StoriesCultureViewProps> = ({
             >
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-xl font-display font-semibold text-[#1C1613]">
-                    “{prov.sagelo}”
-                  </h3>
+                  <div>
+                    <h3 className="text-xl font-display font-semibold text-[#1C1613]">
+                      “{prov.sagelo}”
+                    </h3>
+                    <div className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD] mt-1 inline-block">
+                      {getPhrasePhoneticDisplay(prov.sagelo)}
+                    </div>
+                  </div>
                   <button
                     onClick={() => playSageloPhrase(prov.sagelo)}
                     className="p-2 rounded-lg bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white transition-colors shrink-0"
@@ -334,10 +343,22 @@ export const StoriesCultureView: React.FC<StoriesCultureViewProps> = ({
                   {mantra.lines.map((line, lIdx) => (
                     <div
                       key={lIdx}
-                      className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]"
+                      className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] space-y-1"
                     >
-                      <div className="font-display font-semibold text-base text-[#1C1613]">
-                        {line.sagelo}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="font-display font-semibold text-base text-[#1C1613]">
+                          {line.sagelo}
+                        </div>
+                        <button
+                          onClick={() => playSageloPhrase(line.sagelo)}
+                          className="p-1 rounded-lg text-[#0284C7] hover:bg-[#E0F2FE] transition-colors shrink-0"
+                          title="Hear line phonetically"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <div className="font-mono text-[11px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.5 rounded-md border border-[#BAE6FD] inline-block">
+                        {getPhrasePhoneticDisplay(line.sagelo)}
                       </div>
                       <div className="text-xs text-[#5C4D43]">{line.english}</div>
                     </div>

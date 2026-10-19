@@ -15,6 +15,7 @@ import {
   DictionaryEntry,
 } from '../data/sageloReference';
 import { playSageloPhrase } from '../utils/sageloAudio';
+import { getWordPhonetic, getPhrasePhoneticDisplay } from '../utils/sageloPhonetics';
 import { CeremonialWordRenderer } from './CeremonialScriptGlyph';
 
 interface LexiconPhrasebookViewProps {
@@ -160,9 +161,12 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                   <div className="space-y-2">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-xl font-display font-semibold text-[#1C1613]">
                             {entry.root}
+                          </span>
+                          <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                            {getWordPhonetic(entry.root).display}
                           </span>
                           <span className="text-xs text-[#8C7A6B]" aria-hidden="true">
                             ·
@@ -215,18 +219,22 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                     </div>
 
                     {entry.exampleSagelo && (
-                      <div className="pt-2 border-t border-[#E6DFD3]/70 flex items-center justify-between gap-2 text-xs">
-                        <div>
+                      <div className="pt-2 border-t border-[#E6DFD3]/70 flex items-center justify-between gap-2 text-xs flex-wrap">
+                        <div className="flex items-center gap-1.5 flex-wrap">
                           <span className="font-semibold text-[#1C1613]">
                             “{entry.exampleSagelo}”
-                          </span>{' '}
-                          — <span className="text-[#5C4D43]">{entry.exampleEnglish}</span>
+                          </span>
+                          <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.2 rounded border border-[#BAE6FD]">
+                            {getPhrasePhoneticDisplay(entry.exampleSagelo)}
+                          </span>
+                          <span className="text-[#5C4D43]">— {entry.exampleEnglish}</span>
                         </div>
                         <button
                           onClick={() => handleSpeakPhrase(entry.exampleSagelo || '')}
-                          className="text-[#C84B24] hover:underline font-medium shrink-0"
+                          className="text-[#C84B24] hover:underline font-bold shrink-0 flex items-center gap-1"
                         >
-                          {speakingPhrase === entry.exampleSagelo ? 'Speaking...' : 'Hear'}
+                          <Volume2 className="w-3 h-3" />
+                          <span>{speakingPhrase === entry.exampleSagelo ? 'Speaking...' : 'Hear'}</span>
                         </button>
                       </div>
                     )}
@@ -240,42 +248,31 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                           : `All 5 Word-Building Endings + Agentive (-ari) for "${entry.root}":`}
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                        <div className="p-2 rounded-lg bg-white border border-[#E6DFD3]">
-                          <span className="text-[#8C7A6B] block">Noun (-a)</span>
-                          <span className="font-mono-num font-semibold text-[#1C1613]">
-                            {derived.noun}
-                          </span>
-                        </div>
-                        <div className="p-2 rounded-lg bg-white border border-[#E6DFD3]">
-                          <span className="text-[#8C7A6B] block">Adjective (-e)</span>
-                          <span className="font-mono-num font-semibold text-[#1C1613]">
-                            {derived.adjective}
-                          </span>
-                        </div>
-                        <div className="p-2 rounded-lg bg-white border border-[#E6DFD3]">
-                          <span className="text-[#8C7A6B] block">Verb (-i)</span>
-                          <span className="font-mono-num font-semibold text-[#1C1613]">
-                            {derived.verb}
-                          </span>
-                        </div>
-                        <div className="p-2 rounded-lg bg-white border border-[#E6DFD3]">
-                          <span className="text-[#8C7A6B] block">Abstract (-o)</span>
-                          <span className="font-mono-num font-semibold text-[#1C1613]">
-                            {derived.abstractNoun}
-                          </span>
-                        </div>
-                        <div className="p-2 rounded-lg bg-white border border-[#E6DFD3]">
-                          <span className="text-[#8C7A6B] block">Place (-u)</span>
-                          <span className="font-mono-num font-semibold text-[#1C1613]">
-                            {derived.place}
-                          </span>
-                        </div>
-                        <div className="p-2 rounded-lg bg-white border border-[#E6DFD3]">
-                          <span className="text-[#8C7A6B] block">Person (-ari)</span>
-                          <span className="font-mono-num font-semibold text-[#1C1613]">
-                            {derived.agentive}
-                          </span>
-                        </div>
+                        {[
+                          { label: 'Noun (-a)', word: derived.noun },
+                          { label: 'Adjective (-e)', word: derived.adjective },
+                          { label: 'Verb (-i)', word: derived.verb },
+                          { label: 'Abstract (-o)', word: derived.abstractNoun },
+                          { label: 'Place (-u)', word: derived.place },
+                          { label: 'Person (-ari)', word: derived.agentive },
+                        ].map(item => (
+                          <button
+                            key={item.label}
+                            onClick={() => handleSpeakPhrase(item.word)}
+                            className="p-2 rounded-lg bg-white border border-[#E6DFD3] hover:border-[#C84B24] text-left transition-all group cursor-pointer shadow-2xs"
+                          >
+                            <span className="text-[#8C7A6B] block text-[10px]">{item.label}</span>
+                            <div className="flex items-center justify-between gap-1">
+                              <span className="font-mono-num font-bold text-[#1C1613] group-hover:text-[#C84B24]">
+                                {item.word}
+                              </span>
+                              <Volume2 className="w-3 h-3 text-[#AFAFAF] group-hover:text-[#C84B24] shrink-0" />
+                            </div>
+                            <span className="font-mono text-[9px] font-extrabold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD] inline-block mt-0.5">
+                              {getWordPhonetic(item.word).display}
+                            </span>
+                          </button>
+                        ))}
                       </div>
                       <div className="pt-1">
                         <CeremonialWordRenderer text={entry.root} size={44} />
@@ -318,8 +315,13 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                         className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                       >
                         <div className="space-y-0.5">
-                          <div className="text-base font-display font-semibold text-[#1C1613]">
-                            {p.sagelo}
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-base font-display font-semibold text-[#1C1613]">
+                              {p.sagelo}
+                            </span>
+                            <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                              {getPhrasePhoneticDisplay(p.sagelo)}
+                            </span>
                           </div>
                           <div className="text-sm text-[#5C4D43]">{p.english}</div>
                           {p.note && (

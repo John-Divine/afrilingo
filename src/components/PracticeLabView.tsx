@@ -10,6 +10,7 @@ import {
   CeremonialSyllableBlock,
 } from './CeremonialScriptGlyph';
 import { numberToSagelo } from '../data/sageloReference';
+import { getWordPhonetic } from '../utils/sageloPhonetics';
 
 const CORE_ROOTS = [
   { root: 'sag', meaning: 'wisdom / know', defaultPrefix: 'mi-' },
@@ -75,7 +76,7 @@ export const PracticeLabView: React.FC = () => {
   const [basePitchHz, setBasePitchHz] = useState(220);
   const [activeSyllableIdx, setActiveSyllableIdx] = useState<number | null>(null);
 
-  const [scriptInput, setScriptInput] = useState('Shanti Misaga Dienga');
+  const [scriptInput, setScriptInput] = useState('Shanti Misaga Africa');
   const [vowelDrillConsonant, setVowelDrillConsonant] = useState('s');
 
   const [numberVal, setNumberVal] = useState(68);
@@ -174,8 +175,13 @@ export const PracticeLabView: React.FC = () => {
                 Learner Dotted Form: <span className="text-[#C84B24] font-semibold">{dottedWord}</span>
               </div>
 
-              <div className="text-4xl sm:text-5xl font-display font-semibold text-[#1C1613] tracking-tight">
-                {fluentWord}
+              <div className="space-y-2">
+                <div className="text-4xl sm:text-5xl font-display font-semibold text-[#1C1613] tracking-tight">
+                  {fluentWord}
+                </div>
+                <div className="font-mono text-sm font-bold text-[#0284C7] bg-[#E0F2FE] px-3 py-1 rounded-xl border border-[#BAE6FD] inline-block tracking-wide">
+                  {getWordPhonetic(fluentWord).display}
+                </div>
               </div>
 
               <div className="text-sm text-[#5C4D43] max-w-md mx-auto">
@@ -187,10 +193,10 @@ export const PracticeLabView: React.FC = () => {
               <div className="pt-2 flex justify-center">
                 <button
                   onClick={() => playSageloPhrase(fluentWord)}
-                  className="px-5 py-2.5 rounded-lg bg-[#C84B24] hover:bg-[#8F2D10] text-white text-sm font-semibold transition-colors inline-flex items-center gap-2 whitespace-nowrap"
+                  className="px-5 py-2.5 rounded-xl bg-[#C84B24] hover:bg-[#8F2D10] text-white text-sm font-black transition-all shadow-xs active:translate-y-0.5 inline-flex items-center gap-2 whitespace-nowrap cursor-pointer"
                 >
                   <Volume2 className="w-4 h-4" />
-                  <span>Pronounce “{fluentWord}”</span>
+                  <span>Pronounce “{fluentWord}” ({getWordPhonetic(fluentWord).display})</span>
                 </button>
               </div>
             </div>
@@ -212,6 +218,7 @@ export const PracticeLabView: React.FC = () => {
                 {ENDINGS.map(end => {
                   const word = `${cleanRootBase}${end.ending}`;
                   const isCurrent = selectedEnding.ending === end.ending;
+                  const phon = getWordPhonetic(word);
                   return (
                     <button
                       key={end.ending}
@@ -225,8 +232,14 @@ export const PracticeLabView: React.FC = () => {
                           : 'bg-[#FBF9F5] border-[#E6DFD3] hover:bg-[#F3EFE6]'
                       }`}
                     >
-                      <div className="font-mono-num font-semibold text-sm text-[#1C1613]">
-                        {word}
+                      <div className="flex items-center justify-between gap-1">
+                        <div className="font-mono-num font-black text-sm text-[#1C1613]">
+                          {word}
+                        </div>
+                        <Volume2 className="w-3.5 h-3.5 text-[#AFAFAF] shrink-0" />
+                      </div>
+                      <div className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.2 rounded border border-[#BAE6FD] inline-block my-0.5">
+                        {phon.display}
                       </div>
                       <div className="text-xs text-[#5C4D43] truncate">{end.label}</div>
                     </button>

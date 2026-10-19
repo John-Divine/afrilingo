@@ -10,6 +10,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { playSageloPhrase } from '../utils/sageloAudio';
+import { getPhrasePhoneticDisplay } from '../utils/sageloPhonetics';
 
 interface StoryDialogueLine {
   speaker: string;
@@ -366,17 +367,20 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
                       <div className="text-[11px] font-black uppercase text-[#AFAFAF]">
                         {line.speaker}
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <button
                           onClick={() => playSageloPhrase(line.sagelo)}
-                          className="w-7 h-7 rounded-full bg-[#1CB0F6]/15 hover:bg-[#1CB0F6]/25 text-[#1CB0F6] flex items-center justify-center shrink-0"
-                          title="Listen to audio"
+                          className="w-7 h-7 rounded-full bg-[#1CB0F6]/15 hover:bg-[#1CB0F6]/25 text-[#1CB0F6] flex items-center justify-center shrink-0 active:scale-95 transition-transform"
+                          title="Listen to phonetic audio"
                         >
                           <Volume2 className="w-3.5 h-3.5" />
                         </button>
                         <p className="text-base font-extrabold text-[#3C3C3C]">
                           {line.sagelo}
                         </p>
+                        <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                          {getPhrasePhoneticDisplay(line.sagelo)}
+                        </span>
                       </div>
                       <p className="text-xs font-bold text-[#777777] pl-9">
                         {line.english}

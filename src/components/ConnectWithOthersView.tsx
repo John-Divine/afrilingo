@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Users,
   Search,
@@ -12,10 +12,8 @@ import {
   Send,
   MessageCircle,
   BookOpen,
-  Trophy,
   CheckCircle2,
   Globe,
-  Share2,
 } from 'lucide-react';
 import type { UserAccount, CommunityPost } from '../types';
 import {
@@ -113,6 +111,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
   onOpenAuthModal,
 }) => {
   const [subTab, setSubTab] = useState<'find' | 'feed' | 'wisdom'>('find');
+  const [wisdomFilter, setWisdomFilter] = useState<'connections' | 'all'>('connections');
   const [searchQuery, setSearchQuery] = useState('');
   const [cheeredUsers, setCheeredUsers] = useState<Record<string, boolean>>({});
 
@@ -178,7 +177,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
   }, []);
 
   // Merge default learners with Firestore learners
-  const allLearners: LearnerProfile[] = React.useMemo(() => {
+  const allLearners: LearnerProfile[] = useMemo(() => {
     const map = new Map<string, LearnerProfile>();
     DEFAULT_COMMUNITY_MEMBERS.forEach((m) => map.set(m.userId, m));
     firestoreLearners.forEach((f) => {
@@ -192,7 +191,15 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
     return Array.from(map.values());
   }, [firestoreLearners, currentUser.id]);
 
-  // Filter learners by search
+  // The specific set of IDs that the CURRENT logged-in user is connected to
+  const connectedUserIds = currentUser.followingIds || [];
+
+  // Connected learners list (strictly who the user is connected to)
+  const connectedLearners = useMemo(() => {
+    return allLearners.filter((l) => connectedUserIds.includes(l.userId));
+  }, [allLearners, connectedUserIds]);
+
+  // Filter learners by search in Directory
   const filteredLearners = allLearners.filter((l) => {
     const q = searchQuery.toLowerCase().trim();
     if (!q) return true;
@@ -202,6 +209,14 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
       l.region.toLowerCase().includes(q)
     );
   });
+
+  // Filtered posts for Wisdom Wall: when 'connections', only show posts from user & connected friends
+  const displayedPosts = useMemo(() => {
+    if (wisdomFilter === 'all') return posts;
+    return posts.filter(
+      (p) => p.authorId === currentUser.id || connectedUserIds.includes(p.authorId)
+    );
+  }, [posts, wisdomFilter, currentUser.id, connectedUserIds]);
 
   const handleToggleFollow = (targetUserId: string) => {
     const currentFollowing = currentUser.followingIds || [];
@@ -220,7 +235,6 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
 
   const handleCheerUser = (learner: LearnerProfile) => {
     setCheeredUsers((prev) => ({ ...prev, [learner.userId]: true }));
-    // Give user a celebratory audio or XP encouragement
     playSageloPhrase('Shanti, ndeko!');
     setTimeout(() => {
       setCheeredUsers((prev) => ({ ...prev, [learner.userId]: false }));
@@ -317,7 +331,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
               SOCIAL & STUDY CIRCLE
             </span>
             <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-black uppercase">
-              Free Tier
+              Live Network
             </span>
           </div>
           <h2 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
@@ -325,11 +339,11 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
             <span className="text-2xl">🌍</span>
           </h2>
           <p className="text-xs font-bold text-white/90 max-w-md">
-            Practice Sagelo with learners across Africa, follow friends, celebrate streaks, and exchange phrases!
+            Practice Sagelo with learners across Africa. Follow friends, celebrate streaks, and see real updates from people you connect with!
           </p>
         </div>
 
-        {/* Action Button: Create / Sign in if not logged in */}
+        {/* Action Button: Profile / Sign in */}
         {onOpenAuthModal && (
           <button
             onClick={onOpenAuthModal}
@@ -364,7 +378,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
           }`}
         >
           <Zap className="w-4 h-4" />
-          <span>Friends Feed</span>
+          <span>Friends Feed ({connectedLearners.length})</span>
         </button>
 
         <button
@@ -383,6 +397,75 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
       {/* 3. SUBTAB: FIND FRIENDS & DIRECTORY */}
       {subTab === 'find' && (
         <div className="space-y-6">
+          {/* Active Connections Spotlight (if user has connected with anyone) */}
+          {connectedLearners.length > 0 ? (
+            <div className="bg-white border-2 border-b-6 border-[#58CC02]/30 rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#58CC02]" />
+                  <h3 className="font-black text-base text-[#3C3C3C]">
+                    My Connected Learners ({connectedLearners.length})
+                  </h3>
+                </div>
+                <span className="text-xs font-bold text-[#58CC02]">
+                  Synced to your account
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {connectedLearners.map((learner) => (
+                  <div
+                    key={`connected-${learner.userId}`}
+                    className="p-3.5 rounded-2xl border-2 border-[#58CC02]/20 bg-[#F4FDF0] flex items-center justify-between gap-3 shadow-xs"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-11 h-11 rounded-2xl bg-white border border-[#58CC02]/30 text-2xl flex items-center justify-center shrink-0">
+                        {learner.avatarEmoji || '🧒🏾'}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-black text-[#3C3C3C] truncate">
+                          {learner.displayName}
+                        </p>
+                        <p className="text-xs font-bold text-[#58CC02] truncate">
+                          {learner.sageloName} • {learner.region}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        onClick={() => handleCheerUser(learner)}
+                        className="px-2.5 py-1.5 bg-white border-2 border-[#FFD8A8] hover:bg-[#FFF4E5] rounded-xl text-[11px] font-black uppercase text-[#EA580C] transition-all"
+                        title="Cheer friend"
+                      >
+                        🎉 Cheer
+                      </button>
+                      <button
+                        onClick={() => handleToggleFollow(learner.userId)}
+                        className="px-2.5 py-1.5 bg-white border border-[#E5E5E5] hover:border-[#EF4444] text-[#777777] hover:text-[#EF4444] rounded-xl text-[10px] font-black uppercase transition-all"
+                        title="Disconnect"
+                      >
+                        Connected ✓
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="bg-[#F0FDF4] border-2 border-[#86EFAC] rounded-3xl p-5 flex items-center gap-4">
+              <span className="text-3xl">🌱</span>
+              <div>
+                <h4 className="font-black text-sm text-[#166534]">
+                  You have not connected to any learners yet
+                </h4>
+                <p className="text-xs font-bold text-[#15803D]">
+                  Browse the learners in the directory below and click "Follow" to connect and see their achievements in your feed!
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Search Input */}
           <div className="relative w-full max-w-full">
             <Search className="w-5 h-5 absolute left-4 top-3.5 text-[#AFAFAF]" />
@@ -406,170 +489,176 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                   Weekly Friends Quest
                 </h4>
                 <p className="text-xs font-bold text-[#3C3C3C]">
-                  Earn 100 XP together with your friends this week for 30 Cowrie Gems!
+                  Earn 100 XP together with your connected friends this week for 30 Cowrie Gems!
                 </p>
                 <div className="text-[11px] font-bold text-[#AFAFAF] mt-0.5">
-                  Following {currentUser.followingIds?.length || 0} learners
+                  Connected with {connectedUserIds.length} learners
                 </div>
               </div>
             </div>
             <div className="px-3.5 py-1.5 bg-white border-2 border-[#FFD8A8] rounded-2xl font-mono-num font-black text-xs text-[#EA580C] self-start sm:self-center shrink-0">
-              65 / 100 XP
+              {connectedUserIds.length > 0 ? '65 / 100 XP' : '0 / 100 XP'}
             </div>
           </div>
 
-          {/* Learners Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {filteredLearners.map((learner) => {
-              const isFollowing = (currentUser.followingIds || []).includes(learner.userId);
-              const isCheered = cheeredUsers[learner.userId];
+          {/* Learners Directory Grid */}
+          <div className="space-y-3">
+            <h3 className="font-black text-base text-[#3C3C3C] flex items-center gap-2">
+              <Globe className="w-5 h-5 text-[#58CC02]" />
+              <span>Discover Learners Across Africa</span>
+            </h3>
 
-              return (
-                <div
-                  key={learner.userId}
-                  className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 flex flex-col justify-between gap-4 shadow-xs hover:border-[#1CB0F6] transition-all"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center gap-3.5 min-w-0">
-                      <div className="w-14 h-14 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] text-3xl flex items-center justify-center shrink-0">
-                        {learner.avatarEmoji || '🧒🏾'}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {filteredLearners.map((learner) => {
+                const isFollowing = connectedUserIds.includes(learner.userId);
+                const isCheered = cheeredUsers[learner.userId];
+
+                return (
+                  <div
+                    key={learner.userId}
+                    className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 flex flex-col justify-between gap-4 shadow-xs hover:border-[#1CB0F6] transition-all"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <div className="w-14 h-14 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] text-3xl flex items-center justify-center shrink-0">
+                          {learner.avatarEmoji || '🧒🏾'}
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="text-base font-black text-[#3C3C3C] truncate">
+                            {learner.displayName}
+                          </h4>
+                          <p className="text-xs font-bold text-[#58CC02] truncate">
+                            {learner.sageloName}
+                          </p>
+                          <p className="text-[11px] font-bold text-[#AFAFAF] truncate mt-0.5">
+                            {learner.region}
+                          </p>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <h4 className="text-base font-black text-[#3C3C3C] truncate">
-                          {learner.displayName}
-                        </h4>
-                        <p className="text-xs font-bold text-[#58CC02] truncate">
-                          {learner.sageloName}
-                        </p>
-                        <p className="text-[11px] font-bold text-[#AFAFAF] truncate mt-0.5">
-                          {learner.region}
-                        </p>
+
+                      {/* Stats pill */}
+                      <div className="flex flex-col items-end gap-1 shrink-0">
+                        <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#EA580C]">
+                          <Flame className="w-3.5 h-3.5 fill-[#EA580C]" />
+                          <span>{learner.streak}d</span>
+                        </div>
+                        <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#FF9600]">
+                          <Zap className="w-3.5 h-3.5 text-[#FF9600]" />
+                          <span>{learner.xp} XP</span>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Stats pill */}
-                    <div className="flex flex-col items-end gap-1 shrink-0">
-                      <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#EA580C]">
-                        <Flame className="w-3.5 h-3.5 fill-[#EA580C]" />
-                        <span>{learner.streak}d</span>
-                      </div>
-                      <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#FF9600]">
-                        <Zap className="w-3.5 h-3.5 text-[#FF9600]" />
-                        <span>{learner.xp} XP</span>
-                      </div>
+                    {/* Actions: Follow and High-five */}
+                    <div className="flex items-center gap-2 pt-2 border-t-2 border-[#F7F7F7]">
+                      <button
+                        onClick={() => handleToggleFollow(learner.userId)}
+                        className={`flex-1 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:translate-y-0.5 ${
+                          isFollowing
+                            ? 'bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777777] hover:bg-[#E5E5E5]'
+                            : 'bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white shadow-xs'
+                        }`}
+                      >
+                        {isFollowing ? (
+                          <>
+                            <UserCheck className="w-4 h-4 text-[#58CC02]" />
+                            <span>Following ✓</span>
+                          </>
+                        ) : (
+                          <>
+                            <UserPlus className="w-4 h-4" />
+                            <span>Connect +</span>
+                          </>
+                        )}
+                      </button>
+
+                      <button
+                        onClick={() => handleCheerUser(learner)}
+                        className={`px-3.5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider border-2 border-b-4 transition-all active:translate-y-0.5 ${
+                          isCheered
+                            ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534]'
+                            : 'bg-white border-[#E5E5E5] hover:bg-[#FFF4E5] hover:border-[#FFD8A8] text-[#EA580C]'
+                        }`}
+                        title="Send High-Five / Cheer"
+                      >
+                        {isCheered ? '✋ Sent!' : '✋ High Five'}
+                      </button>
                     </div>
                   </div>
-
-                  {/* Actions: Follow and High-five */}
-                  <div className="flex items-center gap-2 pt-2 border-t-2 border-[#F7F7F7]">
-                    <button
-                      onClick={() => handleToggleFollow(learner.userId)}
-                      className={`flex-1 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:translate-y-0.5 ${
-                        isFollowing
-                          ? 'bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777777] hover:bg-[#E5E5E5]'
-                          : 'bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white shadow-xs'
-                      }`}
-                    >
-                      {isFollowing ? (
-                        <>
-                          <UserCheck className="w-4 h-4 text-[#58CC02]" />
-                          <span>Following</span>
-                        </>
-                      ) : (
-                        <>
-                          <UserPlus className="w-4 h-4" />
-                          <span>Follow</span>
-                        </>
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => handleCheerUser(learner)}
-                      className={`px-3.5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider border-2 border-b-4 transition-all active:translate-y-0.5 ${
-                        isCheered
-                          ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534]'
-                          : 'bg-white border-[#E5E5E5] hover:bg-[#FFF4E5] hover:border-[#FFD8A8] text-[#EA580C]'
-                      }`}
-                      title="Send High-Five / Cheer"
-                    >
-                      {isCheered ? '✋ Sent!' : '✋ High Five'}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
 
-      {/* 4. SUBTAB: FRIENDS FEED & ACTIVITY */}
+      {/* 4. SUBTAB: FRIENDS FEED & ACTIVITY (STRICTLY CONNECTED USERS) */}
       {subTab === 'feed' && (
         <div className="space-y-4">
-          <div className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 space-y-4 shadow-xs">
-            <h3 className="font-black text-base text-[#3C3C3C] flex items-center gap-2">
-              <Zap className="w-5 h-5 text-[#1CB0F6]" />
-              <span>Recent Friend Highlights</span>
-            </h3>
-
-            <div className="space-y-3">
-              {/* Activity item 1 */}
-              <div className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">👩🏾</span>
-                  <div>
-                    <p className="text-sm font-black text-[#3C3C3C]">
-                      Amina Diallo reached a 14-day streak!
-                    </p>
-                    <p className="text-xs font-bold text-[#AFAFAF]">2 hours ago • Dakar</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => playSageloPhrase('Shanti, ndeko!')}
-                  className="px-3 py-1.5 bg-[#FFC800] border-b-4 border-[#E5A500] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5"
-                >
-                  🎉 Cheer
-                </button>
+          {connectedLearners.length === 0 ? (
+            <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl p-8 text-center space-y-4 shadow-xs">
+              <div className="w-16 h-16 mx-auto rounded-3xl bg-[#1CB0F6]/10 border-2 border-[#1CB0F6]/20 flex items-center justify-center text-3xl">
+                🤝
+              </div>
+              <div className="space-y-1.5 max-w-sm mx-auto">
+                <h3 className="font-black text-lg text-[#3C3C3C]">
+                  No Connected Friends Yet
+                </h3>
+                <p className="text-xs font-bold text-[#777777] leading-relaxed">
+                  When you connect with fellow learners in Find Friends, their streak milestones, lesson achievements, and celebratory highlights will appear here.
+                </p>
+              </div>
+              <button
+                onClick={() => setSubTab('find')}
+                className="px-5 py-2.5 bg-[#1CB0F6] hover:bg-[#1899D6] border-b-4 border-[#1580B8] text-white font-black text-xs uppercase rounded-2xl transition-all active:translate-y-0.5"
+              >
+                Find Learners to Connect
+              </button>
+            </div>
+          ) : (
+            <div className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between">
+                <h3 className="font-black text-base text-[#3C3C3C] flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-[#1CB0F6]" />
+                  <span>Recent Friend Highlights ({connectedLearners.length})</span>
+                </h3>
+                <span className="text-xs font-bold text-[#1CB0F6]">
+                  Live Connected Feed
+                </span>
               </div>
 
-              {/* Activity item 2 */}
-              <div className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">👴🏾</span>
-                  <div>
-                    <p className="text-sm font-black text-[#3C3C3C]">
-                      Kwame Mensah completed Section 1: Unit 3 with 100%!
-                    </p>
-                    <p className="text-xs font-bold text-[#AFAFAF]">5 hours ago • Accra</p>
+              <div className="space-y-3">
+                {connectedLearners.map((friend) => (
+                  <div
+                    key={`feed-${friend.userId}`}
+                    className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-between gap-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{friend.avatarEmoji || '🧒🏾'}</span>
+                      <div>
+                        <p className="text-sm font-black text-[#3C3C3C]">
+                          {friend.displayName} ({friend.sageloName}) reached a {friend.streak}-day streak!
+                        </p>
+                        <p className="text-xs font-bold text-[#AFAFAF]">
+                          {friend.xp} XP earned • {friend.region}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        playSageloPhrase('Shanti, ndeko!');
+                        handleCheerUser(friend);
+                      }}
+                      className="px-3.5 py-1.5 bg-[#FFC800] border-b-4 border-[#E5A500] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5 flex items-center gap-1 shrink-0"
+                    >
+                      <span>🎉</span>
+                      <span>Cheer</span>
+                    </button>
                   </div>
-                </div>
-                <button
-                  onClick={() => playSageloPhrase('Sago!')}
-                  className="px-3 py-1.5 bg-[#58CC02] border-b-4 border-[#46A302] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5"
-                >
-                  ⭐ Praise
-                </button>
-              </div>
-
-              {/* Activity item 3 */}
-              <div className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">👩🏾‍🦱</span>
-                  <div>
-                    <p className="text-sm font-black text-[#3C3C3C]">
-                      Zola Dlamini unlocked the Baobab Double XP Boost!
-                    </p>
-                    <p className="text-xs font-bold text-[#AFAFAF]">Yesterday • Johannesburg</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => playSageloPhrase('Bono!')}
-                  className="px-3 py-1.5 bg-[#1CB0F6] border-b-4 border-[#1899D6] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5"
-                >
-                  👏 Bravo
-                </button>
+                ))}
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
@@ -645,84 +734,133 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
             </form>
           </div>
 
+          {/* Filter Pills: My Connections vs All Community */}
+          <div className="flex items-center justify-between border-b-2 border-[#E5E5E5] pb-3">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setWisdomFilter('connections')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+                  wisdomFilter === 'connections'
+                    ? 'bg-[#58CC02] text-white shadow-xs'
+                    : 'bg-[#F7F7F7] text-[#777777] hover:bg-[#E5E5E5]'
+                }`}
+              >
+                My Connections ({posts.filter((p) => p.authorId === currentUser.id || connectedUserIds.includes(p.authorId)).length})
+              </button>
+
+              <button
+                onClick={() => setWisdomFilter('all')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+                  wisdomFilter === 'all'
+                    ? 'bg-[#1CB0F6] text-white shadow-xs'
+                    : 'bg-[#F7F7F7] text-[#777777] hover:bg-[#E5E5E5]'
+                }`}
+              >
+                All Community ({posts.length})
+              </button>
+            </div>
+
+            <span className="text-[11px] font-bold text-[#AFAFAF] hidden sm:inline">
+              {wisdomFilter === 'connections' ? 'Showing posts from you & people you follow' : 'Showing all public posts'}
+            </span>
+          </div>
+
           {/* Posts list */}
           <div className="space-y-4">
-            {posts.map((post) => {
-              const isLiked = (post.likedBy || []).includes(currentUser.id);
-
-              return (
-                <div
-                  key={post.id}
-                  className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 space-y-4 shadow-xs"
+            {displayedPosts.length === 0 ? (
+              <div className="p-8 text-center bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl space-y-3">
+                <span className="text-3xl">💬</span>
+                <p className="font-black text-base text-[#3C3C3C]">
+                  No phrases shared by your connections yet.
+                </p>
+                <p className="text-xs font-bold text-[#777777] max-w-sm mx-auto">
+                  Share your first Sagelo sentence using the box above, or switch to "All Community" to view phrases shared across Africa!
+                </p>
+                <button
+                  onClick={() => setWisdomFilter('all')}
+                  className="mt-1 px-4 py-2 bg-[#F7F7F7] hover:bg-[#E5E5E5] border-2 border-[#E5E5E5] text-xs font-black uppercase text-[#1CB0F6] rounded-xl transition-all"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-center text-2xl shrink-0">
-                        {post.authorAvatarKey === 'mpaka'
-                          ? '👴🏾'
-                          : post.authorAvatarKey === 'nyango'
-                          ? '👩🏾'
-                          : '🧒🏾'}
+                  View All Community Phrases
+                </button>
+              </div>
+            ) : (
+              displayedPosts.map((post) => {
+                const isLiked = (post.likedBy || []).includes(currentUser.id);
+
+                return (
+                  <div
+                    key={post.id}
+                    className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 space-y-4 shadow-xs"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-11 h-11 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-center text-2xl shrink-0">
+                          {post.authorAvatarKey === 'mpaka'
+                            ? '👴🏾'
+                            : post.authorAvatarKey === 'nyango'
+                            ? '👩🏾'
+                            : '🧒🏾'}
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-black text-[#3C3C3C] leading-snug">
+                            {post.authorName}
+                          </h4>
+                          <p className="text-xs font-bold text-[#58CC02]">
+                            {post.authorSageloName || 'Learner'} • {post.authorRegion}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="text-sm font-black text-[#3C3C3C] leading-snug">
-                          {post.authorName}
-                        </h4>
-                        <p className="text-xs font-bold text-[#58CC02]">
-                          {post.authorSageloName || 'Learner'} • {post.authorRegion}
-                        </p>
-                      </div>
+
+                      <span className="px-2.5 py-1 bg-[#F7F7F7] border border-[#E5E5E5] rounded-xl text-[10px] font-black uppercase text-[#AFAFAF]">
+                        -{post.evidentiality}
+                      </span>
                     </div>
 
-                    <span className="px-2.5 py-1 bg-[#F7F7F7] border border-[#E5E5E5] rounded-xl text-[10px] font-black uppercase text-[#AFAFAF]">
-                      -{post.evidentiality}
-                    </span>
-                  </div>
-
-                  {/* Phrase content */}
-                  <div className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] space-y-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-base font-black text-[#3C3C3C]">
-                        {post.sageloText}
+                    {/* Phrase content */}
+                    <div className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-base font-black text-[#3C3C3C]">
+                          {post.sageloText}
+                        </p>
+                        <button
+                          onClick={() => playSageloPhrase(post.sageloText)}
+                          className="w-8 h-8 rounded-xl bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 border-b-2 border-[#1899D6] hover:brightness-105"
+                          title="Listen to audio"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <p className="text-xs font-bold text-[#777777]">
+                        {post.englishTranslation}
                       </p>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center justify-between gap-3 pt-1">
                       <button
-                        onClick={() => playSageloPhrase(post.sageloText)}
-                        className="w-8 h-8 rounded-xl bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 border-b-2 border-[#1899D6] hover:brightness-105"
-                        title="Listen to audio"
+                        onClick={() => handleToggleShanti(post)}
+                        className={`px-3.5 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1.5 transition-all ${
+                          isLiked
+                            ? 'bg-[#FEF2F2] border-2 border-[#FECACA] text-[#EF4444]'
+                            : 'bg-[#F7F7F7] hover:bg-[#E5E5E5] text-[#777777]'
+                        }`}
                       >
-                        <Volume2 className="w-4 h-4" />
+                        <Heart className={`w-4 h-4 ${isLiked ? 'fill-[#EF4444]' : ''}`} />
+                        <span>{post.shantiCount} Shanti</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleSaveToNotebook(post.sageloText, post.englishTranslation)}
+                        className="px-3.5 py-2 bg-white border-2 border-b-4 border-[#E5E5E5] hover:bg-[#F7F7F7] rounded-xl text-xs font-black uppercase text-[#3C3C3C] flex items-center gap-1.5 transition-all active:translate-y-0.5"
+                      >
+                        <BookOpen className="w-3.5 h-3.5 text-[#1CB0F6]" />
+                        <span>Save to Notebook</span>
                       </button>
                     </div>
-                    <p className="text-xs font-bold text-[#777777]">
-                      {post.englishTranslation}
-                    </p>
                   </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center justify-between gap-3 pt-1">
-                    <button
-                      onClick={() => handleToggleShanti(post)}
-                      className={`px-3.5 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1.5 transition-all ${
-                        isLiked
-                          ? 'bg-[#FEF2F2] border-2 border-[#FECACA] text-[#EF4444]'
-                          : 'bg-[#F7F7F7] hover:bg-[#E5E5E5] text-[#777777]'
-                      }`}
-                    >
-                      <Heart className={`w-4 h-4 ${isLiked ? 'fill-[#EF4444]' : ''}`} />
-                      <span>{post.shantiCount} Shanti</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleSaveToNotebook(post.sageloText, post.englishTranslation)}
-                      className="px-3.5 py-2 bg-white border-2 border-b-4 border-[#E5E5E5] hover:bg-[#F7F7F7] rounded-xl text-xs font-black uppercase text-[#3C3C3C] flex items-center gap-1.5 transition-all active:translate-y-0.5"
-                    >
-                      <BookOpen className="w-3.5 h-3.5 text-[#1CB0F6]" />
-                      <span>Save to Notebook</span>
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       )}

@@ -59,59 +59,53 @@ import {
 } from './lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 
-const FALLBACK_USER: UserAccount = {
-  id: 'user-dienga',
-  name: 'Dienga John',
-  sageloName: 'Misaga Dienga',
-  email: 'dienga.john@ubuea.cm',
-  region: 'Buea, Cameroon',
+const CLEAN_GUEST_USER: UserAccount = {
+  id: 'guest',
+  name: 'Sagelo Learner',
+  sageloName: 'Misaga Learner',
+  email: '',
+  region: 'Africa',
   avatarKey: 'mwana',
-  xp: 340,
-  streakDays: 5,
+  xp: 0,
+  streakDays: 1,
   hearts: 5,
   dailyGoalXp: 50,
-  todayXp: 35,
-  completedLessons: ['foundations-1', 'foundations-2', 'lesson-1', 'lesson-2'],
-  lessonScores: {
-    'foundations-1': 100,
-    'foundations-2': 100,
-    'lesson-1': 100,
-    'lesson-2': 95,
-  },
-  masteredWords: [
-    'sag',
-    'lum',
-    'kor',
-    'shanti',
-    'wai',
-    'jua',
-    'mun',
-    'fon',
-    'sil',
-    'mwana',
-    'ndeko',
-  ],
-  notebook: [
-    {
-      id: 'note-1',
-      sagelo: 'Shanti, ndeko! Yo ta sago voli ha.',
-      english: 'Peace, friend! I truly want wisdom.',
-      evidentiality: 'ha',
-      createdAt: '2026-10-06T10:00:00Z',
-    },
-    {
-      id: 'note-2',
-      sagelo: 'Sago sim doni; sago sagu.',
-      english: 'Wisdom is not given; wisdom is grown.',
-      evidentiality: 'ha',
-      createdAt: '2026-10-07T07:30:00Z',
-    },
-  ],
-  followingIds: ['user-amina', 'user-kwame'],
-  joinedAt: 'October 2026',
+  todayXp: 0,
+  completedLessons: [],
+  lessonScores: {},
+  masteredWords: [],
+  notebook: [],
+  followingIds: [], // STRICTLY EMPTY: zero inherited connections
+  joinedAt: 'Recent',
   completedCheckpoints: [],
   masteryCertified: false,
 };
+
+function createCleanAccount(id: string, name?: string, email?: string): UserAccount {
+  const displayName = (name || '').trim() || 'Sagelo Learner';
+  const firstName = displayName.split(' ')[0] || 'Learner';
+  return {
+    id,
+    name: displayName,
+    sageloName: `Misaga ${firstName}`,
+    email: email || '',
+    region: 'Africa',
+    avatarKey: 'mwana',
+    xp: 0,
+    streakDays: 1,
+    hearts: 5,
+    dailyGoalXp: 50,
+    todayXp: 0,
+    completedLessons: [],
+    lessonScores: {},
+    masteredWords: [],
+    notebook: [],
+    followingIds: [], // Zero dummy followings
+    joinedAt: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    completedCheckpoints: [],
+    masteryCertified: false,
+  };
+}
 
 // Unit section color palette for authentic Duolingo multi-unit path
 const UNIT_THEMES = [
@@ -200,10 +194,27 @@ export default function App() {
 
   const [user, setUser] = useState<UserAccount>(() => {
     try {
-      const saved = localStorage.getItem('afrilingo_user_v2');
-      return saved ? JSON.parse(saved) : FALLBACK_USER;
+      const activeId = localStorage.getItem('afrilingo_active_user_id');
+      if (activeId && activeId !== 'guest') {
+        const saved = localStorage.getItem(`afrilingo_user_${activeId}`);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.id && parsed.id !== 'user-dienga') {
+            return {
+              ...parsed,
+              followingIds: (parsed.followingIds || []).filter(
+                (id: string) => id !== 'user-amina' && id !== 'user-kwame' && id !== 'user-dienga'
+              ),
+              notebook: (parsed.notebook || []).filter(
+                (n: { id: string }) => n.id !== 'note-1' && n.id !== 'note-2'
+              ),
+            };
+          }
+        }
+      }
+      return CLEAN_GUEST_USER;
     } catch {
-      return FALLBACK_USER;
+      return CLEAN_GUEST_USER;
     }
   });
 
@@ -215,12 +226,49 @@ export default function App() {
       if (u && !u.isAnonymous) {
         const remoteProfile = await fetchUserProfileFromFirestore(u.uid);
         if (remoteProfile) {
-          setUser((prev) => ({
-            ...prev,
-            ...remoteProfile,
+          // Strictly load this specific user's authenticated profile - never inherit dummy account
+          const cleanFollowing = (remoteProfile.followingIds || []).filter(
+            (id: string) => id !== 'user-amina' && id !== 'user-kwame' && id !== 'user-dienga'
+          );
+          const cleanNotebook = (remoteProfile.notebook || []).filter(
+            (n: { id: string }) => n.id !== 'note-1' && n.id !== 'note-2'
+          );
+          const cleanUser: UserAccount = {
             id: u.uid,
-            email: u.email || prev.email,
-          }));
+            name: remoteProfile.name || u.displayName || 'Sagelo Learner',
+            email: u.email || remoteProfile.email || '',
+            sageloName: remoteProfile.sageloName || `Misaga ${u.displayName || 'Learner'}`,
+            region: remoteProfile.region || 'Africa',
+            avatarKey: remoteProfile.avatarKey || 'mwana',
+            xp: remoteProfile.xp ?? 0,
+            streakDays: remoteProfile.streakDays ?? 1,
+            hearts: remoteProfile.hearts ?? 5,
+            dailyGoalXp: remoteProfile.dailyGoalXp ?? 50,
+            todayXp: remoteProfile.todayXp ?? 0,
+            completedLessons: remoteProfile.completedLessons || [],
+            lessonScores: remoteProfile.lessonScores || {},
+            masteredWords: remoteProfile.masteredWords || [],
+            notebook: cleanNotebook,
+            followingIds: cleanFollowing, // Only who this user is actually connected to
+            completedCheckpoints: remoteProfile.completedCheckpoints || [],
+            masteryCertified: remoteProfile.masteryCertified || false,
+            graduationDate: remoteProfile.graduationDate,
+            joinedAt: remoteProfile.joinedAt || 'October 2026',
+          };
+          setUser(cleanUser);
+          try {
+            localStorage.setItem('afrilingo_active_user_id', u.uid);
+            localStorage.setItem(`afrilingo_user_${u.uid}`, JSON.stringify(cleanUser));
+          } catch {}
+        } else {
+          // Brand new user: initialize a clean account without dummy inheritance
+          const newUser = createCleanAccount(u.uid, u.displayName || undefined, u.email || undefined);
+          setUser(newUser);
+          try {
+            localStorage.setItem('afrilingo_active_user_id', u.uid);
+            localStorage.setItem(`afrilingo_user_${u.uid}`, JSON.stringify(newUser));
+          } catch {}
+          syncUserProfileToFirestore(newUser);
         }
       }
     });
@@ -260,7 +308,8 @@ export default function App() {
   const updateUser = (updated: UserAccount) => {
     setUser(updated);
     try {
-      localStorage.setItem('afrilingo_user_v2', JSON.stringify(updated));
+      localStorage.setItem(`afrilingo_user_${updated.id}`, JSON.stringify(updated));
+      localStorage.setItem('afrilingo_active_user_id', updated.id);
     } catch {
       // ignore
     }
@@ -298,11 +347,34 @@ export default function App() {
   };
 
   const handleAuthSuccess = (updatedData: Partial<UserAccount>) => {
-    const updated: UserAccount = {
-      ...user,
-      ...updatedData,
-    };
-    updateUser(updated);
+    setUser((prev) => {
+      const isSwitching = updatedData.id && updatedData.id !== prev.id;
+      const base: UserAccount = isSwitching
+        ? createCleanAccount(updatedData.id!, updatedData.name, updatedData.email)
+        : prev;
+
+      // Filter out any dummy account IDs so they are NEVER inherited
+      const cleanFollowing = (updatedData.followingIds ?? base.followingIds ?? []).filter(
+        (id) => id !== 'user-amina' && id !== 'user-kwame' && id !== 'user-dienga'
+      );
+      const cleanNotebook = (updatedData.notebook ?? base.notebook ?? []).filter(
+        (n) => n.id !== 'note-1' && n.id !== 'note-2'
+      );
+
+      const updated: UserAccount = {
+        ...base,
+        ...updatedData,
+        followingIds: cleanFollowing,
+        notebook: cleanNotebook,
+      };
+
+      try {
+        localStorage.setItem(`afrilingo_user_${updated.id}`, JSON.stringify(updated));
+        localStorage.setItem('afrilingo_active_user_id', updated.id);
+      } catch {}
+      syncUserProfileToFirestore(updated);
+      return updated;
+    });
   };
 
   const handleCheckpointComplete = (
@@ -1313,6 +1385,9 @@ export default function App() {
                       <button
                         onClick={async () => {
                           await logoutUser();
+                          localStorage.removeItem('afrilingo_active_user_id');
+                          localStorage.removeItem('afrilingo_user_v2');
+                          setUser(CLEAN_GUEST_USER);
                         }}
                         className="px-4 py-2 bg-[#FEF2F2] border-2 border-b-4 border-[#FECACA] hover:bg-[#FEE2E2] text-xs font-black uppercase text-[#EF4444] rounded-2xl active:translate-y-1 transition-all flex items-center gap-1.5"
                       >
@@ -1533,14 +1608,14 @@ export default function App() {
               </h4>
               <div className="bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-2xl p-4 space-y-2">
                 <p className="text-sm font-black text-[#58CC02]">
-                  "Shanti, ndeko! Yo Dienga oni."
+                  "Shanti, ndeko! Yo {user.name} oni."
                 </p>
                 <p className="text-xs font-bold text-[#777777]">
-                  Peace, friend! I am Dienga.
+                  Peace, friend! I am {user.name}.
                 </p>
                 <button
                   onClick={() =>
-                    playSageloPhrase('Shanti, ndeko! Yo Dienga oni.')
+                    playSageloPhrase(`Shanti, ndeko! Yo ${user.name} oni.`)
                   }
                   className="w-full py-2 bg-[#1CB0F6] hover:bg-[#1899D6] border-b-4 border-[#1580B8] text-white text-xs font-black uppercase rounded-xl flex items-center justify-center gap-1.5 active:translate-y-1 transition-all"
                 >

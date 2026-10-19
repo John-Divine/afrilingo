@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { CurriculumLesson } from '../data/sageloCurriculum';
 import { playSageloPhrase } from '../utils/sageloAudio';
+import { getWordPhonetic, getPhrasePhoneticDisplay } from '../utils/sageloPhonetics';
 import { CartoonCharacter, CharacterSpeechBubble } from './CartoonCharacters';
 
 interface LessonSessionModalProps {
@@ -289,25 +290,35 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
               {lesson.teachingSlides[slideIdx]?.examples &&
                 lesson.teachingSlides[slideIdx].examples!.length > 0 && (
                   <div className="space-y-2.5">
-                    <h4 className="text-xs font-black uppercase text-[#AFAFAF] tracking-wider">
-                      Tap words to hear pronunciation in natural speech:
-                    </h4>
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-black uppercase text-[#AFAFAF] tracking-wider">
+                        Tap words to hear authentic phonetic pronunciation:
+                      </h4>
+                      <span className="text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD]">
+                        Bantu Phonetics
+                      </span>
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       {lesson.teachingSlides[slideIdx].examples!.map((ex, i) => (
                         <button
                           key={i}
                           onClick={() => playSageloPhrase(ex.sagelo)}
-                          className="p-3.5 rounded-2xl bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] active:translate-y-1 text-left flex items-center justify-between gap-3 transition-all"
+                          className="p-3.5 rounded-2xl bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] active:translate-y-1 text-left flex items-center justify-between gap-3 transition-all group"
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-xl bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 shadow-xs border-b-2 border-[#1899D6]">
+                            <div className="w-9 h-9 rounded-xl bg-[#1CB0F6] group-hover:bg-[#0284C7] text-white flex items-center justify-center shrink-0 shadow-xs border-b-2 border-[#1899D6] transition-colors">
                               <Volume2 className="w-4 h-4" />
                             </div>
                             <div>
-                              <div className="text-sm font-black text-[#3C3C3C]">
-                                {ex.sagelo}
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-sm font-black text-[#3C3C3C]">
+                                  {ex.sagelo}
+                                </span>
+                                <span className="font-mono text-[11px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.5 rounded-md border border-[#BAE6FD]">
+                                  {getPhrasePhoneticDisplay(ex.sagelo)}
+                                </span>
                               </div>
-                              <div className="text-xs font-bold text-[#777777]">
+                              <div className="text-xs font-bold text-[#777777] mt-0.5">
                                 {ex.english}
                               </div>
                             </div>
@@ -414,10 +425,15 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           <span className="text-[11px] font-black uppercase text-[#166534] tracking-wider block">
                             Base Root to Transform:
                           </span>
-                          <p className="text-lg font-black text-[#14532D]">
-                            "{currentExercise.rootBase}"
-                          </p>
-                          <p className="text-xs font-semibold text-[#166534]">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-lg font-black text-[#14532D]">
+                              "{currentExercise.rootBase}"
+                            </span>
+                            <span className="font-mono text-xs font-bold text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
+                              {getWordPhonetic(currentExercise.rootBase).display}
+                            </span>
+                          </div>
+                          <p className="text-xs font-semibold text-[#166534] mt-0.5">
                             Select the correct ending below to construct the target word
                           </p>
                         </div>
@@ -425,7 +441,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                       <button
                         onClick={() => playSageloPhrase(currentExercise.rootBase!)}
                         className="px-3.5 py-2 rounded-xl bg-white border-2 border-[#86EFAC] text-[#166534] hover:bg-[#DCFCE7] active:translate-y-0.5 transition-all flex items-center gap-1.5 font-black text-xs shrink-0"
-                        title="Hear base root"
+                        title="Hear base root phonetically"
                       >
                         <Volume2 className="w-4 h-4" />
                         <span className="hidden sm:inline">Hear Root</span>
@@ -445,16 +461,21 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         <button
                           onClick={() => playSageloPhrase(currentExercise.sageloAudioText!)}
                           className="w-12 h-12 rounded-2xl bg-[#1CB0F6] hover:bg-[#24B8FB] border-b-4 border-[#1899D6] text-white flex items-center justify-center shrink-0 active:translate-y-1 transition-all shadow-sm"
-                          title="Play audio phrase"
+                          title="Play audio phrase phonetically"
                         >
                           <Volume2 className="w-6 h-6" />
                         </button>
                         <div>
-                          <p className="text-lg font-black text-[#3C3C3C]">
-                            "{currentExercise.sageloAudioText}"
-                          </p>
-                          <p className="text-xs font-bold text-[#777777]">
-                            Tap speaker to repeat phrase
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-lg font-black text-[#3C3C3C]">
+                              "{currentExercise.sageloAudioText}"
+                            </span>
+                            <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                              {getPhrasePhoneticDisplay(currentExercise.sageloAudioText)}
+                            </span>
+                          </div>
+                          <p className="text-xs font-bold text-[#777777] mt-0.5">
+                            Tap speaker to repeat phonetic speech
                           </p>
                         </div>
                       </div>
@@ -541,13 +562,16 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             playSageloPhrase(word);
                           }}
                           disabled={isExhausted || feedback !== 'idle'}
-                          className={`px-4 py-2.5 rounded-xl border-2 border-b-4 font-black text-sm transition-all ${
+                          className={`px-3.5 py-2 rounded-xl border-2 border-b-4 font-black text-sm transition-all flex items-center gap-2 ${
                             isExhausted
                               ? 'bg-[#E5E5E5] border-[#D0D0D0] text-[#AFAFAF] cursor-default'
                               : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C] active:translate-y-1'
                           }`}
                         >
-                          {word}
+                          <span>{word}</span>
+                          <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD]">
+                            {getWordPhonetic(word).display}
+                          </span>
                         </button>
                       );
                     })}
@@ -644,16 +668,25 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                   <div className="text-[11px] font-black uppercase text-[#AFAFAF] tracking-wider mb-1.5">
                     New Roots Added to Memory:
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {lesson.wordsIntroduced.map((w, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-1 bg-white border border-[#E5E5E5] rounded-xl text-xs font-black text-[#3C3C3C]"
-                      >
-                        {w}
-                      </span>
-                    ))}
-                  </div>
+                    <div className="flex flex-wrap gap-2">
+                      {lesson.wordsIntroduced.map((w, idx) => {
+                        const phon = getWordPhonetic(w);
+                        return (
+                          <button
+                            key={idx}
+                            onClick={() => playSageloPhrase(w)}
+                            className="px-3 py-1.5 bg-white border-2 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl text-xs font-black text-[#3C3C3C] flex items-center gap-2 transition-all shadow-2xs group cursor-pointer active:translate-y-0.5"
+                            title={`Pronounce "${w}" phonetically (${phon.display})`}
+                          >
+                            <span>{w}</span>
+                            <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.2 rounded border border-[#BAE6FD]">
+                              {phon.display}
+                            </span>
+                            <Volume2 className="w-3.5 h-3.5 text-[#AFAFAF] group-hover:text-[#1CB0F6]" />
+                          </button>
+                        );
+                      })}
+                    </div>
                 </div>
               )}
             </div>
@@ -708,21 +741,27 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         <CheckCircle2 className="w-6 h-6 stroke-[3]" />
                       </div>
                       <div className="flex-1">
-                        <div className="text-base font-black text-[#166534] flex items-center gap-2">
+                        <div className="text-base font-black text-[#166534] flex items-center gap-2 flex-wrap">
                           <span>Great job! Shanti!</span>
-                          {(currentExercise?.sageloAudioText || currentExercise?.correctAnswer) && (
-                            <button
-                              onClick={() => {
-                                const word = (currentExercise.sageloAudioText || currentExercise.correctAnswer).split('—')[0].split('-')[0].trim();
-                                playSageloPhrase(word);
-                              }}
-                              className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs"
-                              title="Hear pronunciation again"
-                            >
-                              <Volume2 className="w-3.5 h-3.5" />
-                              <span>Listen</span>
-                            </button>
-                          )}
+                          {(currentExercise?.sageloAudioText || currentExercise?.correctAnswer) && (() => {
+                            const word = (currentExercise.sageloAudioText || currentExercise.correctAnswer).split('—')[0].split('-')[0].trim();
+                            const phonetic = getPhrasePhoneticDisplay(word);
+                            return (
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-mono text-xs font-black text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
+                                  {phonetic}
+                                </span>
+                                <button
+                                  onClick={() => playSageloPhrase(word)}
+                                  className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs"
+                                  title="Hear pronunciation again"
+                                >
+                                  <Volume2 className="w-3.5 h-3.5" />
+                                  <span>Listen</span>
+                                </button>
+                              </div>
+                            );
+                          })()}
                         </div>
                         <div className="text-xs font-bold text-[#15803D]">
                           {currentExercise?.explanation}
@@ -743,21 +782,27 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         <AlertCircle className="w-6 h-6 stroke-[3]" />
                       </div>
                       <div className="flex-1">
-                        <div className="text-base font-black text-[#991B1B] flex items-center gap-2">
+                        <div className="text-base font-black text-[#991B1B] flex items-center gap-2 flex-wrap">
                           <span>Correct solution: {currentExercise?.correctAnswer}</span>
-                          {(currentExercise?.sageloAudioText || currentExercise?.correctAnswer) && (
-                            <button
-                              onClick={() => {
-                                const word = (currentExercise.sageloAudioText || currentExercise.correctAnswer).split('—')[0].split('-')[0].trim();
-                                playSageloPhrase(word);
-                              }}
-                              className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs"
-                              title="Hear correct pronunciation"
-                            >
-                              <Volume2 className="w-3.5 h-3.5" />
-                              <span>Listen</span>
-                            </button>
-                          )}
+                          {(currentExercise?.sageloAudioText || currentExercise?.correctAnswer) && (() => {
+                            const word = (currentExercise.sageloAudioText || currentExercise.correctAnswer).split('—')[0].split('-')[0].trim();
+                            const phonetic = getPhrasePhoneticDisplay(word);
+                            return (
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-mono text-xs font-black text-[#991B1B] bg-white px-2 py-0.5 rounded-lg border border-[#FCA5A5]">
+                                  {phonetic}
+                                </span>
+                                <button
+                                  onClick={() => playSageloPhrase(word)}
+                                  className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs"
+                                  title="Hear correct pronunciation"
+                                >
+                                  <Volume2 className="w-3.5 h-3.5" />
+                                  <span>Listen</span>
+                                </button>
+                              </div>
+                            );
+                          })()}
                         </div>
                         <div className="text-xs font-bold text-[#B91C1C]">
                           {currentExercise?.explanation}

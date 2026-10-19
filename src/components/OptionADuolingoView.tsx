@@ -685,14 +685,14 @@ export const OptionADuolingoView: React.FC<OptionADuolingoViewProps> = ({
             </h4>
             <div className="bg-[#FAF7F0] border border-[#E5DEC9] rounded-xl p-3 space-y-1.5">
               <p className="text-xs font-bold text-[#1B6B4A]">
-                "Shanti, ndeko! Yo Dienga oni."
+                "Shanti, ndeko! Yo {user.name} oni."
               </p>
               <p className="text-[11px] text-[#6B5E52]">
-                Peace, friend! I am Dienga.
+                Peace, friend! I am {user.name}.
               </p>
               <button
                 onClick={() =>
-                  playSageloPhrase('Shanti, ndeko! Yo Dienga oni.')
+                  playSageloPhrase(`Shanti, ndeko! Yo ${user.name} oni.`)
                 }
                 className="flex items-center gap-1.5 text-xs text-[#C84B24] font-bold hover:underline pt-1"
               >

@@ -16,6 +16,7 @@ import {
   MatchWordPair,
 } from '../data/matchMadnessPool';
 import { playSageloPhrase, playChime } from '../utils/sageloAudio';
+import { getWordPhonetic } from '../utils/sageloPhonetics';
 
 interface MatchMadnessGameProps {
   onEarnXp: (xp: number) => void;
@@ -348,15 +349,28 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
                       : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C] active:translate-y-1'
                   }`}
                 >
-                  <div className="truncate">
-                    <span className="text-base sm:text-lg block capitalize">
-                      {tile.text}
-                    </span>
-                    <span className="text-[10px] uppercase font-bold text-[#AFAFAF]">
+                  <div className="truncate flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-base sm:text-lg block capitalize">
+                        {tile.text}
+                      </span>
+                      <span className={`font-mono text-[10px] font-black px-1.5 py-0.5 rounded-md border tracking-tight ${
+                        isSelected || isMatched || isMismatched
+                          ? 'bg-white/20 border-white/40 text-white'
+                          : 'bg-[#E0F2FE] border-[#BAE6FD] text-[#0284C7]'
+                      }`}>
+                        {getWordPhonetic(tile.text).display}
+                      </span>
+                    </div>
+                    <span className={`text-[10px] uppercase font-bold ${
+                      isSelected || isMatched || isMismatched ? 'text-white/80' : 'text-[#AFAFAF]'
+                    }`}>
                       {tile.category}
                     </span>
                   </div>
-                  <Volume2 className="w-4 h-4 text-[#AFAFAF] shrink-0" />
+                  <Volume2 className={`w-4 h-4 shrink-0 ${
+                    isSelected || isMatched || isMismatched ? 'text-white' : 'text-[#1CB0F6]'
+                  }`} />
                 </button>
               );
             })}
