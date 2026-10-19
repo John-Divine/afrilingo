@@ -1,11 +1,11 @@
 // Web Audio & Speech Synthesis Pronunciation Engine for AfriLingo (Sagelo)
-// Dual-Layer Human Vocal Audio conforming to SAGELO_COURSE.md:
-// Layer 1: Synchronous Web Speech API with authentic 5-vowel phonology prioritization
+// Dual-Layer Human Vocal Audio:
+// Layer 1: Synchronous Web Speech API with Sango Phonetic Respellings
 // Layer 2: Acoustic Vocal Formant Synthesis via Web Audio API (vocal tract F1/F2/F3 resonances)
 // Ensures 100% audible vocal speech across all browsers, iframes, and mobile devices
 // ZERO electronic beats or raw square/sine beeps
 
-import { getWordPhonetic, toPhoneticTtsText, sylToIpa } from './sageloPhonetics';
+import { toPhoneticTtsText } from './sageloPhonetics';
 
 const PHI = 1.61803398875;
 const INV_PHI = 1 / PHI;
@@ -13,7 +13,6 @@ const INV_PHI = 1 / PHI;
 export interface SyllableAnalysis {
   raw: string;
   clean: string;
-  ipa: string;
   isHighTone: boolean;
   isStressed: boolean;
   frequencyHz: number;
@@ -73,19 +72,16 @@ export function analyzePhraseResonance(
 
   for (const word of words) {
     const syllables = syllabifyWord(word);
-    // Universal penultimate stress rule: stress always on second-to-last syllable
     const stressedIndex = syllables.length > 1 ? syllables.length - 2 : 0;
 
     syllables.forEach((syl, idx) => {
       const isHigh = HIGH_TONE_REGEX.test(syl);
       const isStressed = idx === stressedIndex && syllables.length > 1;
       const baseDuration = 220;
-      // Stress duration: ~1.4x on stressed syllable
-      const durationMs = isStressed ? Math.round(baseDuration * 1.35) : baseDuration;
+      const durationMs = isStressed ? Math.round(baseDuration * 1.3) : baseDuration;
 
       let freq = basePitchHz;
       if (isHigh) {
-        // High tone: 3:2 perfect fifth interval (1.5x frequency) with golden-ratio downdrift
         const fifthLift = basePitchHz * 0.35 * Math.pow(INV_PHI, highToneCount * 0.4);
         freq = Math.round(basePitchHz + fifthLift);
         highToneCount += 1;
@@ -96,7 +92,6 @@ export function analyzePhraseResonance(
       result.push({
         raw: syl,
         clean: syl.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(),
-        ipa: sylToIpa(syl),
         isHighTone: isHigh,
         isStressed,
         frequencyHz: freq,
@@ -132,17 +127,17 @@ export function getAudioContext(): AudioContext | null {
   return sharedAudioCtx;
 }
 
-// Vowel formant frequencies (Hz) for authentic cardinal African vowels (SAGELO_COURSE.md Ch 2):
+// Vowel formant frequencies (Hz) for authentic cardinal African vowels:
 // F1 (jaw/height), F2 (tongue place), F3 (vocal tract length)
 const VOWEL_FORMANTS: Record<'a' | 'e' | 'i' | 'o' | 'u', { f1: number; f2: number; f3: number }> = {
-  a: { f1: 820, f2: 1250, f3: 2500 }, // [a] "ah" in father
-  e: { f1: 520, f2: 1850, f3: 2550 }, // [e] "eh" in bed
-  i: { f1: 290, f2: 2350, f3: 2950 }, // [i] "ee" in feel
-  o: { f1: 480, f2: 900,  f3: 2450 }, // [o] "oh" in note
-  u: { f1: 320, f2: 820,  f3: 2400 }, // [u] "oo" in room
+  a: { f1: 820, f2: 1250, f3: 2500 }, // [ah] open central
+  e: { f1: 520, f2: 1850, f3: 2550 }, // [eh] mid front
+  i: { f1: 290, f2: 2350, f3: 2950 }, // [ee] close front
+  o: { f1: 480, f2: 900,  f3: 2450 }, // [oh] mid back rounded
+  u: { f1: 320, f2: 820,  f3: 2400 }, // [oo] close back rounded
 };
 
-// Generates white noise buffer for fricative/sibilant consonants
+// Generates white noise buffer for fricative/sibilant consonants (/s/, /sh/, /f/)
 let noiseBufferCache: AudioBuffer | null = null;
 function getNoiseBuffer(ctx: AudioContext): AudioBuffer {
   if (noiseBufferCache && noiseBufferCache.sampleRate === ctx.sampleRate) {
@@ -159,17 +154,8 @@ function getNoiseBuffer(ctx: AudioContext): AudioBuffer {
 }
 
 /**
- * Synthesizes a natural human vocal syllable using acoustic formant filter modeling
- * matching Chapter 2 of SAGELO_COURSE.md:
- * - Vowels: pure formants [a, e, i, o, u]
- * - Consonants:
- *     - j /dʒ/ (judge): voiced burst + 2800Hz fricative
- *     - ch /tʃ/ (church): plosive burst + 3200Hz fricative
- *     - sh /ʃ/ (she): 3200Hz bandpass
- *     - s /s/ (see): 5200Hz bandpass
- *     - r /ɾ/ (light flapped sound closer to Spanish/Japanese r): 25ms amplitude tap
- *     - ny /ɲ/ (Spanish ñ / canyon): palatal nasal formant
- *     - m, n: nasal murmurs at 220Hz
+ * Synthesizes a natural human vocal syllable using physical formant filter modeling.
+ * Sounds like a human speaking the syllable, NOT electronic beats or buzzes!
  */
 function playVocalFormantSyllable(
   ctx: AudioContext,
@@ -179,7 +165,7 @@ function playVocalFormantSyllable(
   const duration = syl.durationMs / 1000;
   const formants = VOWEL_FORMANTS[syl.vowel] || VOWEL_FORMANTS.a;
 
-  // 1. Glottal Pulse Generator (harmonic-rich vocal cord vibration)
+  // 1. Glottal Pulse Generator (harmonic rich vocal cord vibration)
   const glottalOsc = ctx.createOscillator();
   glottalOsc.type = 'sawtooth';
   glottalOsc.frequency.setValueAtTime(syl.frequencyHz, startTime);
@@ -198,9 +184,9 @@ function playVocalFormantSyllable(
   // 2. Formant Filters (F1, F2, F3 parallel bandpass filters)
   const masterVocalGain = ctx.createGain();
   masterVocalGain.gain.setValueAtTime(0.0001, startTime);
-  const peakVolume = syl.isStressed ? 0.22 : 0.17;
-  masterVocalGain.gain.linearRampToValueAtTime(peakVolume, startTime + 0.025);
-  masterVocalGain.gain.setValueAtTime(peakVolume, startTime + duration - 0.035);
+  // Vocal envelope: gentle 25ms attack, sustained body, 35ms decay
+  masterVocalGain.gain.linearRampToValueAtTime(0.18, startTime + 0.025);
+  masterVocalGain.gain.setValueAtTime(0.18, startTime + duration - 0.035);
   masterVocalGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
 
   const f1 = ctx.createBiquadFilter();
@@ -243,11 +229,9 @@ function playVocalFormantSyllable(
   glottalOsc.start(startTime);
   glottalOsc.stop(startTime + duration + 0.05);
 
-  // 3. Consonant acoustic shaping (SAGELO_COURSE.md Ch 2)
+  // 3. Consonant acoustic shaping (Fricatives & Plosives)
   const consonant = syl.consonant.toLowerCase();
-
-  // Fricatives & Sibilants: s, sh, f, v
-  if (consonant === 's' || consonant === 'sh' || consonant === 'f' || consonant === 'v') {
+  if (consonant === 's' || consonant === 'sh' || consonant === 'f' || consonant === 'z') {
     const noise = ctx.createBufferSource();
     noise.buffer = getNoiseBuffer(ctx);
     const noiseFilter = ctx.createBiquadFilter();
@@ -261,7 +245,7 @@ function playVocalFormantSyllable(
     const noiseGain = ctx.createGain();
     const noiseDuration = Math.min(0.08, duration * 0.4);
     noiseGain.gain.setValueAtTime(0.001, startTime);
-    noiseGain.gain.linearRampToValueAtTime(0.08, startTime + 0.015);
+    noiseGain.gain.linearRampToValueAtTime(0.09, startTime + 0.015);
     noiseGain.gain.exponentialRampToValueAtTime(0.001, startTime + noiseDuration);
 
     noise.connect(noiseFilter);
@@ -270,47 +254,15 @@ function playVocalFormantSyllable(
 
     noise.start(startTime);
     noise.stop(startTime + noiseDuration + 0.02);
-  }
-  // Affricates: j [dʒ] ("judge") & ch [tʃ] ("church")
-  else if (consonant === 'j' || consonant === 'ch' || consonant === 'c') {
-    const isVoiced = consonant === 'j';
-    const noise = ctx.createBufferSource();
-    noise.buffer = getNoiseBuffer(ctx);
-    const noiseFilter = ctx.createBiquadFilter();
-    noiseFilter.type = 'bandpass';
-    noiseFilter.frequency.setValueAtTime(isVoiced ? 2900 : 3300, startTime);
-    noiseFilter.Q.setValueAtTime(3.0, startTime);
-
-    const noiseGain = ctx.createGain();
-    const noiseDuration = 0.065;
-    noiseGain.gain.setValueAtTime(0.001, startTime);
-    noiseGain.gain.linearRampToValueAtTime(isVoiced ? 0.06 : 0.08, startTime + 0.01);
-    noiseGain.gain.exponentialRampToValueAtTime(0.001, startTime + noiseDuration);
-
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(ctx.destination);
-
-    noise.start(startTime);
-    noise.stop(startTime + noiseDuration + 0.02);
-  }
-  // Light flapped r [ɾ] ("closer to Spanish or Japanese 'r' than English 'r'")
-  else if (consonant === 'r') {
-    // Alveolar tap: brief 25ms amplitude reduction tap in the middle of syllable
-    const tapStart = startTime + 0.04;
-    masterVocalGain.gain.setValueAtTime(peakVolume, tapStart);
-    masterVocalGain.gain.linearRampToValueAtTime(peakVolume * 0.25, tapStart + 0.012);
-    masterVocalGain.gain.linearRampToValueAtTime(peakVolume, tapStart + 0.025);
-  }
-  // Nasals: m, n, ny [ɲ], and prenasal stops (nd, mb, mp, ng)
-  else if (consonant.startsWith('m') || consonant.startsWith('n')) {
+  } else if (consonant.startsWith('m') || consonant.startsWith('n')) {
+    // Nasal murmur (low resonant nasal buzz at 220Hz)
     const nasalOsc = ctx.createOscillator();
     nasalOsc.type = 'sine';
-    nasalOsc.frequency.setValueAtTime(consonant === 'ny' ? 300 : 220, startTime);
+    nasalOsc.frequency.setValueAtTime(220, startTime);
     const nasalGain = ctx.createGain();
-    const nasalDur = 0.055;
+    const nasalDur = 0.06;
     nasalGain.gain.setValueAtTime(0.001, startTime);
-    nasalGain.gain.linearRampToValueAtTime(0.07, startTime + 0.015);
+    nasalGain.gain.linearRampToValueAtTime(0.08, startTime + 0.02);
     nasalGain.gain.exponentialRampToValueAtTime(0.001, startTime + nasalDur);
     nasalOsc.connect(nasalGain);
     nasalGain.connect(ctx.destination);
@@ -391,49 +343,11 @@ if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
   };
 }
 
-/**
- * Selects the optimal voice for Sagelo pronunciation:
- * Prioritizes languages with the exact 5 pure vowels and flapped r (Swahili, Italian, Spanish, Portuguese),
- * followed by African regional English and natural voices.
- */
 function selectBestVoice(): SpeechSynthesisVoice | null {
   const voices = cachedVoices.length > 0 ? cachedVoices : loadAvailableVoices();
   if (!voices || voices.length === 0) return null;
 
-  // 1. Swahili (direct Bantu inspiration cited in SAGELO_COURSE.md)
-  const swahiliVoice = voices.find(v => {
-    const lang = (v.lang || '').toLowerCase();
-    return lang.startsWith('sw');
-  });
-  if (swahiliVoice) return swahiliVoice;
-
-  // 2. Italian (pure 5 vowels, penultimate stress, flapped r)
-  const italianVoice = voices.find(v => {
-    const lang = (v.lang || '').toLowerCase();
-    return lang.startsWith('it');
-  });
-  if (italianVoice) return italianVoice;
-
-  // 3. Spanish (pure 5 vowels cited in SAGELO_COURSE.md Ch 2)
-  const spanishVoice = voices.find(v => {
-    const lang = (v.lang || '').toLowerCase();
-    return lang.startsWith('es');
-  });
-  if (spanishVoice) return spanishVoice;
-
-  // 4. African regional English accents (Nigeria, South Africa, Kenya, Ghana)
-  const africanEnglish = voices.find(v => {
-    const lang = (v.lang || '').toLowerCase();
-    return (
-      lang === 'en-ng' ||
-      lang === 'en-za' ||
-      lang === 'en-ke' ||
-      lang === 'en-gh'
-    );
-  });
-  if (africanEnglish) return africanEnglish;
-
-  // 5. Natural / local English voices
+  // 1. Natural / local English voices (Samantha, Daniel, Jenny, Natural, Google)
   const naturalEn = voices.find(v => {
     const name = (v.name || '').toLowerCase();
     const lang = (v.lang || '').toLowerCase();
@@ -449,9 +363,24 @@ function selectBestVoice(): SpeechSynthesisVoice | null {
   });
   if (naturalEn) return naturalEn;
 
-  // 6. Default or first available voice
-  const defaultVoice = voices.find(v => v.default) || voices[0];
-  return defaultVoice || null;
+  // 2. African regional English accents (Nigeria, South Africa, Kenya, Ghana)
+  const africanEnglish = voices.find(v => {
+    const lang = (v.lang || '').toLowerCase();
+    return (
+      lang === 'en-ng' ||
+      lang === 'en-za' ||
+      lang === 'en-ke' ||
+      lang === 'en-gh'
+    );
+  });
+  if (africanEnglish) return africanEnglish;
+
+  // 3. Default or first English voice
+  const defaultEn = voices.find(v => (v.lang || '').startsWith('en') && v.default) ||
+                    voices.find(v => (v.lang || '').startsWith('en')) ||
+                    voices.find(v => v.default) ||
+                    voices[0];
+  return defaultEn || null;
 }
 
 export interface PlayPhraseOptions {
@@ -466,7 +395,7 @@ export interface PlayPhraseOptions {
  * Always audible: uses Web Speech API with synchronous activation,
  * and seamlessly falls back to Web Audio formant vocal synthesis
  * if SpeechSynthesis is unavailable, muted, or blocked.
- * Strictly inline with SAGELO_COURSE.md!
+ * NEVER plays beats or clicks!
  */
 export function playSageloPhrase(
   phrase: string,
@@ -505,8 +434,15 @@ export function playSageloPhrase(
 
   const hasSpeechSynthesis = 'speechSynthesis' in window;
 
+  // Convert to authentic African phonetic vowel respelling
+  // (e.g. "kore" -> "koh reh", "shanti" -> "shahn tee", "sage" -> "sah geh")
+  const phoneticSpeechText = toPhoneticTtsText(cleanText)
+    .replace(/[\[\]]/g, '')
+    .replace(/[—–]/g, ' ')
+    .trim();
+
   if (!hasSpeechSynthesis) {
-    // If Web Speech is unsupported, speak via vocal formant synthesizer immediately!
+    // If Web Speech is completely unsupported, speak via vocal formant synthesizer immediately!
     playVocalFormantPhrase(cleanText, basePitch, options);
     return;
   }
@@ -537,24 +473,12 @@ export function playSageloPhrase(
     }
     window.speechSynthesis.resume();
 
-    const voice = selectBestVoice();
-    const is5VowelVoice = voice && (
-      voice.lang.startsWith('sw') ||
-      voice.lang.startsWith('it') ||
-      voice.lang.startsWith('es') ||
-      voice.lang.startsWith('pt')
-    );
-
-    // If using a voice with native 5-vowel phonology (Swahili/Italian/Spanish),
-    // speak clean text directly for native articulation.
-    // If using English voice, use toPhoneticTtsText to preserve open syllables.
-    const speechText = is5VowelVoice ? cleanText : toPhoneticTtsText(cleanText);
-
-    const utter = new SpeechSynthesisUtterance(speechText);
-    utter.rate = 0.90; // Natural, clear cadence
+    const utter = new SpeechSynthesisUtterance(phoneticSpeechText);
+    utter.rate = 0.88; // Deliberate, clear phonetic cadence
     utter.pitch = 1.0;
     utter.volume = 1.0;
 
+    const voice = selectBestVoice();
     if (voice) {
       utter.voice = voice;
       utter.lang = voice.lang;
@@ -608,14 +532,15 @@ export function playSageloPhrase(
         clearInterval(keepAliveTimer);
         keepAliveTimer = null;
       }
-      // If Web Speech encountered an error, instantly switch to Vocal Formant synthesizer
+      // If Web Speech encountered an error (e.g. not-allowed, voice-unavailable),
+      // instantly switch to Vocal Formant synthesizer so the user hears the audio!
       triggerVocalFallback();
     };
 
     activeUtterances.add(utter);
     (window as unknown as { __sageloActiveUtterances: Set<SpeechSynthesisUtterance> }).__sageloActiveUtterances = activeUtterances;
 
-    // Safety fallback: if Web Speech does not begin speaking within 220ms,
+    // Safety fallback: if Web Speech does not begin speaking within 200ms,
     // ensure audio is still heard through vocal formant synthesis
     fallbackTimer = setTimeout(() => {
       if (!speechStarted && (!window.speechSynthesis.speaking || window.speechSynthesis.paused)) {
