@@ -2,19 +2,25 @@ export type ExerciseType =
   | 'multiple_choice'
   | 'word_bank'
   | 'fill_blank'
-  | 'root_morph';
+  | 'root_morph'
+  | 'match_pairs'
+  | 'listen_tap'
+  | 'picture_choice';
 
 export interface LessonExercise {
   id: string;
   type: ExerciseType;
-  speaker: 'mpaka' | 'nyango' | 'mwana';
+  speaker: 'mpaka' | 'nyango' | 'mwana' | 'duo';
   prompt: string;
+  promptTranslation?: string;
   sageloAudioText?: string;
   options?: string[];
   correctAnswer: string;
   wordBankTiles?: string[];
   rootBase?: string;
   targetEnding?: '-a' | '-e' | '-i' | '-o' | '-u';
+  matchingPairs?: Array<{ sagelo: string; english: string }>;
+  pictureCards?: Array<{ id: string; sagelo: string; english: string; emoji: string }>;
   explanation: string;
 }
 
@@ -439,6 +445,31 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             correctAnswer: 'Shanti ye',
             explanation: '"Shanti, ye!" is the classic everyday Sagelo greeting ("Peace, friend!").',
           },
+          {
+            id: 'l1-ex5',
+            type: 'match_pairs',
+            speaker: 'duo',
+            prompt: 'Match the 5 forms of "sag" with their grammatical roles:',
+            matchingPairs: [
+              { sagelo: 'saga', english: 'a sage (noun)' },
+              { sagelo: 'sage', english: 'wise (adjective)' },
+              { sagelo: 'sagi', english: 'to know (verb)' },
+              { sagelo: 'sago', english: 'wisdom (abstract)' },
+              { sagelo: 'shanti', english: 'peace (greeting)' },
+            ],
+            correctAnswer: 'saga sage sagi sago shanti',
+            explanation: 'Every root in Sagelo builds 5 distinct grammatical jobs with -a, -e, -i, -o, -u.',
+          },
+          {
+            id: 'l1-ex6',
+            type: 'listen_tap',
+            speaker: 'nyango',
+            prompt: 'Listen and arrange the spoken greeting:',
+            sageloAudioText: 'Shanti ye',
+            wordBankTiles: ['Shanti', 'ye', 'sim', 'saga'],
+            correctAnswer: 'Shanti ye',
+            explanation: 'You heard "Shanti, ye!" which translates to "Peace, friend!"',
+          },
         ],
       },
       {
@@ -535,6 +566,44 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             correctAnswer: 'ndeko',
             explanation: '"ndeko" is the Bantu-derived kinship word for friend/sibling/companion.',
           },
+          {
+            id: 'l2-ex4',
+            type: 'picture_choice',
+            speaker: 'duo',
+            prompt: 'Which of these is "water"?',
+            pictureCards: [
+              { id: 'pic-wai', sagelo: 'wai', english: 'water / flow', emoji: '🌊' },
+              { id: 'pic-jua', sagelo: 'jua', english: 'sun / illuminate', emoji: '☀️' },
+              { id: 'pic-sil', sagelo: 'sil', english: 'tree / forest', emoji: '🌳' },
+            ],
+            correctAnswer: 'wai',
+            explanation: 'The root "wai" means water (borrowed from Polynesian "wai").',
+          },
+          {
+            id: 'l2-ex5',
+            type: 'match_pairs',
+            speaker: 'mwana',
+            prompt: 'Match the nature roots with their English meanings:',
+            matchingPairs: [
+              { sagelo: 'wai', english: 'water' },
+              { sagelo: 'jua', english: 'sun' },
+              { sagelo: 'mun', english: 'world / earth' },
+              { sagelo: 'fon', english: 'wind' },
+              { sagelo: 'sil', english: 'tree / forest' },
+            ],
+            correctAnswer: 'wai jua mun fon sil',
+            explanation: 'These five roots form the natural foundation of Sagelo.',
+          },
+          {
+            id: 'l2-ex6',
+            type: 'listen_tap',
+            speaker: 'nyango',
+            prompt: 'Listen and assemble the sentence:',
+            sageloAudioText: 'Jua lumi',
+            wordBankTiles: ['Jua', 'lumi', 'wai', 'fon'],
+            correctAnswer: 'Jua lumi',
+            explanation: 'You heard "Jua lumi" ("The sun shines").',
+          },
         ],
       },
       {
@@ -601,6 +670,21 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             options: ['mi-', 'we-', 'ta-'],
             correctAnswer: 'mi-',
             explanation: 'Lesson 3: "mi-" marks the people and living-beings class.',
+          },
+          {
+            id: 'l3-ex4',
+            type: 'match_pairs',
+            speaker: 'duo',
+            prompt: 'Match the noun class prefixes with their semantic domains:',
+            matchingPairs: [
+              { sagelo: 'mi-', english: 'people & living beings' },
+              { sagelo: 'ki-', english: 'tools & physical objects' },
+              { sagelo: 'lu-', english: 'ideas & emotions' },
+              { sagelo: 'sa-', english: 'places & sanctuaries' },
+              { sagelo: 'ta-', english: 'time & natural cycles' },
+            ],
+            correctAnswer: 'mi- ki- lu- sa- ta-',
+            explanation: 'The 7 noun classes categorize Sagelo nouns with clarity.',
           },
         ],
       },
@@ -672,6 +756,21 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             ],
             correctAnswer: 'Because "oni" never changes form — person and number already live in the pronoun',
             explanation: 'Practice 4.1 Question 3: "oni" covers all persons and numbers without irregular conjugation.',
+          },
+          {
+            id: 'l4-ex4',
+            type: 'match_pairs',
+            speaker: 'duo',
+            prompt: 'Match each pronoun with its English meaning:',
+            matchingPairs: [
+              { sagelo: 'yo', english: 'I / me' },
+              { sagelo: 'yu', english: 'you (singular)' },
+              { sagelo: 'ye', english: 'he / she / it' },
+              { sagelo: 'yoyu', english: 'we (inclusive: you and I)' },
+              { sagelo: 'oni', english: 'to be (am / is / are)' },
+            ],
+            correctAnswer: 'yo yu ye yoyu oni',
+            explanation: 'Sagelo pronouns convey person and number; "oni" never changes form.',
           },
         ],
       },
@@ -798,6 +897,16 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             ],
             correctAnswer: 'Because the particle "ta" — not sentence position — tells the listener which noun is the object',
             explanation: 'Practice 6.1 Question 3: Case particles free Sagelo from rigid word-order dependence.',
+          },
+          {
+            id: 'l6-ex4',
+            type: 'listen_tap',
+            speaker: 'duo',
+            prompt: 'Listen and assemble the sentence you hear:',
+            sageloAudioText: 'Yo ta wai voli',
+            wordBankTiles: ['Yo', 'ta', 'wai', 'voli', 'sago', 'oni'],
+            correctAnswer: 'Yo ta wai voli',
+            explanation: 'You heard "Yo ta wai voli" ("I want water").',
           },
         ],
       },
@@ -1043,6 +1152,21 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             correctAnswer: 'sodeka',
             explanation: 'so- + deka (because) = sodeka ("why?").',
           },
+          {
+            id: 'l10-ex4',
+            type: 'match_pairs',
+            speaker: 'duo',
+            prompt: 'Match the so- question words with their meanings:',
+            matchingPairs: [
+              { sagelo: 'sowa', english: 'who?' },
+              { sagelo: 'sowe', english: 'what?' },
+              { sagelo: 'sondo', english: 'where?' },
+              { sagelo: 'sodoa', english: 'when?' },
+              { sagelo: 'sodeka', english: 'why?' },
+            ],
+            correctAnswer: 'sowa sowe sondo sodoa sodeka',
+            explanation: 'All Sagelo content questions are built from the prefix so- plus a case particle.',
+          },
         ],
       },
       {
@@ -1172,6 +1296,21 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             options: ['ok, dek', 'du, tri', 'nul, un'],
             correctAnswer: 'ok, dek',
             explanation: '8 is "ok" and 10 is "dek".',
+          },
+          {
+            id: 'l12-ex4',
+            type: 'match_pairs',
+            speaker: 'duo',
+            prompt: 'Match the Sagelo numerals with their numbers:',
+            matchingPairs: [
+              { sagelo: 'un', english: '1 (one)' },
+              { sagelo: 'du', english: '2 (two)' },
+              { sagelo: 'tri', english: '3 (three)' },
+              { sagelo: 'kwa', english: '4 (four)' },
+              { sagelo: 'pen', english: '5 (five)' },
+            ],
+            correctAnswer: 'un du tri kwa pen',
+            explanation: 'Sagelo numbers 0-10 use transparent Greco-Latin roots.',
           },
         ],
       },
@@ -1490,6 +1629,19 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             correctAnswer: 'fu',
             explanation: '"fu" marks future tense.',
           },
+          {
+            id: 'l17-ex4',
+            type: 'match_pairs',
+            speaker: 'duo',
+            prompt: 'Match the tense markers with their timeframes:',
+            matchingPairs: [
+              { sagelo: '(unmarked)', english: 'Present tense (right now)' },
+              { sagelo: 'pa', english: 'Past tense (before)' },
+              { sagelo: 'fu', english: 'Future tense (ahead)' },
+            ],
+            correctAnswer: 'present pa fu',
+            explanation: 'Sagelo verbs stay invariant: tense particles precede the verb.',
+          },
         ],
       },
       {
@@ -1752,6 +1904,20 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             correctAnswer: 'oxo',
             explanation: 'Going and staying cannot both happen at once, so exclusive "oxo" is used.',
           },
+          {
+            id: 'l21-ex4',
+            type: 'match_pairs',
+            speaker: 'duo',
+            prompt: 'Match the logical connectives with their Boolean operations:',
+            matchingPairs: [
+              { sagelo: 'e', english: 'AND (both true)' },
+              { sagelo: 'o', english: 'OR (inclusive: at least one)' },
+              { sagelo: 'oxo', english: 'XOR (exclusive: strictly one)' },
+              { sagelo: 'sim', english: 'NOT (negation)' },
+            ],
+            correctAnswer: 'e o oxo sim',
+            explanation: 'Sagelo gives dedicated spoken words for precise formal logic operations.',
+          },
         ],
       },
       {
@@ -1945,6 +2111,20 @@ export const SAGELO_CURRICULUM: CurriculumUnit[] = [
             wordBankTiles: ['Ju', 'yu', 'kari', 'juta', 'yu', 'sagi', 'ha'],
             correctAnswer: 'Ju yu kari juta yu sagi ha',
             explanation: 'Mastery Review Question 11: Ju yu kari juta yu sagi ha.',
+          },
+          {
+            id: 'l24-ex4',
+            type: 'match_pairs',
+            speaker: 'mpaka',
+            prompt: 'Match the evidentiality particles with their epistemic source:',
+            matchingPairs: [
+              { sagelo: '...ha', english: 'Directly witnessed (firsthand)' },
+              { sagelo: '...ra', english: 'Inferred / deduced (appears/seems)' },
+              { sagelo: '...si', english: 'Hearsay / reported (so I was told)' },
+              { sagelo: '...ni', english: 'Uncertain / questioning' },
+            ],
+            correctAnswer: '...ha ...ra ...si ...ni',
+            explanation: 'Evidentiality particles explicitly mark how you know what you are claiming.',
           },
         ],
       },

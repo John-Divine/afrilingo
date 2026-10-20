@@ -60,7 +60,8 @@ export function syllabifyWord(word: string): string[] {
 
 export function analyzePhraseResonance(
   phrase: string,
-  basePitchHz = 145
+  basePitchHz = 145,
+  use3to2Ratio = true
 ): SyllableAnalysis[] {
   const words = phrase
     .trim()
@@ -386,16 +387,144 @@ function selectBestVoice(): SpeechSynthesisVoice | null {
 export interface PlayPhraseOptions {
   basePitchHz?: number;
   useVoice?: boolean;
+  rate?: number;
+  use3to2Ratio?: boolean;
+  lang?: 'sagelo' | 'english' | 'auto';
   onSyllable?: (index: number, syl: SyllableAnalysis) => void;
   onComplete?: () => void;
 }
 
+export const ENGLISH_CORE_WORDS = new Set([
+  'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i', 'it', 'for', 'not', 'on', 'with',
+  'he', 'as', 'you', 'do', 'at', 'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her',
+  'she', 'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what', 'so', 'up',
+  'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me', 'when', 'make', 'can', 'like', 'time',
+  'no', 'just', 'him', 'know', 'take', 'people', 'into', 'year', 'your', 'good', 'some', 'could',
+  'them', 'see', 'other', 'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over', 'think',
+  'also', 'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way', 'even',
+  'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us', 'water', 'child',
+  'children', 'sage', 'sages', 'wisdom', 'light', 'heart', 'peace', 'world', 'earth', 'wind',
+  'tree', 'sun', 'moon', 'river', 'mountain', 'stone', 'night', 'flower', 'food', 'body', 'noun',
+  'verb', 'adjective', 'adverb', 'class', 'prefix', 'suffix', 'question', 'answer', 'meaning',
+  'practice', 'lesson', 'true', 'false', 'rule', 'syllable', 'vowel', 'consonant', 'open', 'closed',
+  'respect', 'origins', 'translating', 'erase', 'something', 'real', 'voicing', 'vibration',
+  'second', 'last', 'penultimate', 'always', 'falls', 'stress', 'tone', 'high', 'low', 'ratio',
+  'perfect', 'fifth', 'golden', 'decay', 'downdrift', 'feel', 'feeling', 'shine', 'bright', 'place',
+  'greeting', 'phrase', 'sentence', 'word', 'words', 'speak', 'speech', 'listen', 'hear', 'learn',
+  'study', 'table', 'chair', 'house', 'home', 'dog', 'cat', 'bird', 'fish', 'love', 'care', 'friend',
+  'friends', 'companion', 'elder', 'mother', 'father', 'brother', 'sister', 'equals', 'divided', 'multiply'
+]);
+
+export function isEnglishWord(raw: string): boolean {
+  const clean = raw.toLowerCase().replace(/[^a-z]/g, '');
+  if (!clean) return false;
+  if (ENGLISH_CORE_WORDS.has(clean)) return true;
+  if (
+    clean.endsWith('ing') ||
+    clean.endsWith('tion') ||
+    clean.endsWith('ment') ||
+    clean.endsWith('ness') ||
+    clean.endsWith('ly') ||
+    clean.endsWith('ed') ||
+    clean.endsWith('ous') ||
+    clean.endsWith('able') ||
+    clean.endsWith('ible')
+  ) {
+    return true;
+  }
+  return false;
+}
+
 /**
- * Pronounces a Sagelo word or phrase phonetically.
- * Always audible: uses Web Speech API with synchronous activation,
- * and seamlessly falls back to Web Audio formant vocal synthesis
- * if SpeechSynthesis is unavailable, muted, or blocked.
- * NEVER plays beats or clicks!
+ * Detects whether a string is primarily English or Sagelo.
+ */
+export function detectLanguage(text: string): 'english' | 'sagelo' {
+  if (!text) return 'sagelo';
+  const tokens = text
+    .toLowerCase()
+    .replace(/[.,!?;:"'“”()—–\-\/]/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (tokens.length === 0) return 'sagelo';
+
+  let englishCount = 0;
+  for (const t of tokens) {
+    if (isEnglishWord(t)) englishCount++;
+  }
+
+  // If at least 30% of tokens are common English words or English endings
+  if (englishCount / tokens.length >= 0.3) {
+    return 'english';
+  }
+  return 'sagelo';
+}
+
+export function isEnglishText(text: string): boolean {
+  return detectLanguage(text) === 'english';
+}
+
+/**
+ * Reads English text properly with standard, natural English pronunciation.
+ * Does NOT apply Sagelo open-vowel phonology to English words!
+ */
+export function playEnglishPhrase(
+  text: string,
+  options?: PlayPhraseOptions
+): void {
+  if (typeof window === 'undefined') {
+    options?.onComplete?.();
+    return;
+  }
+
+  const cleanText = text
+    .replace(/[\[\]]/g, '')
+    .replace(/[·—–]/g, ' ')
+    .replace(/["'“”]/g, '')
+    .trim();
+
+  if (!cleanText) {
+    options?.onComplete?.();
+    return;
+  }
+
+  if (!('speechSynthesis' in window)) {
+    options?.onComplete?.();
+    return;
+  }
+
+  try {
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+      window.speechSynthesis.cancel();
+    }
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+
+    const utter = new SpeechSynthesisUtterance(cleanText);
+    utter.rate = options?.rate ?? 0.95; // Natural unhurried English reading pace
+    utter.pitch = 1.0;
+    utter.volume = 1.0;
+    utter.lang = 'en-US';
+
+    const voice = selectBestVoice();
+    if (voice) {
+      utter.voice = voice;
+    }
+
+    utter.onend = () => options?.onComplete?.();
+    utter.onerror = () => options?.onComplete?.();
+
+    window.speechSynthesis.speak(utter);
+  } catch {
+    options?.onComplete?.();
+  }
+}
+
+/**
+ * Pronounces a phrase.
+ * If the phrase is English, it reads it properly as English without vowel mangling.
+ * If the phrase is Sagelo, it pronounces it with authentic Sagelo phonetics & pure vowels!
  */
 export function playSageloPhrase(
   phrase: string,
@@ -417,6 +546,17 @@ export function playSageloPhrase(
     return;
   }
 
+  // 1. Language Check: If user explicitly requested English, or text is detected as English
+  const isTargetEnglish =
+    options?.lang === 'english' ||
+    (options?.lang !== 'sagelo' && isEnglishText(cleanText));
+
+  if (isTargetEnglish) {
+    playEnglishPhrase(cleanText, options);
+    return;
+  }
+
+  // 2. Otherwise, treat as Sagelo with authentic African Bantu phonology
   const basePitch = options?.basePitchHz ?? 145;
   const analysis = analyzePhraseResonance(cleanText, basePitch);
   const useVoice = options?.useVoice ?? true;
@@ -474,7 +614,7 @@ export function playSageloPhrase(
     window.speechSynthesis.resume();
 
     const utter = new SpeechSynthesisUtterance(phoneticSpeechText);
-    utter.rate = 0.88; // Deliberate, clear phonetic cadence
+    utter.rate = options?.rate ?? 0.88; // Deliberate, clear phonetic cadence (or turtle speed if slower)
     utter.pitch = 1.0;
     utter.volume = 1.0;
 

@@ -91,9 +91,12 @@ export const PracticeLabView: React.FC = () => {
     : `${cleanRootBase}${selectedEnding.ending}${isPlural ? ' hu' : ''}`;
   const fluentWord = dottedWord.replace('·', '');
 
+  const [use3to2Ratio, setUse3to2Ratio] = useState(true); // 3:2 ratio restored by default
+
   const resonanceSyllables: SyllableAnalysis[] = analyzePhraseResonance(
     resonanceText,
-    basePitchHz
+    basePitchHz,
+    use3to2Ratio
   );
 
   const numberConversion = numberToSagelo(numberVal);
@@ -323,26 +326,46 @@ export const PracticeLabView: React.FC = () => {
       {activeLab === 'resonance' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-7 bg-white border border-[#E6DFD3] rounded-2xl p-6 sm:p-8 space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-xs text-[#5C4D43]">
-                Chapter 3 Acoustic Specification · 3:2 Perfect Fifth & 1/φ Downdrift
+                Resonance Pitch Modulation · 3:2 Fifth vs. Flat Natural Cadence
               </div>
-              <span className="text-xs font-mono-num text-[#1B6B4A] font-semibold">
-                ● HARMONIC RATIO: 3:2 (1.50×)
-              </span>
+              <button
+                onClick={() => setUse3to2Ratio(!use3to2Ratio)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 border cursor-pointer ${
+                  use3to2Ratio
+                    ? 'bg-[#1B6B4A] text-white border-[#14532D]'
+                    : 'bg-[#FBF9F5] text-[#C84B24] border-[#C84B24] hover:bg-[#F3EFE6]'
+                }`}
+                title="Toggle 3:2 perfect fifth tone lift"
+              >
+                <span>3:2 Ratio:</span>
+                <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono-num font-bold ${
+                  use3to2Ratio ? 'bg-white/20 text-white' : 'bg-[#FEE2E2] text-[#991B1B]'
+                }`}>
+                  {use3to2Ratio ? 'ON (1.50× Fifth Lift)' : 'OFF (Natural Cadence)'}
+                </span>
+              </button>
             </div>
 
             <div className="p-5 rounded-xl bg-[#1C1613] text-[#FBF9F5] space-y-4">
-              <div className="flex items-center justify-between text-xs text-[#E6DFD3]/80 font-mono-num">
+              <div className="flex items-center justify-between text-xs text-[#E6DFD3]/80 font-mono-num flex-wrap gap-2">
                 <span>Base Hum: {basePitchHz} Hz</span>
-                <span>3:2 Fifth Peak: {Math.round(basePitchHz * 1.5)} Hz</span>
+                <span>
+                  Tone Lift:{' '}
+                  {use3to2Ratio ? (
+                    <strong className="text-[#D99B26]">3:2 Fifth ({Math.round(basePitchHz * 1.5)} Hz)</strong>
+                  ) : (
+                    <strong className="text-[#34D399]">OFF (Smooth {basePitchHz} Hz)</strong>
+                  )}
+                </span>
                 <span>φ Stress: 1.62×</span>
               </div>
 
               <div className="h-48 flex items-end gap-2 pt-6 pb-2 px-2 overflow-x-auto border-b border-white/15">
                 {resonanceSyllables.map((syl, idx) => {
                   const minHz = basePitchHz * 0.85;
-                  const maxHz = basePitchHz * 1.6;
+                  const maxHz = basePitchHz * (use3to2Ratio ? 1.6 : 1.15);
                   const heightPct = Math.max(
                     22,
                     Math.min(100, Math.round(((syl.frequencyHz - minHz) / (maxHz - minHz)) * 85 + 15))
@@ -352,7 +375,7 @@ export const PracticeLabView: React.FC = () => {
                   return (
                     <button
                       key={`${syl.raw}-${idx}`}
-                      onClick={() => playSageloPhrase(syl.raw, { basePitchHz })}
+                      onClick={() => playSageloPhrase(syl.raw, { basePitchHz, use3to2Ratio })}
                       className="flex-1 min-w-[44px] flex flex-col items-center justify-end h-full group focus:outline-none"
                     >
                       <span className="text-[11px] font-mono-num text-[#D99B26] mb-1">
@@ -363,7 +386,7 @@ export const PracticeLabView: React.FC = () => {
                           isPlayingNow
                             ? 'bg-[#D99B26] scale-105'
                             : syl.isHighTone
-                            ? 'bg-[#C84B24]'
+                            ? (use3to2Ratio ? 'bg-[#C84B24]' : 'bg-[#D99B26]')
                             : syl.isStressed
                             ? 'bg-[#1B6B4A]'
                             : 'bg-white/30 group-hover:bg-white/50'
@@ -374,16 +397,16 @@ export const PracticeLabView: React.FC = () => {
                         {syl.raw}
                       </span>
                       <span className="text-[10px] text-white/60">
-                        {syl.isHighTone ? '▲ HIGH' : syl.isStressed ? '● φ STRESS' : 'LOW'}
+                        {syl.isHighTone ? (use3to2Ratio ? '▲ HIGH (3:2)' : '▲ HIGH (OFF)') : syl.isStressed ? '● φ STRESS' : 'LOW'}
                       </span>
                     </button>
                   );
                 })}
               </div>
 
-              <div className="flex items-center justify-between gap-4 pt-1">
+              <div className="flex items-center justify-between gap-4 pt-1 flex-wrap">
                 <div className="text-xs text-[#E6DFD3]/80">
-                  Breath-group phrasing target: <span className="font-mono-num text-white">4–6 seconds</span> relaxed exhale
+                  Cadence: <span className="font-mono-num text-white">{use3to2Ratio ? '3:2 Perfect Fifth Jump' : 'Natural Smooth Pitch (3:2 OFF)'}</span>
                 </div>
                 <button
                   onClick={() => {
@@ -391,11 +414,12 @@ export const PracticeLabView: React.FC = () => {
                     playSageloPhrase(resonanceText, {
                       basePitchHz,
                       useVoice: true,
+                      use3to2Ratio,
                       onSyllable: idx => setActiveSyllableIdx(idx),
                       onComplete: () => setActiveSyllableIdx(null),
                     });
                   }}
-                  className="px-4 py-2 rounded-lg bg-[#C84B24] hover:bg-[#8F2D10] text-white text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap"
+                  className="px-4 py-2 rounded-lg bg-[#C84B24] hover:bg-[#8F2D10] text-white text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
                 >
                   <Play className="w-3.5 h-3.5" />
                   <span>Play Phrase Resonance</span>
@@ -405,21 +429,25 @@ export const PracticeLabView: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <div className="font-semibold text-[#C84B24] mb-1">▲ 3:2 Perfect Fifth</div>
+                <div className="font-semibold text-[#C84B24] mb-1">
+                  {use3to2Ratio ? '▲ 3:2 Ratio (Active)' : '▲ 3:2 Ratio (Turned Off)'}
+                </div>
                 <p className="text-[#5C4D43]">
-                  High tone (á, é, í, ó, ú) rises by a 3:2 acoustic interval above your resting pitch.
+                  {use3to2Ratio
+                    ? 'High tone (á, é, í, ó, ú) rises by a 3:2 acoustic fifth interval above resting pitch.'
+                    : 'Currently turned OFF: pitch stays at natural conversational baseline without musical fifth jumps.'}
                 </p>
               </div>
               <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <div className="font-semibold text-[#1B6B4A] mb-1">● 1/φ Golden Downdrift</div>
+                <div className="font-semibold text-[#1B6B4A] mb-1">● Natural Downdrift</div>
                 <p className="text-[#5C4D43]">
-                  Successive high tones across a sentence taper by 1/φ (≈ 0.618) for a natural descending melody.
+                  Successive syllables taper naturally across the breath group for relaxed vocal flow.
                 </p>
               </div>
               <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
                 <div className="font-semibold text-[#312E81] mb-1">◆ φ Penultimate Stress</div>
                 <p className="text-[#5C4D43]">
-                  The second-to-last syllable lasts roughly φ (1.618×) as long as unstressed syllables.
+                  The second-to-last syllable maintains steady duration (~1.35×) for clear syllable recognition.
                 </p>
               </div>
             </div>
