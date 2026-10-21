@@ -15,12 +15,14 @@ import {
   MATCH_MADNESS_DICTIONARY,
   MatchWordPair,
 } from '../data/matchMadnessPool';
+import { FRENCH_MATCH_MADNESS_DICTIONARY } from '../data/frenchMatchMadnessPool';
 import { playSageloPhrase, playChime } from '../utils/sageloAudio';
 import { getWordPhonetic } from '../utils/sageloPhonetics';
 
 interface MatchMadnessGameProps {
   onEarnXp: (xp: number) => void;
   accentColor?: string;
+  activeCourse?: 'sagelo' | 'french';
 }
 
 interface ActiveTile {
@@ -33,7 +35,12 @@ interface ActiveTile {
 
 export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
   onEarnXp,
+  accentColor = '#58CC02',
+  activeCourse = 'sagelo',
 }) => {
+  const isFrench = activeCourse === 'french';
+  const targetLang = isFrench ? 'french' : 'sagelo';
+  const activePool = isFrench ? FRENCH_MATCH_MADNESS_DICTIONARY : MATCH_MADNESS_DICTIONARY;
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(45);
   const [score, setScore] = useState<number>(0);
@@ -61,8 +68,8 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
 
   // Start new randomized round
   const startNewGame = () => {
-    // 1. Shuffle entire 128-word pool
-    const shuffledPool = [...MATCH_MADNESS_DICTIONARY].sort(
+    // 1. Shuffle entire pool
+    const shuffledPool = [...activePool].sort(
       () => Math.random() - 0.5
     );
 
@@ -70,7 +77,7 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
     const initialPairs = shuffledPool.slice(0, 5);
     remainingPoolRef.current = shuffledPool.slice(5);
 
-    // Create left (Sagelo) and right (English) tiles, shuffled independently
+    // Create left (target lang) and right (English) tiles, shuffled independently
     const left: ActiveTile[] = initialPairs.map(p => ({
       uid: `left-${p.id}-${Date.now()}-${Math.random()}`,
       pairId: p.id,
@@ -137,7 +144,7 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
     if (left.pairId === right.pairId) {
       // MATCH SUCCESS!
       playChime('correct');
-      playSageloPhrase(left.text);
+      playSageloPhrase(left.text, { lang: targetLang });
 
       const nextStreak = comboStreak + 1;
       setComboStreak(nextStreak);
@@ -157,7 +164,7 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
           nextPair = remainingPoolRef.current.shift()!;
         } else {
           // Re-populate from dictionary if depleted
-          const reShuffled = [...MATCH_MADNESS_DICTIONARY].sort(
+          const reShuffled = [...activePool].sort(
             () => Math.random() - 0.5
           );
           nextPair = reShuffled[0];
@@ -248,14 +255,14 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
               Rapid Recall
             </span>
             <span className="text-xs font-bold text-[#AFAFAF]">
-              {MATCH_MADNESS_DICTIONARY.length} Authentic Words in Pool
+              {activePool.length} Words in Pool
             </span>
           </div>
           <h2 className="text-2xl font-black text-[#3C3C3C] mt-1 flex items-center gap-2">
-            Match Madness • Sagelo Speed Run
+            Match Madness • {isFrench ? 'Français' : 'Sagelo'} Speed Run {isFrench ? '🥐' : '🌍'}
           </h2>
           <p className="text-sm font-semibold text-[#777777]">
-            Match Sagelo words to their English translations before time runs out.
+            Match {isFrench ? 'French' : 'Sagelo'} words to their English translations before time runs out.
             Tiles refresh continuously!
           </p>
         </div>
@@ -354,13 +361,15 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
                       <span className="text-base sm:text-lg block capitalize">
                         {tile.text}
                       </span>
-                      <span className={`font-mono text-[10px] font-black px-1.5 py-0.5 rounded-md border tracking-tight ${
-                        isSelected || isMatched || isMismatched
-                          ? 'bg-white/20 border-white/40 text-white'
-                          : 'bg-[#E0F2FE] border-[#BAE6FD] text-[#0284C7]'
-                      }`}>
-                        {getWordPhonetic(tile.text).display}
-                      </span>
+                      {!isFrench && (
+                        <span className={`font-mono text-[10px] font-black px-1.5 py-0.5 rounded-md border tracking-tight ${
+                          isSelected || isMatched || isMismatched
+                            ? 'bg-white/20 border-white/40 text-white'
+                            : 'bg-[#E0F2FE] border-[#BAE6FD] text-[#0284C7]'
+                        }`}>
+                          {getWordPhonetic(tile.text).display}
+                        </span>
+                      )}
                     </div>
                     <span className={`text-[10px] uppercase font-bold ${
                       isSelected || isMatched || isMismatched ? 'text-white/80' : 'text-[#AFAFAF]'

@@ -37,6 +37,12 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
   userName = 'Learner',
   userSageloName = 'Misaga Learner',
 }) => {
+  const isFrenchCourse =
+    checkpoint.id.startsWith('cp-fr-') ||
+    checkpoint.unitId.startsWith('fr-') ||
+    checkpoint.unitId.includes('fr');
+  const targetCourseLang: 'sagelo' | 'french' = isFrenchCourse ? 'french' : 'sagelo';
+
   const [phase, setPhase] = useState<'intro' | 'exam' | 'passed' | 'failed'>('intro');
   const [questionIdx, setQuestionIdx] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -161,7 +167,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
 
       if (targetAudio) {
         setTimeout(() => {
-          playSageloPhrase(targetAudio, { lang: 'sagelo' });
+          playSageloPhrase(targetAudio, { lang: targetCourseLang });
         }, 220);
       } else if (candidate) {
         const cleanPortion = candidate.split(/[—–\-:]/)[0].trim();
@@ -169,7 +175,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
           if (isEnglishText(cleanPortion)) {
             playEnglishPhrase(candidate);
           } else {
-            playSageloPhrase(cleanPortion, { lang: 'sagelo' });
+            playSageloPhrase(cleanPortion, { lang: targetCourseLang });
           }
         }, 220);
       }
@@ -485,7 +491,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                           onClick={() => {
                             if (feedback !== 'idle' || isExhausted) return;
                             setBankSelected((prev) => [...prev, word]);
-                            playSageloPhrase(word);
+                            playSageloPhrase(word, { lang: targetCourseLang });
                           }}
                           disabled={isExhausted || feedback !== 'idle'}
                           className={`px-4 py-2.5 rounded-xl border-2 border-b-4 font-black text-sm transition-all ${
@@ -513,7 +519,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                           onClick={() => {
                             if (feedback !== 'idle') return;
                             setBlankAnswer(opt);
-                            playSageloPhrase(opt);
+                            playSageloPhrase(opt, { lang: targetCourseLang });
                           }}
                           className={`p-3.5 rounded-2xl border-2 border-b-4 font-black text-center text-sm transition-all ${
                             blankAnswer === opt
@@ -573,88 +579,92 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
 
                           if (!phraseToSpeak) return null;
 
-                          if (isSagelo) {
-                            const phonetic = getPhrasePhoneticDisplay(phraseToSpeak);
-                            return (
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="font-mono text-xs font-black text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
-                                  {phonetic}
-                                </span>
+                            if (isSagelo) {
+                              const phonetic = getPhrasePhoneticDisplay(phraseToSpeak);
+                              return (
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  {!isFrenchCourse && (
+                                    <span className="font-mono text-xs font-black text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
+                                      {phonetic}
+                                    </span>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
+                                    className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                    title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
+                                  >
+                                    <Volume2 className="w-3.5 h-3.5" />
+                                    <span>Listen ({isFrenchCourse ? 'French' : 'Sagelo'})</span>
+                                  </button>
+                                </div>
+                              );
+                            } else {
+                              return (
                                 <button
                                   type="button"
-                                  onClick={() => playSageloPhrase(phraseToSpeak, { lang: 'sagelo' })}
+                                  onClick={() => playEnglishPhrase(phraseToSpeak)}
                                   className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
-                                  title="Hear authentic Sagelo pronunciation"
+                                  title="Read solution in proper English"
                                 >
                                   <Volume2 className="w-3.5 h-3.5" />
-                                  <span>Listen (Sagelo)</span>
+                                  <span>Listen (English)</span>
                                 </button>
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <button
-                                type="button"
-                                onClick={() => playEnglishPhrase(phraseToSpeak)}
-                                className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
-                                title="Read solution in proper English"
-                              >
-                                <Volume2 className="w-3.5 h-3.5" />
-                                <span>Listen (English)</span>
-                              </button>
-                            );
-                          }
-                        })()}
-                      </div>
-                      <div className="text-xs font-bold text-[#15803D]">
-                        {currentQ.explanation}
+                              );
+                            }
+                          })()}
+                        </div>
+                        <div className="text-xs font-bold text-[#15803D]">
+                          {currentQ.explanation}
+                        </div>
                       </div>
                     </div>
+                    <button
+                      onClick={handleNextQuestion}
+                      className="w-full sm:w-auto px-8 py-3 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm"
+                    >
+                      Continue
+                    </button>
                   </div>
-                  <button
-                    onClick={handleNextQuestion}
-                    className="w-full sm:w-auto px-8 py-3 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm"
-                  >
-                    Continue
-                  </button>
-                </div>
-              ) : (
-                <div className="p-4 rounded-2xl bg-[#FFDFE0] border-2 border-[#FF4B4B] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
-                  <div className="flex items-center gap-3 text-left w-full sm:w-auto">
-                    <div className="w-10 h-10 rounded-2xl bg-[#FF4B4B] text-white flex items-center justify-center shrink-0">
-                      <AlertCircle className="w-6 h-6 stroke-[3]" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-base font-black text-[#991B1B] flex items-center gap-2 flex-wrap">
-                        <span>Correct solution: {currentQ.correctAnswer}</span>
-                        {(() => {
-                          const sageloTarget = currentQ?.sageloAudioText;
-                          const candidate = currentQ?.correctAnswer || '';
-                          const cleanPortion = candidate.split(/[—–\-:]/)[0].trim();
-                          const isSagelo = Boolean(sageloTarget || (!isEnglishText(cleanPortion) && cleanPortion));
-                          const phraseToSpeak = sageloTarget || (isSagelo ? cleanPortion : candidate);
+                ) : (
+                  <div className="p-4 rounded-2xl bg-[#FFDFE0] border-2 border-[#FF4B4B] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
+                    <div className="flex items-center gap-3 text-left w-full sm:w-auto">
+                      <div className="w-10 h-10 rounded-2xl bg-[#FF4B4B] text-white flex items-center justify-center shrink-0">
+                        <AlertCircle className="w-6 h-6 stroke-[3]" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-base font-black text-[#991B1B] flex items-center gap-2 flex-wrap">
+                          <span>Correct solution: {currentQ.correctAnswer}</span>
+                          {(() => {
+                            const sageloTarget = currentQ?.sageloAudioText;
+                            const candidate = currentQ?.correctAnswer || '';
+                            const cleanPortion = candidate.split(/[—–\-:]/)[0].trim();
+                            const isSagelo = Boolean(sageloTarget || (!isEnglishText(cleanPortion) && cleanPortion));
+                            const phraseToSpeak = sageloTarget || (isSagelo ? cleanPortion : candidate);
 
-                          if (!phraseToSpeak) return null;
+                            if (!phraseToSpeak) return null;
 
-                          if (isSagelo) {
-                            const phonetic = getPhrasePhoneticDisplay(phraseToSpeak);
-                            return (
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="font-mono text-xs font-black text-[#991B1B] bg-white px-2 py-0.5 rounded-lg border border-[#FCA5A5]">
-                                  {phonetic}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => playSageloPhrase(phraseToSpeak, { lang: 'sagelo' })}
-                                  className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
-                                  title="Hear authentic Sagelo pronunciation"
-                                >
-                                  <Volume2 className="w-3.5 h-3.5" />
-                                  <span>Listen (Sagelo)</span>
-                                </button>
-                              </div>
-                            );
-                          } else {
+                            if (isSagelo) {
+                              const phonetic = getPhrasePhoneticDisplay(phraseToSpeak);
+                              return (
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  {!isFrenchCourse && (
+                                    <span className="font-mono text-xs font-black text-[#991B1B] bg-white px-2 py-0.5 rounded-lg border border-[#FCA5A5]">
+                                      {phonetic}
+                                    </span>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
+                                    className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                    title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
+                                  >
+                                    <Volume2 className="w-3.5 h-3.5" />
+                                    <span>Listen ({isFrenchCourse ? 'French' : 'Sagelo'})</span>
+                                  </button>
+                                </div>
+                              );
+                            } else {
                             return (
                               <button
                                 type="button"

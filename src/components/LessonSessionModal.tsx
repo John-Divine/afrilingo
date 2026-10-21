@@ -38,6 +38,12 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
   onClose,
   onComplete,
 }) => {
+  const isFrenchCourse =
+    lesson.id.startsWith('fr-') ||
+    lesson.unitId.startsWith('fr-') ||
+    lesson.unitId.includes('fr');
+  const targetCourseLang: 'sagelo' | 'french' = isFrenchCourse ? 'french' : 'sagelo';
+
   // Phase: start directly in interactive practice or quick intro
   const [phase, setPhase] = useState<'intro' | 'practice' | 'summary'>('intro');
   const [exerciseIdx, setExerciseIdx] = useState(0);
@@ -170,11 +176,11 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
       const audioToPlay = currentExercise.sageloAudioText || currentExercise.correctAnswer;
       if (audioToPlay && currentExercise.type === 'listen_tap') {
         setTimeout(() => {
-          playSageloPhrase(audioToPlay);
+          playSageloPhrase(audioToPlay, { lang: targetCourseLang });
         }, 300);
       }
     }
-  }, [exerciseIdx, isReviewPhase, currentExercise]);
+  }, [exerciseIdx, isReviewPhase, currentExercise, targetCourseLang]);
 
   // Shuffled left and right items for match_pairs
   const matchingPairsData = useMemo(() => {
@@ -190,7 +196,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
   const handleMatchSelect = (side: 'left' | 'right', id: string, spokenText?: string) => {
     if (side === 'left') {
       setSelectedPairLeft(id);
-      playSageloPhrase(id, { lang: 'sagelo' });
+      playSageloPhrase(id, { lang: targetCourseLang });
       if (selectedPairRight) {
         checkPair(id, selectedPairRight);
       }
@@ -274,7 +280,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
 
       if (targetAudio) {
         setTimeout(() => {
-          playSageloPhrase(targetAudio, { lang: 'sagelo' });
+          playSageloPhrase(targetAudio, { lang: targetCourseLang });
         }, 220);
       } else if (candidate) {
         const cleanPortion = candidate.split(/[—–\-:]/)[0].trim();
@@ -283,8 +289,8 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
             // It is English: read properly as English!
             playEnglishPhrase(candidate);
           } else {
-            // It is Sagelo: read with authentic Sagelo phonetics!
-            playSageloPhrase(cleanPortion, { lang: 'sagelo' });
+            // Target language: read with authentic pronunciation (French or Sagelo)!
+            playSageloPhrase(cleanPortion, { lang: targetCourseLang });
           }
         }, 220);
       }
@@ -473,9 +479,9 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         <button
                           key={idx}
                           type="button"
-                          onClick={() => playSageloPhrase(word)}
+                          onClick={() => playSageloPhrase(word, { lang: targetCourseLang })}
                           className="px-3.5 py-2 bg-white hover:bg-[#F0FDF4] border-2 border-b-4 border-[#E5E5E5] hover:border-[#58CC02] rounded-2xl text-xs font-black text-[#3C3C3C] flex items-center gap-2 transition-all active:translate-y-0.5 shadow-2xs group"
-                          title={`Listen to "${word}" in IPA (${phon.display})`}
+                          title={isFrenchCourse ? `Pronounce "${word}" in French` : `Listen to "${word}" in IPA (${phon.display})`}
                         >
                           <span className="text-sm">{word}</span>
                           <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.5 rounded border border-[#BAE6FD]">
@@ -604,7 +610,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                       onClick={() =>
                         playSageloPhrase(
                           currentExercise.sageloAudioText || currentExercise.correctAnswer,
-                          { rate: 0.88 }
+                          { rate: 0.88, lang: targetCourseLang }
                         )
                       }
                       className="w-16 h-16 rounded-3xl bg-[#1CB0F6] hover:bg-[#20BEFF] active:bg-[#1899D6] border-b-6 border-[#1580B8] text-white flex items-center justify-center active:translate-y-1 transition-all shadow-md"
@@ -618,7 +624,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                       onClick={() =>
                         playSageloPhrase(
                           currentExercise.sageloAudioText || currentExercise.correctAnswer,
-                          { rate: 0.62 }
+                          { rate: 0.62, lang: targetCourseLang }
                         )
                       }
                       className="w-12 h-12 rounded-2xl bg-white hover:bg-[#F7F7F7] active:bg-[#E5E5E5] border-2 border-b-4 border-[#BAE6FD] text-[#0284C7] flex items-center justify-center active:translate-y-0.5 transition-all text-xl font-black shadow-xs"
@@ -679,7 +685,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         onClick={() => {
                           if (feedback !== 'idle') return;
                           setSelectedPictureId(card.sagelo);
-                          playSageloPhrase(card.sagelo);
+                          playSageloPhrase(card.sagelo, { lang: targetCourseLang });
                         }}
                         disabled={feedback !== 'idle'}
                         className={`p-4 rounded-3xl border-2 border-b-6 transition-all flex flex-col items-center justify-between text-center gap-3 relative cursor-pointer active:translate-y-1 ${
@@ -691,9 +697,11 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         <span className="text-5xl my-2">{card.emoji}</span>
                         <div className="space-y-0.5">
                           <span className="text-lg font-black block">{card.sagelo}</span>
-                          <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD] inline-block">
-                            {phon.display}
-                          </span>
+                          {!isFrenchCourse && (
+                            <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD] inline-block">
+                              {phon.display}
+                            </span>
+                          )}
                           <span className="text-xs font-bold text-[#777777] block mt-1">
                             {card.english}
                           </span>
@@ -864,6 +872,8 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                       const countInPool = currentExercise.wordBankTiles!.filter((w) => w === word).length;
                       const isExhausted = countInAnswer >= countInPool;
 
+                      const isWordEng = isEnglishText(word);
+
                       return (
                         <button
                           key={idx}
@@ -871,7 +881,11 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           onClick={() => {
                             if (feedback !== 'idle' || isExhausted) return;
                             setBankSelected((prev) => [...prev, word]);
-                            playSageloPhrase(word);
+                            if (isWordEng) {
+                              playEnglishPhrase(word);
+                            } else {
+                              playSageloPhrase(word, { lang: targetCourseLang });
+                            }
                           }}
                           disabled={isExhausted || feedback !== 'idle'}
                           className={`px-3.5 py-2 rounded-xl border-2 border-b-4 font-black text-sm transition-all flex items-center gap-2 active:translate-y-1 ${
@@ -881,9 +895,11 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           }`}
                         >
                           <span>{word}</span>
-                          <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD]">
-                            {getWordPhonetic(word).display}
-                          </span>
+                          {!isWordEng && !isFrenchCourse && (
+                            <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD]">
+                              {getWordPhonetic(word).display}
+                            </span>
+                          )}
                         </button>
                       );
                     })}
@@ -903,7 +919,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           onClick={() => {
                             if (feedback !== 'idle') return;
                             setBlankAnswer(opt);
-                            playSageloPhrase(opt);
+                            playSageloPhrase(opt, { lang: targetCourseLang });
                           }}
                           className={`p-3.5 rounded-2xl border-2 border-b-4 font-black text-center text-sm transition-all active:translate-y-0.5 ${
                             blankAnswer === opt
@@ -1071,17 +1087,19 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                               const phonetic = getPhrasePhoneticDisplay(phraseToSpeak);
                               return (
                                 <div className="flex items-center gap-1.5 flex-wrap">
-                                  <span className="font-mono text-xs font-black text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
-                                    {phonetic}
-                                  </span>
+                                  {!isFrenchCourse && (
+                                    <span className="font-mono text-xs font-black text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
+                                      {phonetic}
+                                    </span>
+                                  )}
                                   <button
                                     type="button"
-                                    onClick={() => playSageloPhrase(phraseToSpeak, { lang: 'sagelo' })}
+                                    onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
                                     className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
-                                    title="Hear authentic Sagelo pronunciation"
+                                    title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
                                   >
                                     <Volume2 className="w-3.5 h-3.5" />
-                                    <span>Listen (Sagelo)</span>
+                                    <span>Listen ({isFrenchCourse ? 'French' : 'Sagelo'})</span>
                                   </button>
                                 </div>
                               );
@@ -1145,17 +1163,19 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                               const phonetic = getPhrasePhoneticDisplay(phraseToSpeak);
                               return (
                                 <div className="flex items-center gap-1.5 flex-wrap">
-                                  <span className="font-mono text-xs font-black text-[#991B1B] bg-white px-2 py-0.5 rounded-lg border border-[#FCA5A5]">
-                                    {phonetic}
-                                  </span>
+                                  {!isFrenchCourse && (
+                                    <span className="font-mono text-xs font-black text-[#991B1B] bg-white px-2 py-0.5 rounded-lg border border-[#FCA5A5]">
+                                      {phonetic}
+                                    </span>
+                                  )}
                                   <button
                                     type="button"
-                                    onClick={() => playSageloPhrase(phraseToSpeak, { lang: 'sagelo' })}
+                                    onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
                                     className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
-                                    title="Hear authentic Sagelo pronunciation"
+                                    title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
                                   >
                                     <Volume2 className="w-3.5 h-3.5" />
-                                    <span>Listen (Sagelo)</span>
+                                    <span>Listen ({isFrenchCourse ? 'French' : 'Sagelo'})</span>
                                   </button>
                                 </div>
                               );

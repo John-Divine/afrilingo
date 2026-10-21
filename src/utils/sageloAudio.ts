@@ -384,15 +384,52 @@ function selectBestVoice(): SpeechSynthesisVoice | null {
   return defaultEn || null;
 }
 
+export function selectBestFrenchVoice(): SpeechSynthesisVoice | null {
+  const voices = cachedVoices.length > 0 ? cachedVoices : loadAvailableVoices();
+  if (!voices || voices.length === 0) return null;
+
+  // 1. Natural French voices (Thomas, Amélie, Audrey, Aurélie, Paul, Julie, etc.)
+  const naturalFr = voices.find(v => {
+    const name = (v.name || '').toLowerCase();
+    const lang = (v.lang || '').toLowerCase();
+    return (
+      (lang.startsWith('fr') || name.includes('french') || name.includes('français')) &&
+      (name.includes('natural') ||
+        name.includes('google') ||
+        name.includes('thomas') ||
+        name.includes('amélie') ||
+        name.includes('audrey') ||
+        name.includes('aurélie') ||
+        name.includes('julie') ||
+        name.includes('paul'))
+    );
+  });
+  if (naturalFr) return naturalFr;
+
+  // 2. Any fr-FR or fr-CA voice
+  const anyFr = voices.find(v => (v.lang || '').toLowerCase().startsWith('fr'));
+  if (anyFr) return anyFr;
+
+  return null;
+}
+
 export interface PlayPhraseOptions {
   basePitchHz?: number;
   useVoice?: boolean;
   rate?: number;
   use3to2Ratio?: boolean;
-  lang?: 'sagelo' | 'english' | 'auto';
+  lang?: 'sagelo' | 'english' | 'french' | 'auto';
   onSyllable?: (index: number, syl: SyllableAnalysis) => void;
   onComplete?: () => void;
 }
+
+// Whitelisted core Sagelo particles and pronouns that must never be classified as English
+const SAGELO_EXCEPTIONS = new Set([
+  'kel', 'sim', 'den', 'ha', 'ra', 'si', 'ni', 'yo', 'yu', 'ye', 'ta', 'e', 'o', 'fu', 'vi', 'wa',
+  'we', 'ba', 'ka', 'na', 'sa', 'cho', 'mo', 'sago', 'saga', 'sage', 'sagi', 'mwana', 'nyango',
+  'mpaka', 'kore', 'ndeko', 'nemwa', 'shanti', 'dira', 'sofa', 'pensi', 'lerni', 'fasi', 'kandi',
+  'wali', 'sowa', 'sondo', 'boma', 'tala', 'luba', 'koli', 'tano', 'kumi', 'mwasi', 'mobali', 'doni', 'moya'
+]);
 
 export const ENGLISH_CORE_WORDS = new Set([
   'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i', 'it', 'for', 'not', 'on', 'with',
@@ -412,12 +449,25 @@ export const ENGLISH_CORE_WORDS = new Set([
   'perfect', 'fifth', 'golden', 'decay', 'downdrift', 'feel', 'feeling', 'shine', 'bright', 'place',
   'greeting', 'phrase', 'sentence', 'word', 'words', 'speak', 'speech', 'listen', 'hear', 'learn',
   'study', 'table', 'chair', 'house', 'home', 'dog', 'cat', 'bird', 'fish', 'love', 'care', 'friend',
-  'friends', 'companion', 'elder', 'mother', 'father', 'brother', 'sister', 'equals', 'divided', 'multiply'
+  'friends', 'companion', 'elder', 'mother', 'father', 'brother', 'sister', 'equals', 'divided', 'multiply',
+  'hello', 'hi', 'welcome', 'goodbye', 'bye', 'please', 'thank', 'thanks', 'yes', 'okay', 'ok',
+  'morning', 'evening', 'afternoon', 'market', 'money', 'coin', 'price', 'cost', 'buy', 'sell',
+  'seller', 'buyer', 'trade', 'trader', 'bargain', 'doctor', 'medicine', 'herb', 'herbs', 'leaf',
+  'leaves', 'root', 'roots', 'heal', 'healing', 'healer', 'sick', 'sickness', 'fever', 'cure',
+  'stranger', 'guest', 'visitor', 'introduction', 'courtyard', 'travel', 'traveler', 'journey',
+  'explanation', 'definition', 'alphabet', 'script', 'translate', 'translation', 'correct',
+  'wrong', 'great', 'awesome', 'bad', 'check', 'continue', 'finish', 'start', 'review',
+  'branch', 'skill', 'path', 'level', 'score', 'points', 'bonus', 'chest', 'gems', 'streak',
+  'accuracy', 'percent', 'unlocked', 'locked', 'ready', 'challenge', 'complete', 'completed',
+  'mastered', 'read', 'write', 'match', 'pairs', 'drag', 'drop', 'arrange', 'type', 'tap',
+  'click', 'select', 'choose', 'between', 'both', 'neither', 'either', 'without', 'within',
+  'already', 'together', 'each', 'every', 'again', 'never', 'often', 'sometimes'
 ]);
 
 export function isEnglishWord(raw: string): boolean {
   const clean = raw.toLowerCase().replace(/[^a-z]/g, '');
   if (!clean) return false;
+  if (SAGELO_EXCEPTIONS.has(clean)) return false;
   if (ENGLISH_CORE_WORDS.has(clean)) return true;
   if (
     clean.endsWith('ing') ||
@@ -428,10 +478,20 @@ export function isEnglishWord(raw: string): boolean {
     clean.endsWith('ed') ||
     clean.endsWith('ous') ||
     clean.endsWith('able') ||
-    clean.endsWith('ible')
+    clean.endsWith('ible') ||
+    clean.endsWith('est') ||
+    clean.endsWith('er') ||
+    clean.endsWith('al') ||
+    clean.endsWith('ic') ||
+    clean.endsWith('ive')
   ) {
     return true;
   }
+  // English words with characteristic clusters:
+  if (/th|wh|ck|ph|qu|igh|ough|wr|kn/.test(clean)) return true;
+  // Closed syllables ending in consonants that Sagelo words NEVER end in:
+  if (/[tpbkdgfxz]$/.test(clean)) return true;
+  if (/[s]$/.test(clean) && clean.length > 2) return true;
   return false;
 }
 
@@ -522,8 +582,73 @@ export function playEnglishPhrase(
 }
 
 /**
+ * Reads French text properly with standard, natural French pronunciation.
+ * Selects French Web Speech synthesizer voice (fr-FR / fr-CA) with smooth learner pacing.
+ */
+export function playFrenchPhrase(
+  phrase: string,
+  options?: PlayPhraseOptions
+): void {
+  if (typeof window === 'undefined') {
+    options?.onComplete?.();
+    return;
+  }
+
+  const cleanText = phrase
+    .replace(/[\[\]]/g, '')
+    .replace(/[·—–]/g, ' ')
+    .replace(/["'“”]/g, '')
+    .trim();
+
+  if (!cleanText) {
+    options?.onComplete?.();
+    return;
+  }
+
+  // If user passed English text into French audio without forcing French, speak English
+  if (options?.lang === 'english' || (options?.lang !== 'french' && isEnglishText(cleanText))) {
+    playEnglishPhrase(cleanText, options);
+    return;
+  }
+
+  if (!('speechSynthesis' in window)) {
+    options?.onComplete?.();
+    return;
+  }
+
+  try {
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+      window.speechSynthesis.cancel();
+    }
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+
+    const utter = new SpeechSynthesisUtterance(cleanText);
+    utter.rate = options?.rate ?? 0.88; // Slightly deliberate pace for French learners
+    utter.pitch = 1.0;
+    utter.volume = 1.0;
+    utter.lang = 'fr-FR';
+
+    const voice = selectBestFrenchVoice();
+    if (voice) {
+      utter.voice = voice;
+      utter.lang = voice.lang;
+    }
+
+    utter.onend = () => options?.onComplete?.();
+    utter.onerror = () => options?.onComplete?.();
+
+    window.speechSynthesis.speak(utter);
+  } catch {
+    options?.onComplete?.();
+  }
+}
+
+/**
  * Pronounces a phrase.
  * If the phrase is English, it reads it properly as English without vowel mangling.
+ * If the phrase is French, it reads it with native French pronunciation.
  * If the phrase is Sagelo, it pronounces it with authentic Sagelo phonetics & pure vowels!
  */
 export function playSageloPhrase(
@@ -543,6 +668,12 @@ export function playSageloPhrase(
 
   if (!cleanText) {
     options?.onComplete?.();
+    return;
+  }
+
+  // 0. Explicit French language check
+  if (options?.lang === 'french') {
+    playFrenchPhrase(cleanText, options);
     return;
   }
 

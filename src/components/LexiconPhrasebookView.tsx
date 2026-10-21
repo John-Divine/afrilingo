@@ -14,6 +14,12 @@ import {
   deriveRootForms,
   DictionaryEntry,
 } from '../data/sageloReference';
+import {
+  FRENCH_DICTIONARY,
+  FRENCH_PHRASEBOOK_CHAPTERS,
+  FRENCH_PROVERBS,
+  FrenchDictionaryEntry,
+} from '../data/frenchReference';
 import { playSageloPhrase } from '../utils/sageloAudio';
 import { getWordPhonetic, getPhrasePhoneticDisplay } from '../utils/sageloPhonetics';
 import { CeremonialWordRenderer } from './CeremonialScriptGlyph';
@@ -21,16 +27,21 @@ import { CeremonialWordRenderer } from './CeremonialScriptGlyph';
 interface LexiconPhrasebookViewProps {
   masteredWords: string[];
   onSaveToNotebook: (sagelo: string, english: string) => void;
+  activeCourse?: 'sagelo' | 'french';
 }
 
 export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
   masteredWords,
   onSaveToNotebook,
+  activeCourse = 'sagelo',
 }) => {
+  const isFrench = activeCourse === 'french';
+  const targetLang = isFrench ? 'french' : 'sagelo';
+
   const [subTab, setSubTab] = useState<'dictionary' | 'phrasebook' | 'appendix'>('dictionary');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [expandedRoot, setExpandedRoot] = useState<string | null>('sag');
+  const [expandedRoot, setExpandedRoot] = useState<string | null>(isFrench ? 'Bonjour' : 'sag');
   const [savedToast, setSavedToast] = useState<string | null>(null);
   const [speakingPhrase, setSpeakingPhrase] = useState<string | null>(null);
 
@@ -38,20 +49,24 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
     if (!phrase) return;
     setSpeakingPhrase(phrase);
     playSageloPhrase(phrase, {
+      lang: targetLang,
       onComplete: () => {
         setSpeakingPhrase(prev => (prev === phrase ? null : prev));
       },
     });
   };
 
+  const activeDict = isFrench ? (FRENCH_DICTIONARY as unknown as DictionaryEntry[]) : SAGELO_DICTIONARY;
+  const activePhrasebook = isFrench ? FRENCH_PHRASEBOOK_CHAPTERS : PHRASEBOOK_CHAPTERS;
+
   const categories = useMemo(() => {
     const set = new Set<string>(['All']);
-    SAGELO_DICTIONARY.forEach(d => set.add(d.category));
+    activeDict.forEach(d => set.add(d.category));
     return Array.from(set);
-  }, []);
+  }, [activeDict]);
 
   const filteredDictionary = useMemo(() => {
-    return SAGELO_DICTIONARY.filter(entry => {
+    return activeDict.filter(entry => {
       const matchesCat =
         selectedCategory === 'All' || entry.category === selectedCategory;
       const q = searchQuery.trim().toLowerCase();
@@ -63,7 +78,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
           (entry.originNote && entry.originNote.toLowerCase().includes(q)))
       );
     });
-  }, [searchQuery, selectedCategory]);
+  }, [activeDict, searchQuery, selectedCategory]);
 
   const handleSavePhrase = (sagelo: string, english: string) => {
     onSaveToNotebook(sagelo, english);
@@ -76,10 +91,14 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E6DFD3] pb-6">
         <div className="space-y-1">
           <div className="text-xs text-[#5C4D43]">
-            Parts III, V, VI & VIII · Living Reference & Practical Phrasebook
+            {isFrench
+              ? 'Le Lexique et Guide Pratique de la Langue Française'
+              : 'Parts III, V, VI & VIII · Living Reference & Practical Phrasebook'}
           </div>
           <h1 className="text-2xl sm:text-3xl font-display font-semibold text-[#1C1613]">
-            Sagelo Dictionary, Phrasebook & Grammar Reference
+            {isFrench
+              ? 'French Dictionary, Phrasebook & Grammar Guide 🥐'
+              : 'Sagelo Dictionary, Phrasebook & Grammar Reference 🌍'}
           </h1>
         </div>
 
@@ -93,7 +112,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
             }`}
           >
             <BookMarked className="w-3.5 h-3.5" />
-            <span>Root Dictionary ({SAGELO_DICTIONARY.length} Roots)</span>
+            <span>Vocabulary ({activeDict.length} Words)</span>
           </button>
           <button
             onClick={() => setSubTab('phrasebook')}
@@ -104,7 +123,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
             }`}
           >
             <Compass className="w-3.5 h-3.5" />
-            <span>Practical Phrasebook (7 Chapters)</span>
+            <span>Phrasebook ({activePhrasebook.length} Chapters)</span>
           </button>
           <button
             onClick={() => setSubTab('appendix')}
@@ -115,7 +134,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
-            <span>Grammar Appendices (Part V)</span>
+            <span>Grammar Essentials</span>
           </button>
         </div>
       </div>
@@ -165,9 +184,17 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                           <span className="text-xl font-display font-semibold text-[#1C1613]">
                             {entry.root}
                           </span>
-                          <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
-                            {getWordPhonetic(entry.root).display}
-                          </span>
+                          {isFrench ? (
+                            (entry as unknown as FrenchDictionaryEntry).pronunciation && (
+                              <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                                {(entry as unknown as FrenchDictionaryEntry).pronunciation}
+                              </span>
+                            )
+                          ) : (
+                            <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                              {getWordPhonetic(entry.root).display}
+                            </span>
+                          )}
                           <span className="text-xs text-[#8C7A6B]" aria-hidden="true">
                             ·
                           </span>
@@ -242,41 +269,68 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
 
                   {isExpanded && (
                     <div className="pt-3 border-t border-[#E6DFD3] space-y-3 bg-[#FBF9F5] -mx-5 -mb-5 p-5 rounded-b-2xl">
-                      <div className="text-xs font-semibold text-[#5C4D43]">
-                        {entry.isLoanword
-                          ? 'Invariable Loanword (Kept whole out of respect for origin)'
-                          : `All 5 Word-Building Endings + Agentive (-ari) for "${entry.root}":`}
-                      </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                        {[
-                          { label: 'Noun (-a)', word: derived.noun },
-                          { label: 'Adjective (-e)', word: derived.adjective },
-                          { label: 'Verb (-i)', word: derived.verb },
-                          { label: 'Abstract (-o)', word: derived.abstractNoun },
-                          { label: 'Place (-u)', word: derived.place },
-                          { label: 'Person (-ari)', word: derived.agentive },
-                        ].map(item => (
-                          <button
-                            key={item.label}
-                            onClick={() => handleSpeakPhrase(item.word)}
-                            className="p-2 rounded-lg bg-white border border-[#E6DFD3] hover:border-[#C84B24] text-left transition-all group cursor-pointer shadow-2xs"
-                          >
-                            <span className="text-[#8C7A6B] block text-[10px]">{item.label}</span>
-                            <div className="flex items-center justify-between gap-1">
-                              <span className="font-mono-num font-bold text-[#1C1613] group-hover:text-[#C84B24]">
-                                {item.word}
-                              </span>
-                              <Volume2 className="w-3 h-3 text-[#AFAFAF] group-hover:text-[#C84B24] shrink-0" />
+                      {isFrench ? (
+                        <div className="space-y-2">
+                          <div className="text-xs font-semibold text-[#5C4D43]">
+                            Exemple en Contexte :
+                          </div>
+                          <div className="p-3 bg-white rounded-xl border border-[#E6DFD3] flex items-center justify-between gap-3">
+                            <div className="space-y-0.5">
+                              <div className="text-sm font-black text-[#1C1613]">
+                                {(entry as unknown as FrenchDictionaryEntry).exampleSagelo || entry.root}
+                              </div>
+                              <div className="text-xs text-[#5C4D43]">
+                                {(entry as unknown as FrenchDictionaryEntry).exampleEnglish || entry.meaning}
+                              </div>
                             </div>
-                            <span className="font-mono text-[9px] font-extrabold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD] inline-block mt-0.5">
-                              {getWordPhonetic(item.word).display}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                      <div className="pt-1">
-                        <CeremonialWordRenderer text={entry.root} size={44} />
-                      </div>
+                            <button
+                              onClick={() => handleSpeakPhrase((entry as unknown as FrenchDictionaryEntry).exampleSagelo || entry.root)}
+                              className="px-3 py-1.5 rounded-lg bg-[#F0FDF4] border border-[#86EFAC] text-[#166534] text-xs font-bold flex items-center gap-1.5 hover:bg-[#DCFCE7] transition-all cursor-pointer"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                              <span>Écouter</span>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="text-xs font-semibold text-[#5C4D43]">
+                            {entry.isLoanword
+                              ? 'Invariable Loanword (Kept whole out of respect for origin)'
+                              : `All 5 Word-Building Endings + Agentive (-ari) for "${entry.root}":`}
+                          </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                            {[
+                              { label: 'Noun (-a)', word: derived.noun },
+                              { label: 'Adjective (-e)', word: derived.adjective },
+                              { label: 'Verb (-i)', word: derived.verb },
+                              { label: 'Abstract (-o)', word: derived.abstractNoun },
+                              { label: 'Place (-u)', word: derived.place },
+                              { label: 'Person (-ari)', word: derived.agentive },
+                            ].map(item => (
+                              <button
+                                key={item.label}
+                                onClick={() => handleSpeakPhrase(item.word)}
+                                className="p-2 rounded-lg bg-white border border-[#E6DFD3] hover:border-[#C84B24] text-left transition-all group cursor-pointer shadow-2xs"
+                              >
+                                <span className="text-[#8C7A6B] block text-[10px]">{item.label}</span>
+                                <div className="flex items-center justify-between gap-1">
+                                  <span className="font-mono-num font-bold text-[#1C1613] group-hover:text-[#C84B24]">
+                                    {item.word}
+                                  </span>
+                                  <Volume2 className="w-3 h-3 text-[#AFAFAF] group-hover:text-[#C84B24] shrink-0" />
+                                </div>
+                                <span className="font-mono text-[9px] font-extrabold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD] inline-block mt-0.5">
+                                  {getWordPhonetic(item.word).display}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                          <div className="pt-1">
+                            <CeremonialWordRenderer text={entry.root} size={44} />
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -289,7 +343,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
       {subTab === 'phrasebook' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-6">
-            {PHRASEBOOK_CHAPTERS.map(chapter => (
+            {activePhrasebook.map((chapter: any) => (
               <div
                 key={chapter.id}
                 className="bg-white border border-[#E6DFD3] rounded-2xl p-6 space-y-4"
@@ -297,7 +351,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                 <div className="border-b border-[#E6DFD3] pb-3 flex items-center justify-between">
                   <div>
                     <div className="text-xs font-mono-num text-[#C84B24] font-semibold">
-                      Part VI · Chapter {chapter.chapterNumber}
+                      {isFrench ? 'Guide Pratique' : 'Part VI'} · Chapter {chapter.chapterNumber}
                     </div>
                     <h3 className="text-xl font-display font-semibold text-[#1C1613]">
                       {chapter.title}
@@ -307,7 +361,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                 </div>
 
                 <div className="divide-y divide-[#E6DFD3]">
-                  {chapter.phrases.map((p, idx) => {
+                  {chapter.phrases.map((p: any, idx: number) => {
                     const isJustSaved = savedToast === p.sagelo;
                     return (
                       <div
@@ -319,9 +373,11 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                             <span className="text-base font-display font-semibold text-[#1C1613]">
                               {p.sagelo}
                             </span>
-                            <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
-                              {getPhrasePhoneticDisplay(p.sagelo)}
-                            </span>
+                            {!isFrench && (
+                              <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                                {getPhrasePhoneticDisplay(p.sagelo)}
+                              </span>
+                            )}
                           </div>
                           <div className="text-sm text-[#5C4D43]">{p.english}</div>
                           {p.note && (

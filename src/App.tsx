@@ -29,6 +29,9 @@ import {
   Gift,
   LogIn,
   LogOut,
+  Layers,
+  GitBranch,
+  ArrowRight,
 } from 'lucide-react';
 import type { UserAccount, CommunityPost } from './types';
 import {
@@ -38,6 +41,12 @@ import {
   UNIT_CHECKPOINTS,
   UnitCheckpoint,
 } from './data/sageloCurriculum';
+import { BranchingSkillTreesView } from './components/BranchingSkillTreesView';
+import {
+  SKILL_BRANCHES,
+  isBranchUnlocked,
+  SkillBranch,
+} from './data/sageloBranchingPaths';
 import { LessonSessionModal } from './components/LessonSessionModal';
 import { UnitCheckpointModal } from './components/UnitCheckpointModal';
 import { CartoonCharacter } from './components/CartoonCharacters';
@@ -175,9 +184,17 @@ const UNIT_THEMES = [
   },
 ];
 
+const BRANCH_BY_UNIT: Record<string, SkillBranch | undefined> = {
+  'unit-1': SKILL_BRANCHES.find(b => b.id === 'branch-conversational'),
+  'unit-2': SKILL_BRANCHES.find(b => b.id === 'branch-healing'),
+  'unit-3': SKILL_BRANCHES.find(b => b.id === 'branch-business'),
+  'unit-5': SKILL_BRANCHES.find(b => b.id === 'branch-philosophy'),
+};
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<
     | 'learn'
+    | 'branches'
     | 'practice'
     | 'leaderboards'
     | 'quests'
@@ -187,6 +204,8 @@ export default function App() {
     | 'dictionary'
     | 'profile'
   >('learn');
+
+  const [learnViewMode, setLearnViewMode] = useState<'main_path' | 'branches'>('main_path');
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('signup');
@@ -562,15 +581,40 @@ export default function App() {
           {/* Navigation Items */}
           <nav className="space-y-1.5">
             <button
-              onClick={() => setActiveTab('learn')}
+              onClick={() => {
+                setActiveTab('learn');
+                setLearnViewMode('main_path');
+              }}
               className={`w-full flex items-center gap-4 px-4 py-3 rounded-2xl font-black text-sm uppercase tracking-wider transition-all ${
-                activeTab === 'learn'
+                activeTab === 'learn' && learnViewMode === 'main_path'
                   ? 'bg-[#58CC02]/15 text-[#58CC02] border-2 border-[#58CC02]'
                   : 'text-[#777777] hover:bg-[#F7F7F7]'
               }`}
             >
               <Compass className="w-6 h-6 text-[#58CC02]" />
               <span>LEARN</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab('learn');
+                setLearnViewMode('branches');
+              }}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl font-black text-sm uppercase tracking-wider transition-all ${
+                activeTab === 'branches' || (activeTab === 'learn' && learnViewMode === 'branches')
+                  ? 'bg-[#1E293B] text-[#38BDF8] border-2 border-[#38BDF8]'
+                  : 'text-[#777777] hover:bg-[#F7F7F7]'
+              }`}
+            >
+              <div className="flex items-center gap-4">
+                <Layers className="w-6 h-6 text-[#38BDF8]" />
+                <span>SKILL TREES</span>
+              </div>
+              {SKILL_BRANCHES.filter((b) => isBranchUnlocked(b, user.completedLessons).isUnlocked).length > 0 && (
+                <span className="px-2 py-0.5 rounded-full bg-[#58CC02] text-white text-[10px] font-black">
+                  {SKILL_BRANCHES.filter((b) => isBranchUnlocked(b, user.completedLessons).isUnlocked).length}
+                </span>
+              )}
             </button>
 
             <button
@@ -781,14 +825,76 @@ export default function App() {
         <div className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 pb-24 md:pb-8 overflow-x-hidden">
           {/* CENTER COLUMN: ACTIVE TAB CONTENT */}
           <main className="lg:col-span-8 space-y-8">
-            {/* TAB 1: THE DUOLINGO WINDING PATH */}
-            {activeTab === 'learn' && (
-              <div className="space-y-12">
-                {/* Loop across all 8 Units */}
-                {SAGELO_CURRICULUM.map((unit, unitIndex) => {
-                  const theme = UNIT_THEMES[unitIndex % UNIT_THEMES.length];
-                  return (
-                    <div key={unit.id} className="space-y-8">
+            {/* TAB 1: THE DUOLINGO WINDING PATH & BRANCHING SKILL TREES */}
+            {(activeTab === 'learn' || activeTab === 'branches') && (
+              <div className="space-y-8">
+                {/* DUAL-MODE VIEW SWITCHER */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-2.5 rounded-3xl border-2 border-b-6 border-[#E5E5E5] shadow-xs">
+                  <div className="flex items-center gap-1.5 p-1 bg-[#F7F7F7] rounded-2xl border border-[#E5E5E5] w-full sm:w-auto">
+                    <button
+                      onClick={() => {
+                        setActiveTab('learn');
+                        setLearnViewMode('main_path');
+                      }}
+                      className={`flex-1 sm:flex-initial px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                        activeTab !== 'branches' && learnViewMode === 'main_path'
+                          ? 'bg-[#58CC02] border-b-2 border-[#46A302] text-white shadow-xs'
+                          : 'text-[#777777] hover:text-[#3C3C3C]'
+                      }`}
+                    >
+                      <Compass className="w-4 h-4" />
+                      <span>Main Path (8 Units)</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveTab('learn');
+                        setLearnViewMode('branches');
+                      }}
+                      className={`flex-1 sm:flex-initial px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                        activeTab === 'branches' || (activeTab === 'learn' && learnViewMode === 'branches')
+                          ? 'bg-[#1E293B] border-b-2 border-[#0F172A] text-[#38BDF8] shadow-xs'
+                          : 'text-[#777777] hover:text-[#3C3C3C]'
+                      }`}
+                    >
+                      <Layers className="w-4 h-4 text-[#38BDF8]" />
+                      <span>Skill Trees</span>
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+                        SKILL_BRANCHES.filter((b) => isBranchUnlocked(b, user.completedLessons).isUnlocked).length > 0
+                          ? 'bg-[#38BDF8] text-[#0F172A]'
+                          : 'bg-[#E2E8F0] text-[#64748B]'
+                      }`}>
+                        {SKILL_BRANCHES.filter((b) => isBranchUnlocked(b, user.completedLessons).isUnlocked).length} Unlocked
+                      </span>
+                    </button>
+                  </div>
+
+                  <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-[#777777] pr-2">
+                    <span>
+                      {learnViewMode === 'branches' || activeTab === 'branches'
+                        ? '🌟 Specialized topic trees: Business, Conversation, Healing & Philosophy'
+                        : '💡 Complete foundational units to branch into specialized topics'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* VIEW A: BRANCHING SKILL TREES VIEW */}
+                {activeTab === 'branches' || (activeTab === 'learn' && learnViewMode === 'branches') ? (
+                  <BranchingSkillTreesView
+                    completedLessonIds={user.completedLessons}
+                    onStartLesson={(branchLesson) => setActiveLesson(branchLesson)}
+                    onJumpToUnit={() => {
+                      setActiveTab('learn');
+                      setLearnViewMode('main_path');
+                    }}
+                  />
+                ) : (
+                  /* VIEW B: MAIN DUOLINGO WINDING PATH */
+                  <div className="space-y-12">
+                    {/* Loop across all 8 Units */}
+                    {SAGELO_CURRICULUM.map((unit, unitIndex) => {
+                      const theme = UNIT_THEMES[unitIndex % UNIT_THEMES.length];
+                      return (
+                        <div key={unit.id} className="space-y-8">
                       {/* DUOLINGO UNIT HEADER CARD */}
                       <div
                         className={`${theme.bg} ${theme.border} border-b-6 text-white rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4`}
@@ -1044,10 +1150,138 @@ export default function App() {
                             </div>
                           </div>
                         )}
+
+                        {/* BRANCHING SKILL TREE OUTPOST GATEWAY (Unlocks specialized branches after this unit) */}
+                        {(() => {
+                          const branchForUnit = BRANCH_BY_UNIT[unit.id];
+                          if (!branchForUnit) return null;
+                          const branchStatus = isBranchUnlocked(branchForUnit, user.completedLessons);
+                          const branchCompletedCount = branchForUnit.lessons.filter((l) =>
+                            user.completedLessons.includes(l.id)
+                          ).length;
+                          const isBranchMastered =
+                            branchForUnit.lessons.length > 0 &&
+                            branchCompletedCount === branchForUnit.lessons.length;
+
+                          return (
+                            <div className="pt-6 pb-2 w-full max-w-md mx-auto">
+                              {/* Curved branching connector */}
+                              <div className="flex flex-col items-center">
+                                <div className="w-0.5 h-6 border-l-2 border-dashed border-[#AFAFAF]" />
+                                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E5E5E5] text-[10px] font-black uppercase tracking-wider text-[#64748B] shadow-2xs mb-3">
+                                  <GitBranch className="w-3.5 h-3.5 text-[#38BDF8]" />
+                                  <span>Branching Skill Path</span>
+                                </div>
+                              </div>
+
+                              <div
+                                className={`rounded-3xl border-2 border-b-6 transition-all p-5 shadow-sm overflow-hidden relative ${
+                                  branchStatus.isUnlocked
+                                    ? 'bg-gradient-to-br from-white via-[#F8FAFC] to-white border-[#38BDF8] hover:border-[#0284C7] shadow-md ring-4 ring-[#38BDF8]/10'
+                                    : 'bg-[#F8FAFC] border-[#E2E8F0]'
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-3 relative z-10">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-2xl bg-white border-2 border-black/5 shadow-sm flex items-center justify-center text-2xl shrink-0">
+                                      {branchForUnit.icon}
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="text-[10px] font-black uppercase tracking-wider text-[#64748B]">
+                                          Specialized Track
+                                        </span>
+                                        {isBranchMastered && (
+                                          <span className="px-1.5 py-0.2 rounded bg-[#58CC02] text-white text-[9px] font-black uppercase">
+                                            Mastered
+                                          </span>
+                                        )}
+                                      </div>
+                                      <h4 className="text-base font-black text-[#0F172A] leading-tight">
+                                        {branchForUnit.title}
+                                      </h4>
+                                    </div>
+                                  </div>
+
+                                  {branchStatus.isUnlocked ? (
+                                    <span className="px-2.5 py-1 rounded-xl bg-[#DCFCE7] border border-[#86EFAC] text-[#166534] text-xs font-black flex items-center gap-1 shrink-0">
+                                      <Sparkles className="w-3.5 h-3.5 text-[#58CC02]" />
+                                      <span>Unlocked</span>
+                                    </span>
+                                  ) : (
+                                    <span className="px-2.5 py-1 rounded-xl bg-black/5 border border-black/10 text-[#64748B] text-xs font-black flex items-center gap-1 shrink-0">
+                                      <Lock className="w-3.5 h-3.5" />
+                                      <span>Locked</span>
+                                    </span>
+                                  )}
+                                </div>
+
+                                <p className="text-xs font-bold text-[#475569] mt-3 relative z-10 leading-relaxed">
+                                  {branchForUnit.tagline}
+                                </p>
+
+                                <div className="mt-4 pt-3 border-t border-black/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                  {branchStatus.isUnlocked ? (
+                                    <div className="space-y-1.5 w-full">
+                                      <div className="flex items-center justify-between text-[11px] font-bold text-[#15803D]">
+                                        <span>
+                                          {branchCompletedCount} of {branchForUnit.lessons.length} branch lessons completed
+                                        </span>
+                                        <span className="text-xs">🌳</span>
+                                      </div>
+                                      <div className="flex items-center gap-2 flex-wrap">
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setActiveTab('learn');
+                                            setLearnViewMode('branches');
+                                          }}
+                                          className="px-3.5 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1.5 active:translate-y-0.5 transition-all cursor-pointer shadow-xs"
+                                        >
+                                          <Layers className="w-3.5 h-3.5 text-[#38BDF8]" />
+                                          <span>Open Skill Tree</span>
+                                        </button>
+                                        {branchForUnit.lessons[0] && (
+                                          <button
+                                            type="button"
+                                            onClick={() => setActiveLesson(branchForUnit.lessons[0])}
+                                            className="px-3.5 py-2 bg-[#58CC02] hover:bg-[#61E002] border-b-2 border-[#46A302] text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1.5 active:translate-y-0.5 transition-all cursor-pointer shadow-xs"
+                                          >
+                                            <span>Start Lesson 1</span>
+                                            <ArrowRight className="w-3.5 h-3.5 stroke-[3]" />
+                                          </button>
+                                        )}
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div className="w-full space-y-2">
+                                      <div className="flex items-center justify-between text-xs font-bold text-[#64748B]">
+                                        <span>
+                                          Complete {branchForUnit.unlockRequirement.requiredCompletedCount} lessons in Unit {unitIndex}
+                                        </span>
+                                        <span className="font-mono">
+                                          {branchStatus.completedCount} / {branchStatus.requiredCount}
+                                        </span>
+                                      </div>
+                                      <div className="w-full h-2.5 bg-[#E2E8F0] rounded-full overflow-hidden">
+                                        <div
+                                          className="h-full bg-[#38BDF8] rounded-full transition-all duration-300"
+                                          style={{ width: `${branchStatus.progressPercent}%` }}
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })()}
                       </div>
                     </div>
                   );
                 })}
+              </div>
+                )}
               </div>
             )}
 
@@ -1696,13 +1930,34 @@ export default function App() {
       {/* 3. MOBILE BOTTOM NAVIGATION BAR */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#E5E5E5] flex justify-around p-2 z-40 max-w-full">
         <button
-          onClick={() => setActiveTab('learn')}
+          onClick={() => {
+            setActiveTab('learn');
+            setLearnViewMode('main_path');
+          }}
           className={`p-2 rounded-xl flex flex-col items-center gap-1 ${
-            activeTab === 'learn' ? 'text-[#58CC02]' : 'text-[#AFAFAF]'
+            activeTab === 'learn' && learnViewMode === 'main_path' ? 'text-[#58CC02]' : 'text-[#AFAFAF]'
           }`}
         >
           <Compass className="w-5 h-5" />
           <span className="text-[10px] font-black uppercase">Learn</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('learn');
+            setLearnViewMode('branches');
+          }}
+          className={`p-2 rounded-xl flex flex-col items-center gap-1 relative ${
+            activeTab === 'branches' || (activeTab === 'learn' && learnViewMode === 'branches')
+              ? 'text-[#38BDF8]'
+              : 'text-[#AFAFAF]'
+          }`}
+        >
+          <Layers className="w-5 h-5" />
+          <span className="text-[10px] font-black uppercase">Trees</span>
+          {SKILL_BRANCHES.filter((b) => isBranchUnlocked(b, user.completedLessons).isUnlocked).length > 0 && (
+            <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-[#58CC02]" />
+          )}
         </button>
 
         <button

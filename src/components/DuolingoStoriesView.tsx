@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { playSageloPhrase } from '../utils/sageloAudio';
 import { getPhrasePhoneticDisplay } from '../utils/sageloPhonetics';
+import { FRENCH_STORIES } from '../data/frenchStories';
 
 interface StoryDialogueLine {
   speaker: string;
@@ -202,11 +203,17 @@ export const DUOLINGO_STORIES: DuolingoStory[] = [
 
 interface DuolingoStoriesViewProps {
   onCompleteStory: (storyId: string, xp: number) => void;
+  activeCourse?: 'sagelo' | 'french';
 }
 
 export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
   onCompleteStory,
+  activeCourse = 'sagelo',
 }) => {
+  const isFrench = activeCourse === 'french';
+  const targetLang = isFrench ? 'french' : 'sagelo';
+  const storiesList = isFrench ? FRENCH_STORIES : DUOLINGO_STORIES;
+
   const [activeStory, setActiveStory] = useState<DuolingoStory | null>(null);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -223,7 +230,7 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
     // Play first line
     const first = story.lines[0];
     if (first && first.sagelo) {
-      playSageloPhrase(first.sagelo);
+      playSageloPhrase(first.sagelo, { lang: targetLang });
     }
   };
 
@@ -238,7 +245,7 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
 
       const nextLine = activeStory.lines[nextIdx];
       if (nextLine && nextLine.sagelo && !nextLine.isQuestion) {
-        playSageloPhrase(nextLine.sagelo);
+        playSageloPhrase(nextLine.sagelo, { lang: targetLang });
       }
     } else {
       setStoryFinished(true);
@@ -266,15 +273,17 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
             <BookOpen className="w-4 h-4" /> Duolingo Stories
           </div>
           <h2 className="text-3xl font-black text-[#3C3C3C]">
-            Interactive Sagelo Tales
+            {isFrench ? 'Histoires Interactives en Français 🥐' : 'Interactive Sagelo Tales 🌍'}
           </h2>
           <p className="text-sm font-bold text-[#777777] max-w-md mx-auto">
-            Listen to lively African dialogues, tap to reveal words, and answer comprehension checks along the way!
+            {isFrench
+              ? 'Listen to lively French dialogues, learn conversational expressions, and answer comprehension checks along the way!'
+              : 'Listen to lively African dialogues, tap to reveal words, and answer comprehension checks along the way!'}
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
-          {DUOLINGO_STORIES.map(story => (
+          {storiesList.map((story) => (
             <div
               key={story.id}
               className="bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-2xl p-5 flex items-center justify-between gap-4 transition-all hover:scale-[1.01] shadow-xs cursor-pointer"
@@ -369,18 +378,20 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <button
-                          onClick={() => playSageloPhrase(line.sagelo)}
+                          onClick={() => playSageloPhrase(line.sagelo, { lang: targetLang })}
                           className="w-7 h-7 rounded-full bg-[#1CB0F6]/15 hover:bg-[#1CB0F6]/25 text-[#1CB0F6] flex items-center justify-center shrink-0 active:scale-95 transition-transform"
-                          title="Listen to phonetic audio"
+                          title={`Listen to ${isFrench ? 'French' : 'Sagelo'} audio`}
                         >
                           <Volume2 className="w-3.5 h-3.5" />
                         </button>
                         <p className="text-base font-extrabold text-[#3C3C3C]">
                           {line.sagelo}
                         </p>
-                        <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
-                          {getPhrasePhoneticDisplay(line.sagelo)}
-                        </span>
+                        {!isFrench && (
+                          <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                            {getPhrasePhoneticDisplay(line.sagelo)}
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs font-bold text-[#777777] pl-9">
                         {line.english}
