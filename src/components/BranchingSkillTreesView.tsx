@@ -63,21 +63,21 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
   return (
     <div className="space-y-8">
       {/* HERO BANNER FOR SPECIALIZED TOPIC TREES */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#020617] text-white p-6 sm:p-8 border-2 border-b-6 border-[#334155] shadow-xl">
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-gradient-to-br from-[#38BDF8]/20 to-[#818CF8]/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#064E3B] via-[#065F46] to-[#0F766E] text-white p-6 sm:p-8 border-2 border-b-6 border-[#047857] shadow-xl">
+        <div className="absolute -top-12 -right-12 w-48 h-48 bg-gradient-to-br from-[#10B981]/25 to-[#F59E0B]/20 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#38BDF8]/20 text-[#38BDF8] border border-[#38BDF8]/40 flex items-center gap-1.5">
+              <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#F59E0B]/20 text-[#FDE047] border border-[#F59E0B]/40 flex items-center gap-1.5 shadow-xs">
                 <Compass className="w-3.5 h-3.5" />
                 Branching Skill Trees
               </span>
-              <span className="text-xs font-bold text-[#94A3B8]">
+              <span className="text-xs font-bold text-[#A7F3D0]">
                 {totalUnlockedCount} of {targetBranches.length} Paths Unlocked
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-xl text-xs font-bold text-white border border-white/20">
+            <div className="flex items-center gap-1.5 bg-black/20 backdrop-blur-xs px-3 py-1 rounded-xl text-xs font-bold text-[#FEF3C7] border border-[#F59E0B]/30">
               <span>{isFrench ? '🥐 Francophone Mastery' : '🌟 Deep Masteries'}</span>
             </div>
           </div>
@@ -88,7 +88,7 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
                 ? 'French Specialty Branches & Pragmatic Paths'
                 : 'Branch Out Beyond the Core Path'}
             </h2>
-            <p className="text-sm font-semibold text-[#CBD5E1] leading-relaxed">
+            <p className="text-sm font-semibold text-[#D1FAE5] leading-relaxed">
               {isFrench
                 ? 'Complete foundational French units to unlock practical specialization trees — from Parisian café culture and metro navigation to professional French and modern slang.'
                 : 'Complete foundational units on the main path to unlock specialized skill trees — from marketplace trade & negotiation to traditional healing and deep philosophy.'}
@@ -98,31 +98,31 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
           {/* VISUAL BRANCHING ROADMAP PREVIEW (TREE DIAGRAM) */}
           <div className="pt-2">
             <div className="bg-black/30 backdrop-blur-xs rounded-2xl p-4 border border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
-              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-[10px] uppercase font-mono text-[#94A3B8]">Root Unit 1</div>
+              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-[10px] uppercase font-mono text-[#A7F3D0]">Root Unit 1</div>
                 <div className="text-base">{isFrench ? '☕' : '🗣️'}</div>
-                <div className="font-bold text-[#7DD3FC] line-clamp-1">
+                <div className="font-bold text-[#6EE7B7] line-clamp-1">
                   {isFrench ? 'Café & Bistro' : 'Conversational'}
                 </div>
               </div>
-              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-[10px] uppercase font-mono text-[#94A3B8]">Root Unit 2</div>
+              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-[10px] uppercase font-mono text-[#A7F3D0]">Root Unit 2</div>
                 <div className="text-base">{isFrench ? '🚇' : '🌿'}</div>
-                <div className="font-bold text-[#6EE7B7] line-clamp-1">
+                <div className="font-bold text-[#5EEAD4] line-clamp-1">
                   {isFrench ? 'Paris Métro' : "Healer's Circle"}
                 </div>
               </div>
-              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-[10px] uppercase font-mono text-[#94A3B8]">Root Unit 3</div>
+              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-[10px] uppercase font-mono text-[#A7F3D0]">Root Unit 3</div>
                 <div className="text-base">{isFrench ? '💼' : '🪙'}</div>
-                <div className="font-bold text-[#FCD34D] line-clamp-1">
+                <div className="font-bold text-[#FDE047] line-clamp-1">
                   {isFrench ? 'Business French' : 'Business & Trade'}
                 </div>
               </div>
-              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-[10px] uppercase font-mono text-[#94A3B8]">Root Unit 5</div>
+              <div className="space-y-1 p-2 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-[10px] uppercase font-mono text-[#A7F3D0]">Root Unit 5</div>
                 <div className="text-base">{isFrench ? '🎭' : '🔮'}</div>
-                <div className="font-bold text-[#C4B5FD] line-clamp-1">
+                <div className="font-bold text-[#FBBF24] line-clamp-1">
                   {isFrench ? 'Slang & Verlan' : 'Sage Reasoning'}
                 </div>
               </div>
@@ -153,10 +153,10 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
           <button
             key={tab.id}
             onClick={() => setSelectedCategory(tab.id as typeof selectedCategory)}
-            className={`px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider shrink-0 transition-all flex items-center gap-1.5 active:translate-y-0.5 border-2 ${
+            className={`px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider shrink-0 transition-all flex items-center gap-1.5 active:translate-y-0.5 border-2 cursor-pointer ${
               selectedCategory === tab.id
-                ? 'bg-[#1E293B] border-[#1E293B] text-white shadow-sm'
-                : 'bg-white border-[#E5E5E5] text-[#777777] hover:border-[#CBD5E1] hover:text-[#3C3C3C]'
+                ? 'bg-[#059669] border-[#047857] text-white shadow-sm'
+                : 'bg-white border-[#E2E8F0] text-[#64748B] hover:border-[#10B981] hover:text-[#065F46]'
             }`}
           >
             <span>{tab.icon}</span>
@@ -273,8 +273,8 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
                               onClick={() => onStartLesson(bLesson)}
                               className={`px-4 py-2 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shrink-0 active:translate-y-0.5 cursor-pointer shadow-xs ${
                                 isLessonDone
-                                  ? 'bg-[#58CC02] hover:bg-[#46A302] text-white border-b-2 border-[#388E00]'
-                                  : 'bg-[#1CB0F6] hover:bg-[#0284C7] text-white border-b-2 border-[#0369A1]'
+                                  ? 'bg-[#059669] hover:bg-[#047857] text-white border-b-2 border-[#065F46]'
+                                  : 'bg-[#0D9488] hover:bg-[#0F766E] text-white border-b-2 border-[#115E59]'
                               }`}
                             >
                               <span>{isLessonDone ? 'Review' : 'Start'}</span>
@@ -290,7 +290,7 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
                   <div className="space-y-4 my-auto py-2">
                     <div className="p-4 rounded-2xl bg-white border-2 border-[#E2E8F0] space-y-3">
                       <div className="flex items-start gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-[#F1F5F9] border border-[#CBD5E1] flex items-center justify-center shrink-0 text-[#64748B]">
+                        <div className="w-8 h-8 rounded-xl bg-[#F8FAFC] border border-[#CBD5E1] flex items-center justify-center shrink-0 text-[#64748B]">
                           <Lock className="w-4 h-4" />
                         </div>
                         <div className="space-y-1">
@@ -307,13 +307,13 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between text-xs font-black">
                           <span className="text-[#64748B]">Prerequisite Progress</span>
-                          <span className="text-[#0284C7]">
+                          <span className="text-[#059669]">
                             {status.completedCount} / {status.requiredCount} Lessons
                           </span>
                         </div>
                         <div className="h-3 bg-[#E2E8F0] rounded-full overflow-hidden p-0.5">
                           <div
-                            className="h-full bg-[#0284C7] rounded-full transition-all duration-300"
+                            className="h-full bg-gradient-to-r from-[#059669] via-[#0D9488] to-[#F59E0B] rounded-full transition-all duration-300"
                             style={{ width: `${Math.max(8, status.progressPercent)}%` }}
                           />
                         </div>
@@ -323,7 +323,7 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
                         <button
                           type="button"
                           onClick={() => onJumpToUnit(branch.unlockRequirement.unitNumber)}
-                          className="w-full py-2.5 rounded-xl bg-[#F8FAFC] hover:bg-[#F1F5F9] border border-[#CBD5E1] text-[#334155] font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 active:translate-y-0.5 cursor-pointer"
+                          className="w-full py-2.5 rounded-xl bg-[#F8FAFC] hover:bg-[#ECFDF5] border border-[#CBD5E1] hover:border-[#10B981] text-[#065F46] font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 active:translate-y-0.5 cursor-pointer"
                         >
                           <span>Jump to {branch.unlockRequirement.unitName.split(':')[0]}</span>
                           <ChevronRight className="w-3.5 h-3.5" />

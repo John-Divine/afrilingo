@@ -15,8 +15,8 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #FFFFFF;
-    color: #3C3C3C;
+    background-color: #150E09;
+    color: #FEF3C7;
     letter-spacing: -0.01em;
   }
 
@@ -32,74 +32,102 @@
   }
 }
 
-/* Duolingo Signature 3D Buttons & Card Utilities */
+/* Emerald, Jade & Gold 3D Duolingo Button Styles */
+.duo-btn-emerald,
 .duo-btn-green {
-  background-color: #58CC02;
-  border-bottom: 4px solid #46A302;
-  color: #FFFFFF;
+  background-color: #059669;
+  border-bottom: 4px solid #047857;
+  color: #FEF3C7;
   font-weight: 800;
   border-radius: 1rem;
   transition: all 0.1s ease-in-out;
 }
+.duo-btn-emerald:hover,
 .duo-btn-green:hover {
-  background-color: #61E002;
+  background-color: #10B981;
 }
+.duo-btn-emerald:active,
 .duo-btn-green:active {
   transform: translateY(2px);
   border-bottom-width: 2px;
 }
 
+.duo-btn-jade,
 .duo-btn-blue {
-  background-color: #1CB0F6;
-  border-bottom: 4px solid #1899D6;
-  color: #FFFFFF;
+  background-color: #0D9488;
+  border-bottom: 4px solid #0F766E;
+  color: #FEF3C7;
   font-weight: 800;
   border-radius: 1rem;
   transition: all 0.1s ease-in-out;
 }
+.duo-btn-jade:hover,
 .duo-btn-blue:hover {
-  background-color: #24B8FB;
+  background-color: #14B8A6;
 }
+.duo-btn-jade:active,
 .duo-btn-blue:active {
   transform: translateY(2px);
   border-bottom-width: 2px;
 }
 
+.duo-btn-gold {
+  background-color: #F59E0B;
+  border-bottom: 4px solid #D97706;
+  color: #150E09;
+  font-weight: 900;
+  border-radius: 1rem;
+  transition: all 0.1s ease-in-out;
+}
+.duo-btn-gold:hover {
+  background-color: #FBBF24;
+}
+.duo-btn-gold:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* Wood 3D Button (No White Background) */
+.duo-btn-wood,
 .duo-btn-white {
-  background-color: #FFFFFF;
-  border: 2px solid #E5E5E5;
+  background-color: #2A1C14;
+  border: 2px solid #3D2619;
   border-bottom-width: 4px;
-  color: #4B4B4B;
+  color: #FEF3C7;
   font-weight: 800;
   border-radius: 1rem;
   transition: all 0.1s ease-in-out;
 }
+.duo-btn-wood:hover,
 .duo-btn-white:hover {
-  background-color: #F7F7F7;
+  background-color: #362319;
+  border-color: #F59E0B;
 }
+.duo-btn-wood:active,
 .duo-btn-white:active {
   transform: translateY(2px);
   border-bottom-width: 2px;
 }
 
 .duo-card {
-  background-color: #FFFFFF;
-  border: 2px solid #E5E5E5;
+  background-color: #231710;
+  border: 2px solid #3D2619;
   border-radius: 1rem;
+  color: #FEF3C7;
 }
 
-/* Subtle Pan-African Kente / Bogolanfini geometric accent */
+/* Emerald, Jade & Gold Sovereign Accent Border */
 .bogolan-border {
   background-image: repeating-linear-gradient(
     90deg,
-    #58CC02 0px,
-    #58CC02 12px,
-    #FFC800 12px,
-    #FFC800 24px,
-    #FF9600 24px,
-    #FF9600 36px,
-    #1CB0F6 36px,
-    #1CB0F6 48px
+    #059669 0px,
+    #059669 16px,
+    #0D9488 16px,
+    #0D9488 32px,
+    #F59E0B 32px,
+    #F59E0B 48px,
+    #D97706 48px,
+    #D97706 64px
   );
   height: 4px;
 }
