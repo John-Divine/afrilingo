@@ -22,9 +22,9 @@ export const OfflineIndicator: React.FC = () => {
   if (isOnline) return null;
 
   return (
-    <div className="fixed bottom-18 md:bottom-6 left-4 right-4 md:left-auto md:right-6 z-50 flex items-center gap-2.5 rounded-2xl bg-[#FF9600] px-4 py-2.5 text-xs font-black text-white shadow-xl border-2 border-white animate-bounce">
-      <WifiOff className="w-4 h-4 shrink-0" />
-      <span>Offline Mode — Cached lessons and Sagelo dictionary available!</span>
+    <div className="fixed bottom-18 md:bottom-6 left-4 right-4 md:left-auto md:right-6 z-50 flex items-center gap-2.5 rounded-2xl bg-[#F59E0B] px-4 py-2.5 text-xs font-black text-[#1E130D] shadow-xl border-2 border-[#D97706] animate-bounce">
+      <WifiOff className="w-4 h-4 shrink-0 text-[#1E130D]" />
+      <span>Offline Mode — Cached lessons and dictionary available!</span>
     </div>
   );
 };

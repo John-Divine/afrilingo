@@ -87,28 +87,28 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
   };
 
   return (
-    <div className="space-y-8 max-w-full overflow-x-hidden">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E6DFD3] pb-6">
+    <div className="space-y-8 max-w-full overflow-x-hidden text-[#FEF3C7]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#3D2619] pb-6">
         <div className="space-y-1">
-          <div className="text-xs text-[#5C4D43]">
+          <div className="text-xs text-[#D4A373]">
             {isFrench
               ? 'Le Lexique et Guide Pratique de la Langue Française'
               : 'Parts III, V, VI & VIII · Living Reference & Practical Phrasebook'}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-display font-semibold text-[#1C1613]">
+          <h1 className="text-2xl sm:text-3xl font-display font-semibold text-[#FEF3C7]">
             {isFrench
               ? 'French Dictionary, Phrasebook & Grammar Guide 🥐'
               : 'Sagelo Dictionary, Phrasebook & Grammar Reference 🌍'}
           </h1>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1 p-1.5 bg-[#F3EFE6] border border-[#E6DFD3] rounded-xl">
+        <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-[#1E130D] border border-[#3D2619] rounded-2xl">
           <button
             onClick={() => setSubTab('dictionary')}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap ${
+            className={`px-3.5 py-2 text-xs font-black rounded-xl transition-colors inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               subTab === 'dictionary'
-                ? 'bg-[#C84B24] text-white'
-                : 'text-[#5C4D43] hover:text-[#1C1613]'
+                ? 'bg-[#059669] text-[#FEF3C7] shadow-xs'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             <BookMarked className="w-3.5 h-3.5" />
@@ -116,10 +116,10 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
           </button>
           <button
             onClick={() => setSubTab('phrasebook')}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap ${
+            className={`px-3.5 py-2 text-xs font-black rounded-xl transition-colors inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               subTab === 'phrasebook'
-                ? 'bg-[#C84B24] text-white'
-                : 'text-[#5C4D43] hover:text-[#1C1613]'
+                ? 'bg-[#0D9488] text-[#FEF3C7] shadow-xs'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             <Compass className="w-3.5 h-3.5" />
@@ -127,10 +127,10 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
           </button>
           <button
             onClick={() => setSubTab('appendix')}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap ${
+            className={`px-3.5 py-2 text-xs font-black rounded-xl transition-colors inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               subTab === 'appendix'
-                ? 'bg-[#C84B24] text-white'
-                : 'text-[#5C4D43] hover:text-[#1C1613]'
+                ? 'bg-[#F59E0B] text-[#1E130D] shadow-xs'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
@@ -143,23 +143,23 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[#8C7A6B] absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#A38260] absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search English or Sagelo root (e.g., wisdom, water, sag, nyango, peace)..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-[#E6DFD3] text-sm text-[#1C1613] focus:outline-none focus:border-[#C84B24]"
+                className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-[#1E130D] border-2 border-[#3D2619] text-sm text-[#FEF3C7] placeholder-[#8A6C53] focus:outline-hidden focus:border-[#059669]"
               />
             </div>
 
             <select
               value={selectedCategory}
               onChange={e => setSelectedCategory(e.target.value)}
-              className="px-4 py-2.5 rounded-xl bg-white border border-[#E6DFD3] text-sm text-[#1C1613] focus:outline-none focus:border-[#C84B24]"
+              className="px-4 py-2.5 rounded-2xl bg-[#1E130D] border-2 border-[#3D2619] text-sm text-[#FEF3C7] focus:outline-hidden focus:border-[#059669] cursor-pointer"
             >
               {categories.map(cat => (
-                <option key={cat} value={cat}>
+                <option key={cat} value={cat} className="bg-[#1E130D] text-[#FEF3C7]">
                   {cat === 'All' ? 'All Semantic Themes' : cat}
                 </option>
               ))}
@@ -175,35 +175,35 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
               return (
                 <div
                   key={`${entry.root}-${entry.category}`}
-                  className="bg-white border border-[#E6DFD3] rounded-2xl p-5 flex flex-col justify-between gap-4"
+                  className="bg-[#1E130D] border-2 border-b-4 border-[#3D2619] hover:border-[#059669] rounded-2xl p-5 flex flex-col justify-between gap-4 transition-all shadow-xs"
                 >
                   <div className="space-y-2">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-xl font-display font-semibold text-[#1C1613]">
+                          <span className="text-xl font-display font-semibold text-[#FEF3C7]">
                             {entry.root}
                           </span>
                           {isFrench ? (
                             (entry as unknown as FrenchDictionaryEntry).pronunciation && (
-                              <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                              <span className="font-mono text-xs font-bold text-[#14B8A6] bg-[#241710] px-2 py-0.5 rounded-lg border border-[#0D9488]/40">
                                 {(entry as unknown as FrenchDictionaryEntry).pronunciation}
                               </span>
                             )
                           ) : (
-                            <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                            <span className="font-mono text-xs font-bold text-[#14B8A6] bg-[#241710] px-2 py-0.5 rounded-lg border border-[#0D9488]/40">
                               {getWordPhonetic(entry.root).display}
                             </span>
                           )}
-                          <span className="text-xs text-[#8C7A6B]" aria-hidden="true">
+                          <span className="text-xs text-[#8A6C53]" aria-hidden="true">
                             ·
                           </span>
-                          <span className="text-sm font-medium text-[#C84B24]">
+                          <span className="text-sm font-black text-[#F59E0B]">
                             {entry.meaning}
                           </span>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-1.5 text-xs text-[#5C4D43] mt-1">
+                        <div className="flex flex-wrap items-center gap-1.5 text-xs text-[#D4A373] mt-1">
                           <span>{entry.category}</span>
                           {entry.originNote && (
                             <>
@@ -214,7 +214,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                           {isMastered && (
                             <>
                               <span aria-hidden="true">·</span>
-                              <span className="text-[#1B6B4A] font-semibold">
+                              <span className="text-[#10B981] font-black">
                                 ● Mastered
                               </span>
                             </>
@@ -225,10 +225,10 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                       <div className="flex items-center gap-1.5 shrink-0">
                         <button
                           onClick={() => handleSpeakPhrase(entry.root)}
-                          className={`p-2 rounded-lg transition-colors ${
+                          className={`p-2 rounded-xl transition-colors cursor-pointer ${
                             speakingPhrase === entry.root
-                              ? 'bg-[#C84B24] text-white shadow-xs'
-                              : 'bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white'
+                              ? 'bg-[#059669] text-[#FEF3C7] shadow-xs'
+                              : 'bg-[#241710] hover:bg-[#059669] text-[#FEF3C7]'
                           }`}
                           aria-label={`Pronounce ${entry.root}`}
                         >
@@ -238,27 +238,27 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                           onClick={() =>
                             setExpandedRoot(isExpanded ? null : entry.root)
                           }
-                          className="px-3 py-1.5 rounded-lg border border-[#E6DFD3] text-xs font-medium text-[#5C4D43] hover:text-[#1C1613] transition-colors whitespace-nowrap"
+                          className="px-3 py-1.5 rounded-xl border border-[#3D2619] bg-[#241710] text-xs font-bold text-[#D4A373] hover:text-[#FEF3C7] hover:border-[#0D9488] transition-colors whitespace-nowrap cursor-pointer"
                         >
-                          {isExpanded ? 'Hide 5 Forms' : '5 Word Forms'}
+                          {isExpanded ? 'Hide Forms' : 'Word Forms'}
                         </button>
                       </div>
                     </div>
 
                     {entry.exampleSagelo && (
-                      <div className="pt-2 border-t border-[#E6DFD3]/70 flex items-center justify-between gap-2 text-xs flex-wrap">
+                      <div className="pt-2 border-t border-[#3D2619] flex items-center justify-between gap-2 text-xs flex-wrap">
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="font-semibold text-[#1C1613]">
+                          <span className="font-semibold text-[#FEF3C7]">
                             “{entry.exampleSagelo}”
                           </span>
-                          <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.2 rounded border border-[#BAE6FD]">
+                          <span className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#241710] px-1.5 py-0.2 rounded border border-[#0D9488]/40">
                             {getPhrasePhoneticDisplay(entry.exampleSagelo)}
                           </span>
-                          <span className="text-[#5C4D43]">— {entry.exampleEnglish}</span>
+                          <span className="text-[#D4A373]">— {entry.exampleEnglish}</span>
                         </div>
                         <button
                           onClick={() => handleSpeakPhrase(entry.exampleSagelo || '')}
-                          className="text-[#C84B24] hover:underline font-bold shrink-0 flex items-center gap-1"
+                          className="text-[#F59E0B] hover:underline font-bold shrink-0 flex items-center gap-1 cursor-pointer"
                         >
                           <Volume2 className="w-3 h-3" />
                           <span>{speakingPhrase === entry.exampleSagelo ? 'Speaking...' : 'Hear'}</span>
@@ -268,24 +268,24 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                   </div>
 
                   {isExpanded && (
-                    <div className="pt-3 border-t border-[#E6DFD3] space-y-3 bg-[#FBF9F5] -mx-5 -mb-5 p-5 rounded-b-2xl">
+                    <div className="pt-3 border-t border-[#3D2619] space-y-3 bg-[#170E08] -mx-5 -mb-5 p-5 rounded-b-2xl">
                       {isFrench ? (
                         <div className="space-y-2">
-                          <div className="text-xs font-semibold text-[#5C4D43]">
+                          <div className="text-xs font-black uppercase text-[#D4A373]">
                             Exemple en Contexte :
                           </div>
-                          <div className="p-3 bg-white rounded-xl border border-[#E6DFD3] flex items-center justify-between gap-3">
+                          <div className="p-3 bg-[#241710] rounded-xl border border-[#3D2619] flex items-center justify-between gap-3">
                             <div className="space-y-0.5">
-                              <div className="text-sm font-black text-[#1C1613]">
+                              <div className="text-sm font-black text-[#FEF3C7]">
                                 {(entry as unknown as FrenchDictionaryEntry).exampleSagelo || entry.root}
                               </div>
-                              <div className="text-xs text-[#5C4D43]">
+                              <div className="text-xs text-[#D4A373]">
                                 {(entry as unknown as FrenchDictionaryEntry).exampleEnglish || entry.meaning}
                               </div>
                             </div>
                             <button
                               onClick={() => handleSpeakPhrase((entry as unknown as FrenchDictionaryEntry).exampleSagelo || entry.root)}
-                              className="px-3 py-1.5 rounded-lg bg-[#F0FDF4] border border-[#86EFAC] text-[#166534] text-xs font-bold flex items-center gap-1.5 hover:bg-[#DCFCE7] transition-all cursor-pointer"
+                              className="px-3 py-1.5 rounded-xl bg-[#059669] border border-[#047857] text-[#FEF3C7] text-xs font-black flex items-center gap-1.5 hover:bg-[#047857] transition-all cursor-pointer"
                             >
                               <Volume2 className="w-3.5 h-3.5" />
                               <span>Écouter</span>
@@ -294,7 +294,7 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                         </div>
                       ) : (
                         <>
-                          <div className="text-xs font-semibold text-[#5C4D43]">
+                          <div className="text-xs font-black uppercase text-[#D4A373]">
                             {entry.isLoanword
                               ? 'Invariable Loanword (Kept whole out of respect for origin)'
                               : `All 5 Word-Building Endings + Agentive (-ari) for "${entry.root}":`}
@@ -311,16 +311,16 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                               <button
                                 key={item.label}
                                 onClick={() => handleSpeakPhrase(item.word)}
-                                className="p-2 rounded-lg bg-white border border-[#E6DFD3] hover:border-[#C84B24] text-left transition-all group cursor-pointer shadow-2xs"
+                                className="p-2.5 rounded-xl bg-[#241710] border border-[#3D2619] hover:border-[#059669] text-left transition-all group cursor-pointer shadow-2xs"
                               >
-                                <span className="text-[#8C7A6B] block text-[10px]">{item.label}</span>
+                                <span className="text-[#A38260] block text-[10px] uppercase font-bold">{item.label}</span>
                                 <div className="flex items-center justify-between gap-1">
-                                  <span className="font-mono-num font-bold text-[#1C1613] group-hover:text-[#C84B24]">
+                                  <span className="font-mono-num font-black text-[#FEF3C7] group-hover:text-[#10B981]">
                                     {item.word}
                                   </span>
-                                  <Volume2 className="w-3 h-3 text-[#AFAFAF] group-hover:text-[#C84B24] shrink-0" />
+                                  <Volume2 className="w-3 h-3 text-[#A38260] group-hover:text-[#10B981] shrink-0" />
                                 </div>
-                                <span className="font-mono text-[9px] font-extrabold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD] inline-block mt-0.5">
+                                <span className="font-mono text-[9px] font-extrabold text-[#14B8A6] bg-[#1E130D] px-1 py-0.2 rounded border border-[#0D9488]/30 inline-block mt-0.5">
                                   {getWordPhonetic(item.word).display}
                                 </span>
                               </button>
@@ -346,21 +346,21 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
             {activePhrasebook.map((chapter: any) => (
               <div
                 key={chapter.id}
-                className="bg-white border border-[#E6DFD3] rounded-2xl p-6 space-y-4"
+                className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-2xl p-6 space-y-4"
               >
-                <div className="border-b border-[#E6DFD3] pb-3 flex items-center justify-between">
+                <div className="border-b border-[#3D2619] pb-3 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-mono-num text-[#C84B24] font-semibold">
+                    <div className="text-xs font-mono-num text-[#F59E0B] font-black uppercase tracking-wider">
                       {isFrench ? 'Guide Pratique' : 'Part VI'} · Chapter {chapter.chapterNumber}
                     </div>
-                    <h3 className="text-xl font-display font-semibold text-[#1C1613]">
+                    <h3 className="text-xl font-display font-semibold text-[#FEF3C7]">
                       {chapter.title}
                     </h3>
-                    <p className="text-xs text-[#5C4D43]">{chapter.subtitle}</p>
+                    <p className="text-xs text-[#D4A373]">{chapter.subtitle}</p>
                   </div>
                 </div>
 
-                <div className="divide-y divide-[#E6DFD3]">
+                <div className="divide-y divide-[#3D2619]">
                   {chapter.phrases.map((p: any, idx: number) => {
                     const isJustSaved = savedToast === p.sagelo;
                     return (
@@ -370,18 +370,18 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                       >
                         <div className="space-y-0.5">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-base font-display font-semibold text-[#1C1613]">
+                            <span className="text-base font-display font-semibold text-[#FEF3C7]">
                               {p.sagelo}
                             </span>
                             {!isFrench && (
-                              <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                              <span className="font-mono text-xs font-bold text-[#14B8A6] bg-[#241710] px-2 py-0.5 rounded-lg border border-[#0D9488]/40">
                                 {getPhrasePhoneticDisplay(p.sagelo)}
                               </span>
                             )}
                           </div>
-                          <div className="text-sm text-[#5C4D43]">{p.english}</div>
+                          <div className="text-sm text-[#D4A373]">{p.english}</div>
                           {p.note && (
-                            <div className="text-xs text-[#8C7A6B] italic">
+                            <div className="text-xs text-[#A38260] italic">
                               Note: {p.note}
                             </div>
                           )}
@@ -390,10 +390,10 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                         <div className="flex items-center gap-2 shrink-0">
                           <button
                             onClick={() => handleSpeakPhrase(p.sagelo)}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                            className={`px-3 py-1.5 rounded-xl text-xs font-black inline-flex items-center gap-1.5 transition-colors whitespace-nowrap cursor-pointer ${
                               speakingPhrase === p.sagelo
-                                ? 'bg-[#C84B24] text-white shadow-xs'
-                                : 'bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white'
+                                ? 'bg-[#059669] text-[#FEF3C7] shadow-xs'
+                                : 'bg-[#241710] hover:bg-[#059669] text-[#FEF3C7]'
                             }`}
                           >
                             <Volume2 className={`w-3.5 h-3.5 ${speakingPhrase === p.sagelo ? 'animate-pulse' : ''}`} />
@@ -401,12 +401,12 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                           </button>
                           <button
                             onClick={() => handleSavePhrase(p.sagelo, p.english)}
-                            className="px-3 py-1.5 rounded-lg border border-[#E6DFD3] hover:border-[#1B6B4A] text-xs font-medium text-[#5C4D43] hover:text-[#1B6B4A] inline-flex items-center gap-1 transition-colors whitespace-nowrap"
+                            className="px-3 py-1.5 rounded-xl border border-[#3D2619] bg-[#241710] hover:border-[#10B981] text-xs font-black text-[#D4A373] hover:text-[#10B981] inline-flex items-center gap-1 transition-colors whitespace-nowrap cursor-pointer"
                           >
                             {isJustSaved ? (
                               <>
-                                <Check className="w-3.5 h-3.5 text-[#1B6B4A]" />
-                                <span className="text-[#1B6B4A]">Saved</span>
+                                <Check className="w-3.5 h-3.5 text-[#10B981]" />
+                                <span className="text-[#10B981]">Saved</span>
                               </>
                             ) : (
                               <>
@@ -428,82 +428,79 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
 
       {subTab === 'appendix' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white border border-[#E6DFD3] rounded-2xl p-6 space-y-4">
-            <h3 className="text-xl font-display font-semibold text-[#1C1613]">
+          <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-2xl p-6 space-y-4">
+            <h3 className="text-xl font-display font-semibold text-[#FEF3C7]">
               Appendix 1: Complete Grammar Summary
             </h3>
             <div className="space-y-3 text-sm">
-              <div className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <strong className="text-[#C84B24]">Word-Building Endings:</strong>{' '}
-                <span className="font-mono-num">-a</span> concrete noun ·{' '}
-                <span className="font-mono-num">-e</span> adjective ·{' '}
-                <span className="font-mono-num">-i</span> verb ·{' '}
-                <span className="font-mono-num">-o</span> abstract noun ·{' '}
-                <span className="font-mono-num">-u</span> place ·{' '}
-                <span className="font-mono-num">-ari</span> agentive person
+              <div className="p-3 rounded-2xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#10B981]">Word-Building Endings:</strong>{' '}
+                <span className="font-mono-num text-[#FEF3C7]">-a</span> concrete noun ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">-e</span> adjective ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">-i</span> verb ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">-o</span> abstract noun ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">-u</span> place ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">-ari</span> agentive person
               </div>
-              <div className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <strong className="text-[#C84B24]">7 Noun Class Prefixes:</strong>{' '}
-                <span className="font-mono-num">mi-</span> people/beings ·{' '}
-                <span className="font-mono-num">ki-</span> tools/objects ·{' '}
-                <span className="font-mono-num">lu-</span> ideas/emotions ·{' '}
-                <span className="font-mono-num">sa-</span> places ·{' '}
-                <span className="font-mono-num">ta-</span> time/events ·{' '}
-                <span className="font-mono-num">na-</span> numbers/logic ·{' '}
-                <span className="font-mono-num">we-</span> actions/processes
+              <div className="p-3 rounded-2xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#14B8A6]">7 Noun Class Prefixes:</strong>{' '}
+                <span className="font-mono-num text-[#FEF3C7]">mi-</span> people/beings ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ki-</span> tools/objects ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">lu-</span> ideas/emotions ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">sa-</span> places ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ta-</span> time/events ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">na-</span> numbers/logic ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">we-</span> actions/processes
               </div>
-              <div className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <strong className="text-[#C84B24]">Case Particles (after noun):</strong>{' '}
-                (unmarked) subject · <span className="font-mono-num">ta</span> direct object ·{' '}
-                <span className="font-mono-num">ku</span> to/for ·{' '}
-                <span className="font-mono-num">vi</span> with/by means of (also adverb marker) ·{' '}
-                <span className="font-mono-num">ndo</span> at/in (place) ·{' '}
-                <span className="font-mono-num">doa</span> at/when (time) ·{' '}
-                <span className="font-mono-num">wa</span> of (possession)
+              <div className="p-3 rounded-2xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#F59E0B]">Case Particles (after noun):</strong>{' '}
+                (unmarked) subject · <span className="font-mono-num text-[#FEF3C7]">ta</span> direct object ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ku</span> to/for ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">vi</span> with/by means of ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ndo</span> at/in ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">doa</span> at/when ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">wa</span> of
               </div>
-              <div className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <strong className="text-[#C84B24]">Verb Pre-Slot Order:</strong>{' '}
-                Tense (<span className="font-mono-num">pa</span> past, <span className="font-mono-num">fu</span> future) → Negation (<span className="font-mono-num">sim</span>) → Aspect (<span className="font-mono-num">le</span> progressive, <span className="font-mono-num">ko</span> perfect) → Verb
+              <div className="p-3 rounded-2xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#10B981]">Verb Pre-Slot Order:</strong>{' '}
+                Tense (<span className="font-mono-num text-[#FEF3C7]">pa</span> past, <span className="font-mono-num text-[#FEF3C7]">fu</span> future) → Negation (<span className="font-mono-num text-[#FEF3C7]">sim</span>) → Aspect (<span className="font-mono-num text-[#FEF3C7]">le</span> progressive, <span className="font-mono-num text-[#FEF3C7]">ko</span> perfect) → Verb
               </div>
-              <div className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <strong className="text-[#C84B24]">Logic & Quantifiers:</strong>{' '}
-                <span className="font-mono-num">e</span> AND ·{' '}
-                <span className="font-mono-num">o</span> OR (incl.) ·{' '}
-                <span className="font-mono-num">oxo</span> XOR (excl.) ·{' '}
-                <span className="font-mono-num">ju...juta</span> if...then ·{' '}
-                <span className="font-mono-num">kwe</span> if-and-only-if ·{' '}
-                <span className="font-mono-num">deka</span> because ·{' '}
-                <span className="font-mono-num">lonje</span> therefore ·{' '}
-                <span className="font-mono-num">cho</span> all (∀) ·{' '}
-                <span className="font-mono-num">mo</span> some (∃)
+              <div className="p-3 rounded-2xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#14B8A6]">Logic & Quantifiers:</strong>{' '}
+                <span className="font-mono-num text-[#FEF3C7]">e</span> AND ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">o</span> OR ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ju...juta</span> if...then ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">deka</span> because ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">cho</span> all ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">mo</span> some
               </div>
-              <div className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <strong className="text-[#C84B24]">Evidentiality (sentence-final):</strong>{' '}
-                <span className="font-mono-num">ha</span> direct witness ·{' '}
-                <span className="font-mono-num">ra</span> inference ·{' '}
-                <span className="font-mono-num">si</span> hearsay ·{' '}
-                <span className="font-mono-num">ni</span> uncertain/question
+              <div className="p-3 rounded-2xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#F59E0B]">Evidentiality (sentence-final):</strong>{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ha</span> direct witness ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ra</span> inference ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">si</span> hearsay ·{' '}
+                <span className="font-mono-num text-[#FEF3C7]">ni</span> question
               </div>
             </div>
           </div>
 
-          <div className="bg-white border border-[#E6DFD3] rounded-2xl p-6 space-y-4">
-            <h3 className="text-xl font-display font-semibold text-[#1C1613]">
-              Appendix 2: All Invariable Loanwords
+          <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-2xl p-6 space-y-4">
+            <h3 className="text-xl font-display font-semibold text-[#FEF3C7]">
+              Appendix 2: Invariable Loanwords
             </h3>
-            <p className="text-xs text-[#5C4D43]">
-              Borrowed whole out of respect for the traditions that named them; used as-is without -a/-e/-i/-o/-u changes.
+            <p className="text-xs text-[#D4A373]">
+              Borrowed whole out of respect for origin traditions; used as-is without suffix alterations.
             </p>
-            <div className="overflow-x-auto border border-[#E6DFD3] rounded-xl">
+            <div className="overflow-x-auto border border-[#3D2619] rounded-2xl">
               <table className="w-full text-left border-collapse text-sm">
                 <thead>
-                  <tr className="bg-[#F3EFE6] border-b border-[#E6DFD3]">
-                    <th className="py-2.5 px-4 font-semibold">Loanword</th>
-                    <th className="py-2.5 px-4 font-semibold">Meaning</th>
-                    <th className="py-2.5 px-4 font-semibold">Origin</th>
+                  <tr className="bg-[#241710] border-b border-[#3D2619] text-[#D4A373]">
+                    <th className="py-2.5 px-4 font-black">Loanword</th>
+                    <th className="py-2.5 px-4 font-black">Meaning</th>
+                    <th className="py-2.5 px-4 font-black">Origin</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E6DFD3]">
+                <tbody className="divide-y divide-[#3D2619]">
                   {[
                     ['shanti', 'peace', 'Sanskrit'],
                     ['satya', 'truth', 'Sanskrit'],
@@ -516,12 +513,12 @@ export const LexiconPhrasebookView: React.FC<LexiconPhrasebookViewProps> = ({
                     ['ndoto', 'dream', 'Swahili'],
                     ['mwana / nyango / tata / ndeko / mpaka', 'kinship terms', 'Bantu Family'],
                   ].map(([word, meaning, source]) => (
-                    <tr key={word}>
-                      <td className="py-2 px-4 font-mono-num font-semibold text-[#C84B24]">
+                    <tr key={word} className="hover:bg-[#241710]/50 transition-colors">
+                      <td className="py-2 px-4 font-mono-num font-black text-[#F59E0B]">
                         {word}
                       </td>
-                      <td className="py-2 px-4 text-[#1C1613]">{meaning}</td>
-                      <td className="py-2 px-4 text-xs text-[#5C4D43]">{source}</td>
+                      <td className="py-2 px-4 text-[#FEF3C7]">{meaning}</td>
+                      <td className="py-2 px-4 text-xs text-[#D4A373]">{source}</td>
                     </tr>
                   ))}
                 </tbody>

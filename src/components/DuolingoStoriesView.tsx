@@ -267,15 +267,15 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
 
   if (!activeStory) {
     return (
-      <div className="max-w-2xl w-full mx-auto py-6 space-y-6 overflow-x-hidden">
+      <div className="max-w-2xl w-full mx-auto py-6 space-y-6 overflow-x-hidden text-[#FEF3C7]">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#1CB0F6]/10 text-[#1CB0F6] rounded-full font-black text-xs uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#0D9488]/20 text-[#14B8A6] border border-[#0D9488]/40 rounded-full font-black text-xs uppercase tracking-wider">
             <BookOpen className="w-4 h-4" /> Duolingo Stories
           </div>
-          <h2 className="text-3xl font-black text-[#3C3C3C]">
+          <h2 className="text-3xl font-black text-[#FEF3C7]">
             {isFrench ? 'Histoires Interactives en Français 🥐' : 'Interactive Sagelo Tales 🌍'}
           </h2>
-          <p className="text-sm font-bold text-[#777777] max-w-md mx-auto">
+          <p className="text-sm font-bold text-[#D4A373] max-w-md mx-auto">
             {isFrench
               ? 'Listen to lively French dialogues, learn conversational expressions, and answer comprehension checks along the way!'
               : 'Listen to lively African dialogues, tap to reveal words, and answer comprehension checks along the way!'}
@@ -286,38 +286,37 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
           {storiesList.map((story) => (
             <div
               key={story.id}
-              className="bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-2xl p-5 flex items-center justify-between gap-4 transition-all hover:scale-[1.01] shadow-xs cursor-pointer"
+              className="bg-[#1E130D] border-2 border-b-4 border-[#3D2619] hover:border-[#F59E0B] rounded-2xl p-5 flex items-center justify-between gap-4 transition-all hover:scale-[1.01] shadow-xs cursor-pointer"
               onClick={() => handleStartStory(story)}
             >
               <div className="flex items-center gap-4">
                 <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-inner border-2 border-black/5"
-                  style={{ backgroundColor: `${story.accentColor}20` }}
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-inner border-2 border-[#3D2619] bg-[#241710]"
                 >
                   {story.coverEmoji}
                 </div>
                 <div>
-                  <span className="text-[11px] font-black uppercase text-[#1CB0F6] tracking-wider">
+                  <span className="text-[11px] font-black uppercase text-[#14B8A6] tracking-wider">
                     {story.sageloTitle}
                   </span>
-                  <h3 className="text-lg font-black text-[#3C3C3C]">
+                  <h3 className="text-lg font-black text-[#FEF3C7]">
                     {story.title}
                   </h3>
-                  <p className="text-xs font-bold text-[#777777] line-clamp-1 mt-0.5">
+                  <p className="text-xs font-bold text-[#D4A373] line-clamp-1 mt-0.5">
                     {story.description}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
-                <span className="font-mono-num font-black text-sm text-[#FF9600]">
+                <span className="font-mono-num font-black text-sm text-[#F59E0B]">
                   +{story.xpReward} XP
                 </span>
                 <button
-                  className="w-10 h-10 rounded-xl bg-[#58CC02] border-b-4 border-[#46A302] text-white flex items-center justify-center hover:bg-[#61E002] active:translate-y-1 transition-all"
+                  className="w-10 h-10 rounded-xl bg-[#059669] border-b-4 border-[#047857] text-[#FEF3C7] flex items-center justify-center hover:bg-[#047857] active:translate-y-1 transition-all cursor-pointer"
                   aria-label="Start story"
                 >
-                  <Play className="w-5 h-5 fill-white ml-0.5" />
+                  <Play className="w-5 h-5 fill-[#FEF3C7] ml-0.5" />
                 </button>
               </div>
             </div>
@@ -333,30 +332,30 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
   );
 
   return (
-    <div className="max-w-2xl w-full mx-auto py-6 space-y-6 overflow-x-hidden">
+    <div className="max-w-2xl w-full mx-auto py-6 space-y-6 overflow-x-hidden text-[#FEF3C7]">
       {/* Top Bar with Duolingo Progress Bar */}
-      <div className="flex items-center justify-between gap-4 bg-white p-3 rounded-2xl border-2 border-[#E5E5E5]">
+      <div className="flex items-center justify-between gap-4 bg-[#1E130D] p-3 rounded-2xl border-2 border-[#3D2619]">
         <button
           onClick={() => setActiveStory(null)}
-          className="text-[#AFAFAF] hover:text-[#3C3C3C] font-black text-lg p-2"
+          className="text-[#D4A373] hover:text-[#FEF3C7] font-black text-lg p-2 cursor-pointer"
         >
           ✕
         </button>
 
-        <div className="flex-1 h-3.5 bg-[#E5E5E5] rounded-full overflow-hidden">
+        <div className="flex-1 h-3.5 bg-[#150E09] border border-[#3D2619] rounded-full overflow-hidden">
           <div
-            className="h-full bg-[#58CC02] transition-all duration-300"
+            className="h-full bg-[#059669] transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
 
-        <span className="text-xs font-mono-num font-black text-[#FF9600]">
+        <span className="text-xs font-mono-num font-black text-[#F59E0B]">
           +{activeStory.xpReward} XP
         </span>
       </div>
 
       {!storyFinished ? (
-        <div className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
+        <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
           {/* Previous Dialogue Lines History */}
           <div className="space-y-4 max-h-[340px] overflow-y-auto pr-2">
             {activeStory.lines
@@ -373,27 +372,27 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
                   >
                     <span className="text-2xl select-none">{line.avatar}</span>
                     <div className="space-y-1">
-                      <div className="text-[11px] font-black uppercase text-[#AFAFAF]">
+                      <div className="text-[11px] font-black uppercase text-[#D4A373]">
                         {line.speaker}
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <button
                           onClick={() => playSageloPhrase(line.sagelo, { lang: targetLang })}
-                          className="w-7 h-7 rounded-full bg-[#1CB0F6]/15 hover:bg-[#1CB0F6]/25 text-[#1CB0F6] flex items-center justify-center shrink-0 active:scale-95 transition-transform"
+                          className="w-7 h-7 rounded-full bg-[#0D9488]/20 hover:bg-[#0D9488]/35 text-[#14B8A6] flex items-center justify-center shrink-0 active:scale-95 transition-transform cursor-pointer"
                           title={`Listen to ${isFrench ? 'French' : 'Sagelo'} audio`}
                         >
                           <Volume2 className="w-3.5 h-3.5" />
                         </button>
-                        <p className="text-base font-extrabold text-[#3C3C3C]">
+                        <p className="text-base font-extrabold text-[#FEF3C7]">
                           {line.sagelo}
                         </p>
                         {!isFrench && (
-                          <span className="font-mono text-xs font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#BAE6FD]">
+                          <span className="font-mono text-xs font-bold text-[#14B8A6] bg-[#241710] px-2 py-0.5 rounded-lg border border-[#0D9488]/40">
                             {getPhrasePhoneticDisplay(line.sagelo)}
                           </span>
                         )}
                       </div>
-                      <p className="text-xs font-bold text-[#777777] pl-9">
+                      <p className="text-xs font-bold text-[#D4A373] pl-9">
                         {line.english}
                       </p>
                     </div>
@@ -404,12 +403,12 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
 
           {/* Current Question If Applicable */}
           {currentLine.isQuestion && (
-            <div className="pt-4 border-t-2 border-[#E5E5E5] space-y-4">
-              <div className="flex items-center gap-2 text-sm font-black text-[#1CB0F6]">
-                <Sparkles className="w-4 h-4" />
+            <div className="pt-4 border-t-2 border-[#3D2619] space-y-4">
+              <div className="flex items-center gap-2 text-sm font-black text-[#14B8A6]">
+                <Sparkles className="w-4 h-4 text-[#F59E0B]" />
                 <span>Story Comprehension Check:</span>
               </div>
-              <h4 className="text-lg font-black text-[#3C3C3C]">
+              <h4 className="text-lg font-black text-[#FEF3C7]">
                 {currentLine.questionPrompt}
               </h4>
 
@@ -421,12 +420,12 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
                       key={opt}
                       onClick={() => handleAnswerQuestion(opt)}
                       disabled={questionFeedback === 'correct'}
-                      className={`p-4 rounded-2xl border-2 border-b-4 font-black text-sm text-left transition-all ${
+                      className={`p-4 rounded-2xl border-2 border-b-4 font-black text-sm text-left transition-all cursor-pointer ${
                         isSelected
                           ? questionFeedback === 'correct'
-                            ? 'bg-[#D7FFB8] border-[#58CC02] text-[#58A700]'
-                            : 'bg-[#FFDFE0] border-[#FF4B4B] text-[#EA2B2B]'
-                          : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C]'
+                            ? 'bg-[#059669]/25 border-[#059669] text-[#10B981]'
+                            : 'bg-[#381B1B] border-[#7F1D1D] text-[#FCA5A5]'
+                          : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                       }`}
                     >
                       {opt}
@@ -438,11 +437,11 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
           )}
 
           {/* Bottom Action Button */}
-          <div className="pt-4 border-t-2 border-[#E5E5E5] flex justify-end">
+          <div className="pt-4 border-t-2 border-[#3D2619] flex justify-end">
             <button
               onClick={handleNextLine}
               disabled={currentLine.isQuestion && questionFeedback !== 'correct'}
-              className="bg-[#58CC02] hover:bg-[#61E002] disabled:opacity-40 border-b-4 border-[#46A302] text-white font-black uppercase text-sm px-8 py-3.5 rounded-2xl active:translate-y-1 transition-all flex items-center gap-2"
+              className="bg-[#059669] hover:bg-[#047857] disabled:opacity-40 border-b-4 border-[#065F46] text-[#FEF3C7] font-black uppercase text-sm px-8 py-3.5 rounded-2xl active:translate-y-1 transition-all flex items-center gap-2 cursor-pointer shadow-md"
             >
               <span>Continue</span>
               <ArrowRight className="w-4 h-4 stroke-[3]" />
@@ -451,27 +450,27 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
         </div>
       ) : (
         /* STORY FINISHED CELEBRATION */
-        <div className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-8 text-center space-y-6 shadow-sm">
-          <div className="w-20 h-20 rounded-full bg-[#FFC800]/20 text-4xl flex items-center justify-center mx-auto border-2 border-[#FFC800]">
+        <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-8 text-center space-y-6 shadow-sm">
+          <div className="w-20 h-20 rounded-full bg-[#F59E0B]/20 text-4xl flex items-center justify-center mx-auto border-2 border-[#F59E0B]">
             🎉
           </div>
           <div>
-            <h3 className="text-2xl font-black text-[#3C3C3C]">
+            <h3 className="text-2xl font-black text-[#FEF3C7]">
               Story Completed!
             </h3>
-            <p className="text-sm font-bold text-[#777777] mt-1">
-              You practiced listening and understood natural spoken Sagelo dialogue.
+            <p className="text-sm font-bold text-[#D4A373] mt-1">
+              You practiced listening and understood natural spoken dialogue.
             </p>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFC800]/15 border-2 border-[#FFC800] rounded-2xl font-black text-base text-[#D97706]">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-[#241710] border-2 border-[#F59E0B] rounded-2xl font-black text-base text-[#F59E0B]">
             <span>+{activeStory.xpReward} XP Earned!</span>
           </div>
 
           <div>
             <button
               onClick={() => setActiveStory(null)}
-              className="w-full py-4 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all"
+              className="w-full py-4 bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all cursor-pointer shadow-md"
             >
               Continue to Stories
             </button>
@@ -481,3 +480,5 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
     </div>
   );
 };
+
+

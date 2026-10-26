@@ -245,23 +245,23 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-3xl border-2 border-[#E5E5E5] p-5 sm:p-6 shadow-sm space-y-6">
+    <div className="bg-[#1E130D] rounded-3xl border-2 border-b-6 border-[#3D2619] p-5 sm:p-6 shadow-sm space-y-6 text-[#FEF3C7]">
       {/* Header Info Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b-2 border-[#F0F0F0]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b-2 border-[#3D2619]">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-lg bg-[#58CC02]/15 text-[#58CC02] text-xs font-black uppercase tracking-wider flex items-center gap-1">
-              <Zap className="w-3.5 h-3.5 fill-[#58CC02]" />
+            <span className="px-2.5 py-1 rounded-lg bg-[#059669]/20 text-[#10B981] border border-[#059669]/40 text-xs font-black uppercase tracking-wider flex items-center gap-1">
+              <Zap className="w-3.5 h-3.5 fill-[#10B981]" />
               Rapid Recall
             </span>
-            <span className="text-xs font-bold text-[#AFAFAF]">
+            <span className="text-xs font-bold text-[#D4A373]">
               {activePool.length} Words in Pool
             </span>
           </div>
-          <h2 className="text-2xl font-black text-[#3C3C3C] mt-1 flex items-center gap-2">
+          <h2 className="text-2xl font-black text-[#FEF3C7] mt-1 flex items-center gap-2">
             Match Madness • {isFrench ? 'Français' : 'Sagelo'} Speed Run {isFrench ? '🥐' : '🌍'}
           </h2>
-          <p className="text-sm font-semibold text-[#777777]">
+          <p className="text-sm font-semibold text-[#D4A373]">
             Match {isFrench ? 'French' : 'Sagelo'} words to their English translations before time runs out.
             Tiles refresh continuously!
           </p>
@@ -269,19 +269,19 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
 
         {/* Live HUD: Timer & Score */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="px-4 py-2 rounded-2xl bg-[#FFF4D0] border-2 border-[#FFD900] text-[#B88700] font-black text-sm flex items-center gap-1.5 shadow-xs">
+          <div className="px-4 py-2 rounded-2xl bg-[#241710] border-2 border-[#F59E0B] text-[#F59E0B] font-black text-sm flex items-center gap-1.5 shadow-xs">
             <Clock className="w-4 h-4" />
             <span className="text-lg">{timeLeft}s</span>
           </div>
 
-          <div className="px-4 py-2 rounded-2xl bg-[#E8F8FE] border-2 border-[#1CB0F6] text-[#1CB0F6] font-black text-sm flex items-center gap-1.5 shadow-xs">
+          <div className="px-4 py-2 rounded-2xl bg-[#241710] border-2 border-[#0D9488] text-[#14B8A6] font-black text-sm flex items-center gap-1.5 shadow-xs">
             <Trophy className="w-4 h-4" />
             <span className="text-lg">{score} pts</span>
           </div>
 
           {comboStreak >= 2 && (
-            <div className="px-3 py-2 rounded-2xl bg-[#FF4B4B]/10 border-2 border-[#FF4B4B] text-[#FF4B4B] font-black text-xs flex items-center gap-1 animate-bounce">
-              <Flame className="w-4 h-4 fill-[#FF4B4B]" />
+            <div className="px-3 py-2 rounded-2xl bg-[#241710] border-2 border-[#F59E0B] text-[#F59E0B] font-black text-xs flex items-center gap-1 animate-bounce">
+              <Flame className="w-4 h-4 fill-[#F59E0B]" />
               <span>{comboStreak}x Streak!</span>
             </div>
           )}
@@ -290,14 +290,14 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
 
       {/* Progress Bar */}
       {isPlaying && (
-        <div className="w-full bg-[#E5E5E5] h-2.5 rounded-full overflow-hidden">
+        <div className="w-full bg-[#241710] border border-[#3D2619] h-2.5 rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-1000 ${
               timeLeft > 15
-                ? 'bg-[#58CC02]'
+                ? 'bg-[#059669]'
                 : timeLeft > 7
-                ? 'bg-[#FF9600]'
-                : 'bg-[#FF4B4B]'
+                ? 'bg-[#F59E0B]'
+                : 'bg-[#DC2626]'
             }`}
             style={{ width: `${(timeLeft / 45) * 100}%` }}
           />
@@ -306,22 +306,22 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
 
       {/* Pre-Game Start Screen */}
       {!isPlaying && !roundCompleted && (
-        <div className="text-center py-10 px-4 space-y-4 bg-[#F7F7F7] rounded-3xl border-2 border-dashed border-[#D0D0D0]">
-          <div className="w-16 h-16 mx-auto rounded-3xl bg-[#58CC02] text-white flex items-center justify-center text-3xl font-black shadow-md border-b-4 border-[#46A302]">
+        <div className="text-center py-10 px-4 space-y-4 bg-[#241710] rounded-3xl border-2 border-dashed border-[#3D2619]">
+          <div className="w-16 h-16 mx-auto rounded-3xl bg-[#059669] text-[#FEF3C7] flex items-center justify-center text-3xl font-black shadow-md border-b-4 border-[#047857]">
             ⚡
           </div>
           <div className="max-w-md mx-auto">
-            <h3 className="text-xl font-black text-[#3C3C3C]">
+            <h3 className="text-xl font-black text-[#FEF3C7]">
               Ready for the 45-Second Challenge?
             </h3>
-            <p className="text-sm font-semibold text-[#777777] mt-1">
+            <p className="text-sm font-semibold text-[#D4A373] mt-1">
               Words are drawn at random from 120+ Sagelo roots, verbs, qualities,
               and phrases. Matches clear instantly and renew with fresh tiles!
             </p>
           </div>
           <button
             onClick={startNewGame}
-            className="px-8 py-3.5 rounded-2xl bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black text-base uppercase tracking-wider shadow-md active:translate-y-1 transition-all"
+            className="px-8 py-3.5 rounded-2xl bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] font-black text-base uppercase tracking-wider shadow-md active:translate-y-1 transition-all cursor-pointer"
           >
             Start Match Round
           </button>
@@ -331,11 +331,11 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
       {/* Game Playing Board (5 Left vs 5 Right) */}
       {isPlaying && (
         <div className="grid grid-cols-2 gap-4 sm:gap-6">
-          {/* Left Column: Sagelo Words */}
+          {/* Left Column: Target Lang Words */}
           <div className="space-y-3">
-            <div className="text-xs font-black uppercase tracking-wider text-[#AFAFAF] px-1 flex items-center justify-between">
-              <span>Sagelo Words</span>
-              <span className="text-[10px] text-[#1CB0F6]">Tap to hear</span>
+            <div className="text-xs font-black uppercase tracking-wider text-[#D4A373] px-1 flex items-center justify-between">
+              <span>{isFrench ? 'French Words' : 'Sagelo Words'}</span>
+              <span className="text-[10px] text-[#14B8A6]">Tap to hear</span>
             </div>
             {leftTiles.map(tile => {
               const isSelected = selectedLeft?.uid === tile.uid;
@@ -346,14 +346,14 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
                 <button
                   key={tile.uid}
                   onClick={() => handleTileClick(tile)}
-                  className={`w-full min-h-[58px] p-3 rounded-2xl border-2 border-b-4 text-left font-black transition-all flex items-center justify-between gap-2 shadow-xs ${
+                  className={`w-full min-h-[58px] p-3 rounded-2xl border-2 border-b-4 text-left font-black transition-all flex items-center justify-between gap-2 shadow-xs cursor-pointer ${
                     isMatched
-                      ? 'bg-[#58CC02] border-[#46A302] text-white scale-95 opacity-80'
+                      ? 'bg-[#059669] border-[#047857] text-[#FEF3C7] scale-95 opacity-80'
                       : isMismatched
-                      ? 'bg-[#FF4B4B] border-[#D32F2F] text-white animate-shake'
+                      ? 'bg-[#7F1D1D] border-[#991B1B] text-[#FCA5A5] animate-shake'
                       : isSelected
-                      ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6] scale-102 translate-x-1'
-                      : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C] active:translate-y-1'
+                      ? 'bg-[#2E1E15] border-[#0D9488] text-[#14B8A6] ring-2 ring-[#0D9488]/40 scale-102 translate-x-1'
+                      : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] hover:border-[#D4A373]/50 text-[#FEF3C7] active:translate-y-1'
                   }`}
                 >
                   <div className="truncate flex-1 min-w-0">
@@ -364,21 +364,21 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
                       {!isFrench && (
                         <span className={`font-mono text-[10px] font-black px-1.5 py-0.5 rounded-md border tracking-tight ${
                           isSelected || isMatched || isMismatched
-                            ? 'bg-white/20 border-white/40 text-white'
-                            : 'bg-[#E0F2FE] border-[#BAE6FD] text-[#0284C7]'
+                            ? 'bg-black/30 border-[#0D9488]/40 text-[#14B8A6]'
+                            : 'bg-[#1E130D] border-[#3D2619] text-[#D4A373]'
                         }`}>
                           {getWordPhonetic(tile.text).display}
                         </span>
                       )}
                     </div>
                     <span className={`text-[10px] uppercase font-bold ${
-                      isSelected || isMatched || isMismatched ? 'text-white/80' : 'text-[#AFAFAF]'
+                      isSelected || isMatched || isMismatched ? 'text-[#FEF3C7]/80' : 'text-[#D4A373]'
                     }`}>
                       {tile.category}
                     </span>
                   </div>
                   <Volume2 className={`w-4 h-4 shrink-0 ${
-                    isSelected || isMatched || isMismatched ? 'text-white' : 'text-[#1CB0F6]'
+                    isSelected || isMatched || isMismatched ? 'text-[#FEF3C7]' : 'text-[#14B8A6]'
                   }`} />
                 </button>
               );
@@ -387,7 +387,7 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
 
           {/* Right Column: English Translations (Shuffled independently) */}
           <div className="space-y-3">
-            <div className="text-xs font-black uppercase tracking-wider text-[#AFAFAF] px-1">
+            <div className="text-xs font-black uppercase tracking-wider text-[#D4A373] px-1">
               <span>English Meanings</span>
             </div>
             {rightTiles.map(tile => {
@@ -399,14 +399,14 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
                 <button
                   key={tile.uid}
                   onClick={() => handleTileClick(tile)}
-                  className={`w-full min-h-[58px] p-3 rounded-2xl border-2 border-b-4 text-left font-black transition-all flex items-center justify-between gap-2 shadow-xs ${
+                  className={`w-full min-h-[58px] p-3 rounded-2xl border-2 border-b-4 text-left font-black transition-all flex items-center justify-between gap-2 shadow-xs cursor-pointer ${
                     isMatched
-                      ? 'bg-[#58CC02] border-[#46A302] text-white scale-95 opacity-80'
+                      ? 'bg-[#059669] border-[#047857] text-[#FEF3C7] scale-95 opacity-80'
                       : isMismatched
-                      ? 'bg-[#FF4B4B] border-[#D32F2F] text-white animate-shake'
+                      ? 'bg-[#7F1D1D] border-[#991B1B] text-[#FCA5A5] animate-shake'
                       : isSelected
-                      ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6] scale-102 -translate-x-1'
-                      : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C] active:translate-y-1'
+                      ? 'bg-[#2E1E15] border-[#F59E0B] text-[#F59E0B] ring-2 ring-[#F59E0B]/40 scale-102 -translate-x-1'
+                      : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] hover:border-[#D4A373]/50 text-[#FEF3C7] active:translate-y-1'
                   }`}
                 >
                   <div className="truncate">
@@ -417,8 +417,8 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] shrink-0 ${
                       isSelected
-                        ? 'border-[#1CB0F6] bg-[#1CB0F6] text-white'
-                        : 'border-[#E5E5E5] text-[#AFAFAF]'
+                        ? 'border-[#F59E0B] bg-[#F59E0B] text-[#1E130D]'
+                        : 'border-[#3D2619] text-[#D4A373]'
                     }`}
                   >
                     {isSelected ? '✓' : ''}
@@ -432,46 +432,46 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
 
       {/* Round Completed Screen */}
       {roundCompleted && (
-        <div className="text-center py-8 px-4 space-y-6 bg-[#F7F7F7] rounded-3xl border-2 border-[#E5E5E5]">
-          <div className="w-20 h-20 mx-auto rounded-3xl bg-[#FFD900] text-white flex items-center justify-center text-4xl shadow-lg border-b-4 border-[#CCA800] animate-bounce">
+        <div className="text-center py-8 px-4 space-y-6 bg-[#241710] rounded-3xl border-2 border-[#3D2619]">
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-[#F59E0B] text-[#1E130D] flex items-center justify-center text-4xl shadow-lg border-b-4 border-[#D97706] animate-bounce">
             🏆
           </div>
 
           <div className="max-w-md mx-auto space-y-2">
-            <span className="px-3 py-1 rounded-full bg-[#58CC02]/20 text-[#58CC02] text-xs font-black uppercase tracking-wider">
+            <span className="px-3 py-1 rounded-full bg-[#059669]/20 text-[#10B981] text-xs font-black uppercase tracking-wider border border-[#059669]">
               Round Complete!
             </span>
-            <h3 className="text-3xl font-black text-[#3C3C3C]">
+            <h3 className="text-3xl font-black text-[#FEF3C7]">
               Madness Conquered!
             </h3>
-            <p className="text-sm font-semibold text-[#777777]">
+            <p className="text-sm font-semibold text-[#D4A373]">
               You matched {matchesCount} words against the clock with rapid recall!
             </p>
           </div>
 
           {/* Stats Badges */}
           <div className="grid grid-cols-3 gap-3 max-w-sm mx-auto">
-            <div className="p-3 bg-white rounded-2xl border-2 border-[#E5E5E5] shadow-xs">
-              <span className="text-xs font-black uppercase text-[#AFAFAF] block">
+            <div className="p-3 bg-[#1E130D] rounded-2xl border-2 border-[#3D2619] shadow-xs">
+              <span className="text-xs font-black uppercase text-[#D4A373] block">
                 Matches
               </span>
-              <span className="text-2xl font-black text-[#58CC02]">
+              <span className="text-2xl font-black text-[#10B981]">
                 {matchesCount}
               </span>
             </div>
-            <div className="p-3 bg-white rounded-2xl border-2 border-[#E5E5E5] shadow-xs">
-              <span className="text-xs font-black uppercase text-[#AFAFAF] block">
+            <div className="p-3 bg-[#1E130D] rounded-2xl border-2 border-[#3D2619] shadow-xs">
+              <span className="text-xs font-black uppercase text-[#D4A373] block">
                 Top Streak
               </span>
-              <span className="text-2xl font-black text-[#FF9600]">
+              <span className="text-2xl font-black text-[#F59E0B]">
                 {maxStreak}x
               </span>
             </div>
-            <div className="p-3 bg-white rounded-2xl border-2 border-[#E5E5E5] shadow-xs">
-              <span className="text-xs font-black uppercase text-[#AFAFAF] block">
+            <div className="p-3 bg-[#1E130D] rounded-2xl border-2 border-[#3D2619] shadow-xs">
+              <span className="text-xs font-black uppercase text-[#D4A373] block">
                 Points
               </span>
-              <span className="text-2xl font-black text-[#1CB0F6]">
+              <span className="text-2xl font-black text-[#14B8A6]">
                 +{score}
               </span>
             </div>
@@ -480,7 +480,7 @@ export const MatchMadnessGame: React.FC<MatchMadnessGameProps> = ({
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               onClick={startNewGame}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black text-sm uppercase tracking-wider shadow-md active:translate-y-1 transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] font-black text-sm uppercase tracking-wider shadow-md active:translate-y-1 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Shuffle className="w-4 h-4" />
               Play Again (Fresh Random Words)

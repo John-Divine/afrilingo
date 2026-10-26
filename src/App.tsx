@@ -50,7 +50,6 @@ import {
   ALL_FRENCH_LESSONS,
   FRENCH_UNIT_CHECKPOINTS,
 } from './data/frenchCurriculum';
-import { BranchingSkillTreesView } from './components/BranchingSkillTreesView';
 import {
   SKILL_BRANCHES,
   isBranchUnlocked,
@@ -1504,16 +1503,16 @@ export default function App() {
 
             {/* TAB 3: LEADERBOARDS (SAVANNAH LEAGUES) */}
             {activeTab === 'leaderboards' && (
-              <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
-                <div className="flex items-center gap-4 border-b-2 pb-5 border-[#E5E5E5]">
-                  <div className="w-16 h-16 rounded-3xl bg-[#FFC800] border-b-6 border-[#E5A500] flex items-center justify-center text-white text-3xl shadow-sm">
+              <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
+                <div className="flex items-center gap-4 border-b-2 pb-5 border-[#3D2619]">
+                  <div className="w-16 h-16 rounded-3xl bg-[#F59E0B] border-b-6 border-[#D97706] flex items-center justify-center text-[#1E130D] text-3xl shadow-sm">
                     🛡️
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-[#3C3C3C]">
+                    <h3 className="text-2xl font-black text-[#FEF3C7]">
                       Gold Baobab League
                     </h3>
-                    <p className="text-xs font-bold text-[#777777] mt-0.5">
+                    <p className="text-xs font-bold text-[#D4A373] mt-0.5">
                       Top 3 learners promote to the Diamond Council in 2 days!
                     </p>
                   </div>
@@ -1526,20 +1525,20 @@ export default function App() {
                       key={item.rank}
                       className={`flex items-center justify-between p-4 rounded-2xl border-2 border-b-4 transition-all ${
                         item.isUser
-                          ? 'bg-[#58CC02]/10 border-[#58CC02] ring-4 ring-[#58CC02]/20'
-                          : 'bg-white border-[#E5E5E5]'
+                          ? 'bg-[#059669]/15 border-[#059669] ring-4 ring-[#059669]/20'
+                          : 'bg-[#241710] border-[#3D2619]'
                       }`}
                     >
                       <div className="flex items-center gap-4">
                         <span
                           className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-mono-num font-black ${
                             item.rank === 1
-                              ? 'bg-[#FEF08A] text-[#854D0E] border border-[#FACC15]'
+                              ? 'bg-[#F59E0B] text-[#1E130D] border border-[#D97706]'
                               : item.rank === 2
-                              ? 'bg-[#E2E8F0] text-[#334155] border border-[#CBD5E1]'
+                              ? 'bg-[#0D9488] text-[#FEF3C7] border border-[#0F766E]'
                               : item.rank === 3
-                              ? 'bg-[#FFEDD5] text-[#9A3412] border border-[#FDBA74]'
-                              : 'text-[#AFAFAF]'
+                              ? 'bg-[#059669] text-[#FEF3C7] border border-[#047857]'
+                              : 'bg-[#1E130D] text-[#D4A373] border border-[#3D2619]'
                           }`}
                         >
                           {item.rank}
@@ -1548,16 +1547,16 @@ export default function App() {
                         <span className="text-2xl select-none">{item.avatar}</span>
 
                         <div>
-                          <p className="text-base font-black text-[#3C3C3C]">
+                          <p className="text-base font-black text-[#FEF3C7]">
                             {item.name}
                           </p>
-                          <p className="text-xs font-bold text-[#AFAFAF]">
+                          <p className="text-xs font-bold text-[#D4A373]">
                             {item.country}
                           </p>
                         </div>
                       </div>
 
-                      <div className="font-mono-num font-black text-base text-[#58CC02]">
+                      <div className="font-mono-num font-black text-base text-[#10B981]">
                         {item.xp} XP
                       </div>
                     </div>
@@ -1568,16 +1567,16 @@ export default function App() {
 
             {/* TAB 4: DAILY QUESTS */}
             {activeTab === 'quests' && (
-              <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
-                <div className="flex items-center gap-4 border-b-2 pb-5 border-[#E5E5E5]">
-                  <div className="w-16 h-16 rounded-3xl bg-[#FF9600] border-b-6 border-[#E58600] flex items-center justify-center text-white text-3xl shadow-sm">
+              <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
+                <div className="flex items-center gap-4 border-b-2 pb-5 border-[#3D2619]">
+                  <div className="w-16 h-16 rounded-3xl bg-[#F59E0B] border-b-6 border-[#D97706] flex items-center justify-center text-[#1E130D] text-3xl shadow-sm">
                     🎯
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-[#3C3C3C]">
+                    <h3 className="text-2xl font-black text-[#FEF3C7]">
                       Daily Quests
                     </h3>
-                    <p className="text-xs font-bold text-[#777777] mt-0.5">
+                    <p className="text-xs font-bold text-[#D4A373] mt-0.5">
                       Earn XP, keep your streak alive, and unlock gift chests every day.
                     </p>
                   </div>
@@ -1589,19 +1588,19 @@ export default function App() {
                     return (
                       <div
                         key={quest.id}
-                        className="p-5 rounded-2xl border-2 border-b-4 border-[#E5E5E5] bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                        className="p-5 rounded-2xl border-2 border-b-4 border-[#3D2619] bg-[#241710] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                       >
                         <div className="space-y-1.5 flex-1">
-                          <h4 className="text-base font-black text-[#3C3C3C]">
+                          <h4 className="text-base font-black text-[#FEF3C7]">
                             {quest.title}
                           </h4>
-                          <p className="text-xs font-bold text-[#777777]">
+                          <p className="text-xs font-bold text-[#D4A373]">
                             {quest.description}
                           </p>
                           <div className="flex items-center gap-3 pt-1 w-full max-w-xs">
-                            <div className="h-3.5 w-full bg-[#E5E5E5] rounded-full overflow-hidden">
+                            <div className="h-3.5 w-full bg-[#1E130D] border border-[#3D2619] rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-[#FF9600] transition-all"
+                                className="h-full bg-[#F59E0B] transition-all"
                                 style={{
                                   width: `${Math.min(
                                     100,
@@ -1610,7 +1609,7 @@ export default function App() {
                                 }}
                               />
                             </div>
-                            <span className="text-xs font-mono-num font-black text-[#AFAFAF]">
+                            <span className="text-xs font-mono-num font-black text-[#D4A373]">
                               {quest.progress}/{quest.goal}
                             </span>
                           </div>
@@ -1619,12 +1618,12 @@ export default function App() {
                         <button
                           onClick={() => handleClaimQuest(quest.id, quest.reward)}
                           disabled={!quest.completed || isClaimed}
-                          className={`px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition-all border-b-4 ${
+                          className={`px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition-all border-b-4 cursor-pointer ${
                             isClaimed
-                              ? 'bg-[#E5E5E5] border-[#D0D0D0] text-[#AFAFAF] cursor-default'
+                              ? 'bg-[#1E130D] border-[#3D2619] text-[#6B4E3D] cursor-default'
                               : quest.completed
-                              ? 'bg-[#FF9600] hover:bg-[#E58600] border-[#C26B00] text-white shadow-md active:translate-y-1'
-                              : 'bg-[#E5E5E5] border-[#D0D0D0] text-[#AFAFAF] cursor-not-allowed'
+                              ? 'bg-[#F59E0B] hover:bg-[#D97706] border-[#B45309] text-[#1E130D] shadow-md active:translate-y-1'
+                              : 'bg-[#1E130D] border-[#3D2619] text-[#6B4E3D] cursor-not-allowed'
                           }`}
                         >
                           {isClaimed
@@ -1654,70 +1653,70 @@ export default function App() {
 
             {/* TAB 5: COWRIE GEMS BAZAAR (SHOP) */}
             {activeTab === 'shop' && (
-              <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
-                <div className="flex items-center justify-between border-b-2 pb-5 border-[#E5E5E5]">
+              <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
+                <div className="flex items-center justify-between border-b-2 pb-5 border-[#3D2619]">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-3xl bg-[#CE82FF] border-b-6 border-[#A855F7] flex items-center justify-center text-white text-3xl shadow-sm">
+                    <div className="w-16 h-16 rounded-3xl bg-[#0D9488] border-b-6 border-[#0F766E] flex items-center justify-center text-[#FEF3C7] text-3xl shadow-sm">
                       🛒
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-[#3C3C3C]">
+                      <h3 className="text-2xl font-black text-[#FEF3C7]">
                         The Cowrie Bazaar
                       </h3>
-                      <p className="text-xs font-bold text-[#777777] mt-0.5">
+                      <p className="text-xs font-bold text-[#D4A373] mt-0.5">
                         Exchange your hard-earned gems for heart refills and power-ups.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 px-4 py-2 bg-[#EFF6FF] border-2 border-[#BFDBFE] rounded-2xl font-mono-num font-black text-base text-[#1CB0F6]">
-                    <Gem className="w-5 h-5 fill-[#1CB0F6]" />
+                  <div className="flex items-center gap-2 px-4 py-2 bg-[#241710] border-2 border-[#F59E0B] rounded-2xl font-mono-num font-black text-base text-[#F59E0B]">
+                    <Gem className="w-5 h-5 fill-[#F59E0B]" />
                     <span>{cowrieGems} Gems</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Item 1: Heart Refill */}
-                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#E5E5E5] bg-white space-y-3">
+                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#3D2619] bg-[#241710] space-y-3">
                     <div className="text-3xl">❤️</div>
-                    <h4 className="font-black text-base text-[#3C3C3C]">
+                    <h4 className="font-black text-base text-[#FEF3C7]">
                       Full Heart Refill
                     </h4>
-                    <p className="text-xs font-bold text-[#777777] leading-relaxed">
+                    <p className="text-xs font-bold text-[#D4A373] leading-relaxed">
                       Restores your Chi life energy to full 5/5 hearts so you never get interrupted during lessons.
                     </p>
                     <button
                       onClick={handleRefillHearts}
-                      className="w-full py-3 bg-[#FF4B4B] hover:bg-[#EA2B2B] border-b-4 border-[#DC2626] text-white text-xs font-black uppercase rounded-2xl active:translate-y-1 transition-all"
+                      className="w-full py-3 bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] text-xs font-black uppercase rounded-2xl active:translate-y-1 transition-all cursor-pointer"
                     >
                       Refill Hearts (Free)
                     </button>
                   </div>
 
                   {/* Item 2: Streak Freeze */}
-                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#E5E5E5] bg-white space-y-3">
+                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#3D2619] bg-[#241710] space-y-3">
                     <div className="text-3xl">🧊</div>
-                    <h4 className="font-black text-base text-[#3C3C3C]">
+                    <h4 className="font-black text-base text-[#FEF3C7]">
                       Streak Freeze Amulet
                     </h4>
-                    <p className="text-xs font-bold text-[#777777] leading-relaxed">
+                    <p className="text-xs font-bold text-[#D4A373] leading-relaxed">
                       Protects your learning streak for an entire day if you miss a study session.
                     </p>
                     <button
                       disabled
-                      className="w-full py-3 bg-[#E5E5E5] border-b-4 border-[#D0D0D0] text-[#AFAFAF] text-xs font-black uppercase rounded-2xl cursor-not-allowed"
+                      className="w-full py-3 bg-[#1E130D] border-b-4 border-[#3D2619] text-[#D4A373] text-xs font-black uppercase rounded-2xl cursor-not-allowed"
                     >
                       Equipped (Active) ✓
                     </button>
                   </div>
 
                   {/* Item 3: Double XP Potion */}
-                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#E5E5E5] bg-white space-y-3">
+                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#3D2619] bg-[#241710] space-y-3">
                     <div className="text-3xl">🧪</div>
-                    <h4 className="font-black text-base text-[#3C3C3C]">
+                    <h4 className="font-black text-base text-[#FEF3C7]">
                       Baobab Double XP Boost
                     </h4>
-                    <p className="text-xs font-bold text-[#777777] leading-relaxed">
+                    <p className="text-xs font-bold text-[#D4A373] leading-relaxed">
                       Doubles all XP earned in lessons for the next 15 minutes of focused learning!
                     </p>
                     <button
@@ -1728,24 +1727,24 @@ export default function App() {
                           todayXp: user.todayXp + 50,
                         });
                       }}
-                      className="w-full py-3 bg-[#1CB0F6] hover:bg-[#1899D6] border-b-4 border-[#1580B8] text-white text-xs font-black uppercase rounded-2xl active:translate-y-1 transition-all"
+                      className="w-full py-3 bg-[#F59E0B] hover:bg-[#D97706] border-b-4 border-[#B45309] text-[#1E130D] text-xs font-black uppercase rounded-2xl active:translate-y-1 transition-all cursor-pointer"
                     >
                       Activate (+50 XP Bonus)
                     </button>
                   </div>
 
                   {/* Item 4: Kente Robe Outfit */}
-                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#E5E5E5] bg-white space-y-3">
+                  <div className="p-5 rounded-2xl border-2 border-b-4 border-[#3D2619] bg-[#241710] space-y-3">
                     <div className="text-3xl">👑</div>
-                    <h4 className="font-black text-base text-[#3C3C3C]">
+                    <h4 className="font-black text-base text-[#FEF3C7]">
                       Golden Kente Crown Outfit
                     </h4>
-                    <p className="text-xs font-bold text-[#777777] leading-relaxed">
+                    <p className="text-xs font-bold text-[#D4A373] leading-relaxed">
                       Custom avatar accessory for your profile and leaderboard badges.
                     </p>
                     <button
                       disabled
-                      className="w-full py-3 bg-[#FFC800] border-b-4 border-[#E5A500] text-white text-xs font-black uppercase rounded-2xl cursor-default"
+                      className="w-full py-3 bg-[#1E130D] border-b-4 border-[#3D2619] text-[#F59E0B] text-xs font-black uppercase rounded-2xl cursor-default"
                     >
                       Unlocked ✓
                     </button>
@@ -2327,36 +2326,36 @@ export default function App() {
 
       {/* 4. DUOLINGO GUIDEBOOK MODAL */}
       {guidebookUnit !== null && (
-        <div className="fixed inset-0 z-50 bg-[#3C3C3C]/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-6 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b-2 pb-4 border-[#E5E5E5]">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-6 shadow-2xl max-h-[85vh] overflow-y-auto text-[#FEF3C7]">
+            <div className="flex items-center justify-between border-b-2 pb-4 border-[#3D2619]">
               <div>
-                <span className="text-xs font-black uppercase text-[#1CB0F6] tracking-wider">
+                <span className="text-xs font-black uppercase text-[#14B8A6] tracking-wider">
                   {isFrench ? `GUIDE DE L'UNITÉ ${guidebookUnit + 1}` : `UNIT ${guidebookUnit} GUIDEBOOK`}
                 </span>
-                <h3 className="text-2xl font-black text-[#3C3C3C]">
+                <h3 className="text-2xl font-black text-[#FEF3C7]">
                   {currentUnitThemes[guidebookUnit]?.guideTitle || 'Grammar & Vocabulary'}
                 </h3>
               </div>
               <button
                 onClick={() => setGuidebookUnit(null)}
-                className="text-[#AFAFAF] hover:text-[#3C3C3C] text-xl font-black p-1"
+                className="text-[#D4A373] hover:text-[#FEF3C7] text-xl font-black p-1 cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
-            <div className="space-y-4 text-sm text-[#4B4B4B] leading-relaxed">
+            <div className="space-y-4 text-sm text-[#FEF3C7] leading-relaxed">
               {isFrench ? (
                 <div className="space-y-4">
-                  <div className="p-4 bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-2xl space-y-2">
-                    <h4 className="font-black text-base text-[#3C3C3C]">
+                  <div className="p-4 bg-[#241710] border-2 border-[#3D2619] rounded-2xl space-y-2">
+                    <h4 className="font-black text-base text-[#F59E0B]">
                       Concepts Clés • Unité {guidebookUnit + 1}
                     </h4>
-                    <p className="text-xs text-[#777777]">
+                    <p className="text-xs text-[#D4A373]">
                       Essential grammar, polite expressions, and daily communication habits:
                     </p>
-                    <ul className="text-xs font-bold text-[#3C3C3C] space-y-1 list-disc list-inside">
+                    <ul className="text-xs font-bold text-[#FEF3C7] space-y-1 list-disc list-inside">
                       <li><strong>Le / La / Les</strong>: French nouns have grammatical gender (le café, la baguette, les amis).</li>
                       <li><strong>Tu vs. Vous</strong>: Use 'tu' with close peers, and 'vous' for politeness, elders, and strangers.</li>
                       <li><strong>S'il vous plaît</strong>: Essential polite phrase required whenever ordering in France.</li>
@@ -2365,37 +2364,37 @@ export default function App() {
                   </div>
 
                   <div className="space-y-2">
-                    <h4 className="font-black text-sm text-[#3C3C3C] uppercase tracking-wider">
+                    <h4 className="font-black text-sm text-[#14B8A6] uppercase tracking-wider">
                       Prononciation & Audio:
                     </h4>
                     <div className="space-y-2">
                       <button
                         onClick={() => playSageloPhrase('Bonjour, comment allez-vous ?', { lang: 'french' })}
-                        className="w-full p-3 bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl flex items-center justify-between text-left font-black text-sm"
+                        className="w-full p-3 bg-[#241710] border-2 border-b-4 border-[#3D2619] hover:border-[#0D9488] text-[#FEF3C7] rounded-xl flex items-center justify-between text-left font-black text-sm cursor-pointer"
                       >
                         <span>Bonjour, comment allez-vous ? (Hello, how are you?)</span>
-                        <Volume2 className="w-4 h-4 text-[#1CB0F6]" />
+                        <Volume2 className="w-4 h-4 text-[#14B8A6]" />
                       </button>
                       <button
                         onClick={() => playSageloPhrase('Une carafe d\'eau et un café, s\'il vous plaît !', { lang: 'french' })}
-                        className="w-full p-3 bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl flex items-center justify-between text-left font-black text-sm"
+                        className="w-full p-3 bg-[#241710] border-2 border-b-4 border-[#3D2619] hover:border-[#0D9488] text-[#FEF3C7] rounded-xl flex items-center justify-between text-left font-black text-sm cursor-pointer"
                       >
                         <span>Une carafe d'eau et un café, s'il vous plaît !</span>
-                        <Volume2 className="w-4 h-4 text-[#1CB0F6]" />
+                        <Volume2 className="w-4 h-4 text-[#14B8A6]" />
                       </button>
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="p-4 bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-2xl space-y-2">
-                    <h4 className="font-black text-base text-[#3C3C3C]">
+                  <div className="p-4 bg-[#241710] border-2 border-[#3D2619] rounded-2xl space-y-2">
+                    <h4 className="font-black text-base text-[#F59E0B]">
                       Core Concepts in Unit {guidebookUnit}:
                     </h4>
-                    <p className="text-xs text-[#777777]">
+                    <p className="text-xs text-[#D4A373]">
                       Sagelo words follow regular root structures with 5 fundamental vowel endings:
                     </p>
-                    <ul className="text-xs font-bold text-[#3C3C3C] space-y-1 list-disc list-inside">
+                    <ul className="text-xs font-bold text-[#FEF3C7] space-y-1 list-disc list-inside">
                       <li><strong>-o</strong>: Abstract concept / noun (sago = wisdom, ludo = play)</li>
                       <li><strong>-a</strong>: Concrete tangible entity (kora = heart, buma = tree)</li>
                       <li><strong>-e</strong>: Adjective / description (sage = wise, bono = good)</li>
@@ -2405,7 +2404,7 @@ export default function App() {
                   </div>
 
                   <div className="space-y-2">
-                    <h4 className="font-black text-sm text-[#3C3C3C] uppercase tracking-wider">
+                    <h4 className="font-black text-sm text-[#14B8A6] uppercase tracking-wider">
                       Key Audio Examples:
                     </h4>
                     <div className="space-y-2">
@@ -2413,19 +2412,19 @@ export default function App() {
                         onClick={() =>
                           playSageloPhrase('Shanti, ndeko!')
                         }
-                        className="w-full p-3 bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl flex items-center justify-between text-left font-black text-sm"
+                        className="w-full p-3 bg-[#241710] border-2 border-b-4 border-[#3D2619] hover:border-[#0D9488] text-[#FEF3C7] rounded-xl flex items-center justify-between text-left font-black text-sm cursor-pointer"
                       >
                         <span>Shanti, ndeko! (Peace, friend!)</span>
-                        <Volume2 className="w-4 h-4 text-[#1CB0F6]" />
+                        <Volume2 className="w-4 h-4 text-[#14B8A6]" />
                       </button>
                       <button
                         onClick={() =>
                           playSageloPhrase('Yo ta sago voli ha.')
                         }
-                        className="w-full p-3 bg-white border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl flex items-center justify-between text-left font-black text-sm"
+                        className="w-full p-3 bg-[#241710] border-2 border-b-4 border-[#3D2619] hover:border-[#0D9488] text-[#FEF3C7] rounded-xl flex items-center justify-between text-left font-black text-sm cursor-pointer"
                       >
                         <span>Yo ta sago voli ha. (I truly want wisdom.)</span>
-                        <Volume2 className="w-4 h-4 text-[#1CB0F6]" />
+                        <Volume2 className="w-4 h-4 text-[#14B8A6]" />
                       </button>
                     </div>
                   </div>
@@ -2435,7 +2434,7 @@ export default function App() {
 
             <button
               onClick={() => setGuidebookUnit(null)}
-              className="w-full py-3.5 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all"
+              className="w-full py-3.5 bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all cursor-pointer shadow-md"
             >
               Close Guidebook
             </button>
@@ -2445,30 +2444,30 @@ export default function App() {
 
       {/* 5. BONUS CHEST MODAL */}
       {chestModal && (
-        <div className="fixed inset-0 z-50 bg-[#3C3C3C]/80 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl">
-            <div className="w-20 h-20 rounded-3xl bg-[#FF9600] border-b-6 border-[#E58600] text-4xl flex items-center justify-center mx-auto shadow-md">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl text-[#FEF3C7]">
+            <div className="w-20 h-20 rounded-3xl bg-[#F59E0B] border-b-6 border-[#D97706] text-4xl flex items-center justify-center mx-auto shadow-md">
               🎁
             </div>
             <div>
-              <h3 className="text-2xl font-black text-[#3C3C3C]">
+              <h3 className="text-2xl font-black text-[#FEF3C7]">
                 Chest Unlocked!
               </h3>
-              <p className="text-xs font-bold text-[#777777] mt-1">
+              <p className="text-xs font-bold text-[#D4A373] mt-1">
                 You found bonus gems and XP on the learning path!
               </p>
             </div>
             <div className="py-2 flex items-center justify-center gap-3">
-              <span className="px-4 py-2 bg-[#EFF6FF] border-2 border-[#BFDBFE] rounded-2xl font-mono-num font-black text-base text-[#1CB0F6]">
+              <span className="px-4 py-2 bg-[#241710] border-2 border-[#0D9488] rounded-2xl font-mono-num font-black text-base text-[#14B8A6]">
                 +{chestModal.gems} Gems
               </span>
-              <span className="px-4 py-2 bg-[#FFF4E5] border-2 border-[#FFD8A8] rounded-2xl font-mono-num font-black text-base text-[#EA580C]">
+              <span className="px-4 py-2 bg-[#241710] border-2 border-[#F59E0B] rounded-2xl font-mono-num font-black text-base text-[#F59E0B]">
                 +15 XP
               </span>
             </div>
             <button
               onClick={() => setChestModal(null)}
-              className="w-full py-3.5 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all"
+              className="w-full py-3.5 bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all cursor-pointer shadow-md"
             >
               Claim Rewards
             </button>

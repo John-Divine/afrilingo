@@ -37,7 +37,7 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({
 
   if (justInstalled) {
     return (
-      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E8F8D8] border-2 border-[#58CC02] text-[#46A302] rounded-2xl text-xs font-black">
+      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#064E3B] border-2 border-[#059669] text-[#10B981] rounded-2xl text-xs font-black">
         <CheckCircle className="w-4 h-4" />
         <span>Installed!</span>
       </div>
@@ -48,19 +48,19 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({
   if (variant === 'sidebar') {
     return (
       <>
-        <div className={`p-3.5 bg-gradient-to-br from-[#F0FDF4] to-[#DCFCE7] border-2 border-[#86EFAC] rounded-2xl space-y-2.5 ${className}`}>
+        <div className={`p-3.5 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl space-y-2.5 ${className}`}>
           <div className="flex items-center gap-2">
             <span className="text-xl">📲</span>
             <div>
-              <div className="text-xs font-black text-[#15803D]">Install AfriLingo App</div>
-              <div className="text-[10px] font-bold text-[#166534]">
+              <div className="text-xs font-black text-[#FEF3C7]">Install AfriLingo App</div>
+              <div className="text-[10px] font-bold text-[#D4A373]">
                 Learn on home screen with offline lessons
               </div>
             </div>
           </div>
           <button
             onClick={handleInstallClick}
-            className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-[#58CC02] hover:bg-[#46A302] text-white border-b-3 border-[#3B8402] rounded-xl text-xs font-black uppercase tracking-wider active:translate-y-0.5 transition-all shadow-xs cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-[#059669] hover:bg-[#047857] text-[#FEF3C7] border-b-3 border-[#065F46] rounded-xl text-xs font-black uppercase tracking-wider active:translate-y-0.5 transition-all shadow-xs cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Install on Device</span>
@@ -81,7 +81,7 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({
       <>
         <button
           onClick={handleInstallClick}
-          className={`flex items-center justify-center gap-2.5 px-4 py-2.5 bg-[#58CC02] hover:bg-[#46A302] border-b-4 border-[#3B8402] text-white font-black text-xs uppercase tracking-wider rounded-2xl active:translate-y-0.5 transition-all shadow-xs cursor-pointer ${className}`}
+          className={`flex items-center justify-center gap-2.5 px-4 py-2.5 bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] font-black text-xs uppercase tracking-wider rounded-2xl active:translate-y-0.5 transition-all shadow-xs cursor-pointer ${className}`}
         >
           <Smartphone className="w-4 h-4" />
           <span>Install App on Device</span>
@@ -99,10 +99,10 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({
     <>
       <button
         onClick={handleInstallClick}
-        className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#58CC02]/10 hover:bg-[#58CC02]/20 border-2 border-[#58CC02]/40 rounded-2xl text-xs font-black text-[#46A302] shadow-xs transition-colors shrink-0 cursor-pointer ${className}`}
+        className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#059669]/20 hover:bg-[#059669]/30 border-2 border-[#059669]/40 rounded-2xl text-xs font-black text-[#10B981] shadow-xs transition-colors shrink-0 cursor-pointer ${className}`}
         title="Install AfriLingo on your phone, tablet, or PC"
       >
-        <Download className="w-3.5 h-3.5 text-[#58CC02]" />
+        <Download className="w-3.5 h-3.5 text-[#10B981]" />
         <span className="hidden sm:inline">Install App</span>
       </button>
 
@@ -121,50 +121,50 @@ interface InstallInstructionsModalProps {
 
 const InstallInstructionsModal: React.FC<InstallInstructionsModalProps> = ({ onClose, isIOS }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-[#3C3C3C]/80 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl relative">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
+      <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl relative text-[#FEF3C7]">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#AFAFAF] hover:text-[#3C3C3C] p-1 text-lg font-black"
+          className="absolute top-4 right-4 text-[#D4A373] hover:text-[#FEF3C7] p-1 text-lg font-black cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="w-16 h-16 rounded-2xl bg-[#E8F8D8] border-2 border-[#58CC02] flex items-center justify-center mx-auto text-3xl">
+        <div className="w-16 h-16 rounded-2xl bg-[#059669]/20 border-2 border-[#059669] flex items-center justify-center mx-auto text-3xl">
           📲
         </div>
 
         <div>
-          <h3 className="text-xl font-black text-[#3C3C3C]">
+          <h3 className="text-xl font-black text-[#FEF3C7]">
             {isIOS ? 'Install on iPhone / iPad' : 'Install on Your Device'}
           </h3>
-          <p className="text-xs font-bold text-[#777777] mt-1">
+          <p className="text-xs font-bold text-[#D4A373] mt-1">
             Enjoy full offline learning and launch directly from your home screen.
           </p>
         </div>
 
         {isIOS ? (
-          <div className="text-left bg-[#F7F7F7] p-4 rounded-2xl border-2 border-[#E5E5E5] space-y-3 text-xs font-bold text-[#4B4B4B]">
+          <div className="text-left bg-[#241710] p-4 rounded-2xl border-2 border-[#3D2619] space-y-3 text-xs font-bold text-[#D4A373]">
             <div className="flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 text-xs font-black">
+              <span className="w-6 h-6 rounded-full bg-[#0D9488] text-[#FEF3C7] flex items-center justify-center shrink-0 text-xs font-black">
                 1
               </span>
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span>Tap the</span>
-                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white border border-[#E5E5E5] rounded-md font-black text-[#1CB0F6]">
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[#1E130D] border border-[#3D2619] rounded-md font-black text-[#14B8A6]">
                   <Share2 className="w-3.5 h-3.5" /> Share
                 </span>
-                <span>button in Safari's toolbar.</span>
+                <span>button in Safari toolbar.</span>
               </div>
             </div>
 
             <div className="flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-[#58CC02] text-white flex items-center justify-center shrink-0 text-xs font-black">
+              <span className="w-6 h-6 rounded-full bg-[#059669] text-[#FEF3C7] flex items-center justify-center shrink-0 text-xs font-black">
                 2
               </span>
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span>Scroll down and tap</span>
-                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white border border-[#E5E5E5] rounded-md font-black text-[#58CC02]">
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[#1E130D] border border-[#3D2619] rounded-md font-black text-[#10B981]">
                   <PlusSquare className="w-3.5 h-3.5" /> Add to Home Screen
                 </span>
                 <span>.</span>
@@ -172,32 +172,32 @@ const InstallInstructionsModal: React.FC<InstallInstructionsModalProps> = ({ onC
             </div>
 
             <div className="flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-[#FF9600] text-white flex items-center justify-center shrink-0 text-xs font-black">
+              <span className="w-6 h-6 rounded-full bg-[#F59E0B] text-[#1E130D] flex items-center justify-center shrink-0 text-xs font-black">
                 3
               </span>
               <span>Tap <strong>Add</strong> in the top-right corner to launch AfriLingo as a standalone app!</span>
             </div>
           </div>
         ) : (
-          <div className="text-left bg-[#F7F7F7] p-4 rounded-2xl border-2 border-[#E5E5E5] space-y-3 text-xs font-bold text-[#4B4B4B]">
+          <div className="text-left bg-[#241710] p-4 rounded-2xl border-2 border-[#3D2619] space-y-3 text-xs font-bold text-[#D4A373]">
             <div className="flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-[#58CC02] text-white flex items-center justify-center shrink-0 text-xs font-black">
+              <span className="w-6 h-6 rounded-full bg-[#059669] text-[#FEF3C7] flex items-center justify-center shrink-0 text-xs font-black">
                 1
               </span>
-              <span>Look for the <strong>Install</strong> or <strong>Computer/Mobile icon</strong> in your browser's address bar.</span>
+              <span>Look for the <strong>Install</strong> or <strong>Computer/Mobile icon</strong> in your browser address bar.</span>
             </div>
             <div className="flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 text-xs font-black">
+              <span className="w-6 h-6 rounded-full bg-[#0D9488] text-[#FEF3C7] flex items-center justify-center shrink-0 text-xs font-black">
                 2
               </span>
-              <span>Or click your browser's menu (<strong>⋮</strong> or <strong>⋯</strong>) and select <strong>Install AfriLingo</strong> or <strong>Add to Home Screen</strong>.</span>
+              <span>Or click your browser menu (<strong>⋮</strong> or <strong>⋯</strong>) and select <strong>Install AfriLingo</strong> or <strong>Add to Home Screen</strong>.</span>
             </div>
           </div>
         )}
 
         <button
           onClick={onClose}
-          className="w-full py-3 bg-[#58CC02] hover:bg-[#46A302] border-b-4 border-[#3B8402] text-white font-black uppercase text-xs rounded-2xl active:translate-y-1 transition-all"
+          className="w-full py-3 bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46] text-[#FEF3C7] font-black uppercase text-xs rounded-2xl active:translate-y-1 transition-all cursor-pointer shadow-md"
         >
           Got It!
         </button>

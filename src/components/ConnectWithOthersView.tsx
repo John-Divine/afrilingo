@@ -323,22 +323,22 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
 
   return (
     <div className="space-y-6 max-w-full overflow-x-hidden">
-      {/* 1. HERO BANNER: DUOLINGO STYLE COMMUNITY CIRCLE */}
-      <div className="bg-[#58CC02] border-b-6 border-[#46A302] text-white rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* 1. HERO BANNER: DUOLINGO STYLE COMMUNITY CIRCLE (EMERALD & WOOD) */}
+      <div className="bg-[#059669] border-b-6 border-[#047857] text-[#FEF3C7] rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black uppercase tracking-wider text-white/80">
+            <span className="text-xs font-black uppercase tracking-wider text-[#FEF3C7]/80">
               SOCIAL & STUDY CIRCLE
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-black uppercase">
+            <span className="px-2 py-0.5 rounded-full bg-black/20 text-[10px] font-black uppercase text-[#FEF3C7]">
               Live Network
             </span>
           </div>
-          <h2 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+          <h2 className="text-2xl font-black tracking-tight text-[#FEF3C7] flex items-center gap-2">
             <span>Connect with Learners</span>
             <span className="text-2xl">🌍</span>
           </h2>
-          <p className="text-xs font-bold text-white/90 max-w-md">
+          <p className="text-xs font-bold text-[#FEF3C7]/90 max-w-md">
             Practice Sagelo with learners across Africa. Follow friends, celebrate streaks, and see real updates from people you connect with!
           </p>
         </div>
@@ -347,22 +347,22 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
         {onOpenAuthModal && (
           <button
             onClick={onOpenAuthModal}
-            className="bg-white hover:bg-[#F7F7F7] border-b-4 border-[#E5E5E5] text-[#58CC02] font-black text-xs uppercase tracking-wider px-4 py-2.5 rounded-2xl flex items-center gap-2 self-start sm:self-center transition-all active:translate-y-0.5 shadow-sm shrink-0"
+            className="bg-[#241710] hover:bg-[#2C1D14] border-b-4 border-[#3D2619] hover:border-[#F59E0B] text-[#FEF3C7] font-black text-xs uppercase tracking-wider px-4 py-2.5 rounded-2xl flex items-center gap-2 self-start sm:self-center transition-all active:translate-y-0.5 shadow-sm shrink-0 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-[#FF9600]" />
+            <Sparkles className="w-4 h-4 text-[#F59E0B]" />
             <span>Profile & Account</span>
           </button>
         )}
       </div>
 
-      {/* 2. SUBTAB SWITCHER */}
-      <div className="flex bg-[#F7F7F7] p-1.5 rounded-2xl border-2 border-[#E5E5E5] max-w-md w-full">
+      {/* 2. SUBTAB SWITCHER (DARK TIMBER) */}
+      <div className="flex bg-[#1E130D] p-1.5 rounded-2xl border-2 border-[#3D2619] max-w-md w-full">
         <button
           onClick={() => setSubTab('find')}
-          className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 ${
+          className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
             subTab === 'find'
-              ? 'bg-white text-[#58CC02] shadow-xs border-2 border-[#58CC02]/20'
-              : 'text-[#777777] hover:text-[#3C3C3C]'
+              ? 'bg-[#241710] text-[#10B981] shadow-xs border-2 border-[#059669]'
+              : 'text-[#D4A373] hover:text-[#FEF3C7]'
           }`}
         >
           <Users className="w-4 h-4" />
@@ -371,10 +371,10 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
 
         <button
           onClick={() => setSubTab('feed')}
-          className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 ${
+          className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
             subTab === 'feed'
-              ? 'bg-white text-[#1CB0F6] shadow-xs border-2 border-[#1CB0F6]/20'
-              : 'text-[#777777] hover:text-[#3C3C3C]'
+              ? 'bg-[#241710] text-[#14B8A6] shadow-xs border-2 border-[#0D9488]'
+              : 'text-[#D4A373] hover:text-[#FEF3C7]'
           }`}
         >
           <Zap className="w-4 h-4" />
@@ -383,10 +383,10 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
 
         <button
           onClick={() => setSubTab('wisdom')}
-          className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 ${
+          className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
             subTab === 'wisdom'
-              ? 'bg-white text-[#CE82FF] shadow-xs border-2 border-[#CE82FF]/20'
-              : 'text-[#777777] hover:text-[#3C3C3C]'
+              ? 'bg-[#241710] text-[#F59E0B] shadow-xs border-2 border-[#F59E0B]'
+              : 'text-[#D4A373] hover:text-[#FEF3C7]'
           }`}
         >
           <MessageCircle className="w-4 h-4" />
@@ -399,15 +399,15 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
         <div className="space-y-6">
           {/* Active Connections Spotlight (if user has connected with anyone) */}
           {connectedLearners.length > 0 ? (
-            <div className="bg-white border-2 border-b-6 border-[#58CC02]/30 rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs">
+            <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs text-[#FEF3C7]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-[#58CC02]" />
-                  <h3 className="font-black text-base text-[#3C3C3C]">
+                  <CheckCircle2 className="w-5 h-5 text-[#10B981]" />
+                  <h3 className="font-black text-base text-[#FEF3C7]">
                     My Connected Learners ({connectedLearners.length})
                   </h3>
                 </div>
-                <span className="text-xs font-bold text-[#58CC02]">
+                <span className="text-xs font-bold text-[#10B981]">
                   Synced to your account
                 </span>
               </div>
@@ -416,17 +416,17 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                 {connectedLearners.map((learner) => (
                   <div
                     key={`connected-${learner.userId}`}
-                    className="p-3.5 rounded-2xl border-2 border-[#58CC02]/20 bg-[#F4FDF0] flex items-center justify-between gap-3 shadow-xs"
+                    className="p-3.5 rounded-2xl border-2 border-[#3D2619] bg-[#241710] flex items-center justify-between gap-3 shadow-xs"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-11 h-11 rounded-2xl bg-white border border-[#58CC02]/30 text-2xl flex items-center justify-center shrink-0">
+                      <div className="w-11 h-11 rounded-2xl bg-[#1E130D] border border-[#3D2619] text-2xl flex items-center justify-center shrink-0">
                         {learner.avatarEmoji || '🧒🏾'}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-black text-[#3C3C3C] truncate">
+                        <p className="text-sm font-black text-[#FEF3C7] truncate">
                           {learner.displayName}
                         </p>
-                        <p className="text-xs font-bold text-[#58CC02] truncate">
+                        <p className="text-xs font-bold text-[#10B981] truncate">
                           {learner.sageloName} • {learner.region}
                         </p>
                       </div>
@@ -435,14 +435,14 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                     <div className="flex items-center gap-1.5 shrink-0">
                       <button
                         onClick={() => handleCheerUser(learner)}
-                        className="px-2.5 py-1.5 bg-white border-2 border-[#FFD8A8] hover:bg-[#FFF4E5] rounded-xl text-[11px] font-black uppercase text-[#EA580C] transition-all"
+                        className="px-2.5 py-1.5 bg-[#1E130D] border-2 border-[#F59E0B] hover:bg-[#2C1D14] rounded-xl text-[11px] font-black uppercase text-[#F59E0B] transition-all cursor-pointer"
                         title="Cheer friend"
                       >
                         🎉 Cheer
                       </button>
                       <button
                         onClick={() => handleToggleFollow(learner.userId)}
-                        className="px-2.5 py-1.5 bg-white border border-[#E5E5E5] hover:border-[#EF4444] text-[#777777] hover:text-[#EF4444] rounded-xl text-[10px] font-black uppercase transition-all"
+                        className="px-2.5 py-1.5 bg-[#1E130D] border border-[#3D2619] hover:border-[#EF4444] text-[#D4A373] hover:text-[#EF4444] rounded-xl text-[10px] font-black uppercase transition-all cursor-pointer"
                         title="Disconnect"
                       >
                         Connected ✓
@@ -453,10 +453,10 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
               </div>
             </div>
           ) : (
-            <div className="bg-[#F0FDF4] border-2 border-[#86EFAC] rounded-3xl p-5 flex items-center gap-4">
+            <div className="bg-[#1E130D] border-2 border-[#059669]/40 rounded-3xl p-5 flex items-center gap-4 text-[#FEF3C7]">
               <span className="text-3xl">🌱</span>
               <div>
-                <h4 className="font-black text-sm text-[#166534]">
+                <h4 className="font-black text-sm text-[#10B981]">
                   You have not connected to any learners yet
                 </h4>
                 <p className="text-xs font-bold text-[#15803D]">
@@ -468,43 +468,43 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
 
           {/* Search Input */}
           <div className="relative w-full max-w-full">
-            <Search className="w-5 h-5 absolute left-4 top-3.5 text-[#AFAFAF]" />
+            <Search className="w-5 h-5 absolute left-4 top-3.5 text-[#D4A373]" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search learners by name, Sagelo moniker, or country..."
-              className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C] bg-white shadow-xs"
+              className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-[#3D2619] focus:border-[#10B981] focus:outline-hidden font-bold text-sm text-[#FEF3C7] bg-[#241710] placeholder:text-[#A38260] shadow-xs"
             />
           </div>
 
           {/* Friends Quest Card */}
-          <div className="bg-[#FFF4E5] border-2 border-b-4 border-[#FFD8A8] rounded-3xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+          <div className="bg-[#1E130D] border-2 border-b-4 border-[#F59E0B]/50 rounded-3xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#FF9600] border-b-4 border-[#E58600] text-2xl flex items-center justify-center text-white shrink-0 shadow-xs">
+              <div className="w-12 h-12 rounded-2xl bg-[#F59E0B] border-b-4 border-[#B45309] text-2xl flex items-center justify-center text-[#150E09] shrink-0 shadow-xs">
                 🤝
               </div>
               <div>
-                <h4 className="font-black text-sm text-[#EA580C] uppercase tracking-wider">
+                <h4 className="font-black text-sm text-[#F59E0B] uppercase tracking-wider">
                   Weekly Friends Quest
                 </h4>
-                <p className="text-xs font-bold text-[#3C3C3C]">
+                <p className="text-xs font-bold text-[#FEF3C7]">
                   Earn 100 XP together with your connected friends this week for 30 Cowrie Gems!
                 </p>
-                <div className="text-[11px] font-bold text-[#AFAFAF] mt-0.5">
+                <div className="text-[11px] font-bold text-[#D4A373] mt-0.5">
                   Connected with {connectedUserIds.length} learners
                 </div>
               </div>
             </div>
-            <div className="px-3.5 py-1.5 bg-white border-2 border-[#FFD8A8] rounded-2xl font-mono-num font-black text-xs text-[#EA580C] self-start sm:self-center shrink-0">
+            <div className="px-3.5 py-1.5 bg-[#241710] border-2 border-[#F59E0B]/60 rounded-2xl font-mono-num font-black text-xs text-[#F59E0B] self-start sm:self-center shrink-0">
               {connectedUserIds.length > 0 ? '65 / 100 XP' : '0 / 100 XP'}
             </div>
           </div>
 
           {/* Learners Directory Grid */}
           <div className="space-y-3">
-            <h3 className="font-black text-base text-[#3C3C3C] flex items-center gap-2">
-              <Globe className="w-5 h-5 text-[#58CC02]" />
+            <h3 className="font-black text-base text-[#FEF3C7] flex items-center gap-2">
+              <Globe className="w-5 h-5 text-[#10B981]" />
               <span>Discover Learners Across Africa</span>
             </h3>
 
@@ -516,21 +516,21 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                 return (
                   <div
                     key={learner.userId}
-                    className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 flex flex-col justify-between gap-4 shadow-xs hover:border-[#1CB0F6] transition-all"
+                    className="bg-[#1E130D] border-2 border-b-4 border-[#3D2619] rounded-3xl p-5 flex flex-col justify-between gap-4 shadow-xs hover:border-[#14B8A6] transition-all"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3.5 min-w-0">
-                        <div className="w-14 h-14 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] text-3xl flex items-center justify-center shrink-0">
+                        <div className="w-14 h-14 rounded-2xl bg-[#241710] border-2 border-[#3D2619] text-3xl flex items-center justify-center shrink-0">
                           {learner.avatarEmoji || '🧒🏾'}
                         </div>
                         <div className="min-w-0">
-                          <h4 className="text-base font-black text-[#3C3C3C] truncate">
+                          <h4 className="text-base font-black text-[#FEF3C7] truncate">
                             {learner.displayName}
                           </h4>
-                          <p className="text-xs font-bold text-[#58CC02] truncate">
+                          <p className="text-xs font-bold text-[#10B981] truncate">
                             {learner.sageloName}
                           </p>
-                          <p className="text-[11px] font-bold text-[#AFAFAF] truncate mt-0.5">
+                          <p className="text-[11px] font-bold text-[#D4A373] truncate mt-0.5">
                             {learner.region}
                           </p>
                         </div>
@@ -538,30 +538,30 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
 
                       {/* Stats pill */}
                       <div className="flex flex-col items-end gap-1 shrink-0">
-                        <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#EA580C]">
-                          <Flame className="w-3.5 h-3.5 fill-[#EA580C]" />
+                        <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#F59E0B]">
+                          <Flame className="w-3.5 h-3.5 fill-[#F59E0B]" />
                           <span>{learner.streak}d</span>
                         </div>
-                        <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#FF9600]">
-                          <Zap className="w-3.5 h-3.5 text-[#FF9600]" />
+                        <div className="flex items-center gap-1 font-mono-num text-xs font-black text-[#14B8A6]">
+                          <Zap className="w-3.5 h-3.5 text-[#14B8A6]" />
                           <span>{learner.xp} XP</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Actions: Follow and High-five */}
-                    <div className="flex items-center gap-2 pt-2 border-t-2 border-[#F7F7F7]">
+                    <div className="flex items-center gap-2 pt-2 border-t-2 border-[#3D2619]">
                       <button
                         onClick={() => handleToggleFollow(learner.userId)}
                         className={`flex-1 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:translate-y-0.5 ${
                           isFollowing
-                            ? 'bg-[#F7F7F7] border-2 border-[#E5E5E5] text-[#777777] hover:bg-[#E5E5E5]'
-                            : 'bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white shadow-xs'
+                            ? 'bg-[#241710] border-2 border-[#3D2619] text-[#D4A373] hover:bg-[#2C1D14]'
+                            : 'bg-[#059669] hover:bg-[#10B981] border-b-4 border-[#047857] text-[#FEF3C7] shadow-xs'
                         }`}
                       >
                         {isFollowing ? (
                           <>
-                            <UserCheck className="w-4 h-4 text-[#58CC02]" />
+                            <UserCheck className="w-4 h-4 text-[#10B981]" />
                             <span>Following ✓</span>
                           </>
                         ) : (
@@ -576,8 +576,8 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                         onClick={() => handleCheerUser(learner)}
                         className={`px-3.5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider border-2 border-b-4 transition-all active:translate-y-0.5 ${
                           isCheered
-                            ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534]'
-                            : 'bg-white border-[#E5E5E5] hover:bg-[#FFF4E5] hover:border-[#FFD8A8] text-[#EA580C]'
+                            ? 'bg-[#064E3B] border-[#059669] text-[#10B981]'
+                            : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] hover:border-[#F59E0B] text-[#F59E0B]'
                         }`}
                         title="Send High-Five / Cheer"
                       >
@@ -596,33 +596,33 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
       {subTab === 'feed' && (
         <div className="space-y-4">
           {connectedLearners.length === 0 ? (
-            <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl p-8 text-center space-y-4 shadow-xs">
-              <div className="w-16 h-16 mx-auto rounded-3xl bg-[#1CB0F6]/10 border-2 border-[#1CB0F6]/20 flex items-center justify-center text-3xl">
+            <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-8 text-center space-y-4 shadow-xs">
+              <div className="w-16 h-16 mx-auto rounded-3xl bg-[#0D9488]/15 border-2 border-[#0D9488]/30 flex items-center justify-center text-3xl">
                 🤝
               </div>
               <div className="space-y-1.5 max-w-sm mx-auto">
-                <h3 className="font-black text-lg text-[#3C3C3C]">
+                <h3 className="font-black text-lg text-[#FEF3C7]">
                   No Connected Friends Yet
                 </h3>
-                <p className="text-xs font-bold text-[#777777] leading-relaxed">
+                <p className="text-xs font-bold text-[#D4A373] leading-relaxed">
                   When you connect with fellow learners in Find Friends, their streak milestones, lesson achievements, and celebratory highlights will appear here.
                 </p>
               </div>
               <button
                 onClick={() => setSubTab('find')}
-                className="px-5 py-2.5 bg-[#1CB0F6] hover:bg-[#1899D6] border-b-4 border-[#1580B8] text-white font-black text-xs uppercase rounded-2xl transition-all active:translate-y-0.5"
+                className="px-5 py-2.5 bg-[#0D9488] hover:bg-[#14B8A6] border-b-4 border-[#0F766E] text-[#FEF3C7] font-black text-xs uppercase rounded-2xl transition-all active:translate-y-0.5"
               >
                 Find Learners to Connect
               </button>
             </div>
           ) : (
-            <div className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 space-y-4 shadow-xs">
+            <div className="bg-[#1E130D] border-2 border-b-4 border-[#3D2619] rounded-3xl p-5 space-y-4 shadow-xs">
               <div className="flex items-center justify-between">
-                <h3 className="font-black text-base text-[#3C3C3C] flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-[#1CB0F6]" />
+                <h3 className="font-black text-base text-[#FEF3C7] flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-[#F59E0B]" />
                   <span>Recent Friend Highlights ({connectedLearners.length})</span>
                 </h3>
-                <span className="text-xs font-bold text-[#1CB0F6]">
+                <span className="text-xs font-bold text-[#14B8A6]">
                   Live Connected Feed
                 </span>
               </div>
@@ -631,15 +631,15 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                 {connectedLearners.map((friend) => (
                   <div
                     key={`feed-${friend.userId}`}
-                    className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-between gap-4"
+                    className="p-4 rounded-2xl bg-[#241710] border-2 border-[#3D2619] flex items-center justify-between gap-4"
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{friend.avatarEmoji || '🧒🏾'}</span>
                       <div>
-                        <p className="text-sm font-black text-[#3C3C3C]">
+                        <p className="text-sm font-black text-[#FEF3C7]">
                           {friend.displayName} ({friend.sageloName}) reached a {friend.streak}-day streak!
                         </p>
-                        <p className="text-xs font-bold text-[#AFAFAF]">
+                        <p className="text-xs font-bold text-[#D4A373]">
                           {friend.xp} XP earned • {friend.region}
                         </p>
                       </div>
@@ -649,7 +649,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                         playSageloPhrase('Shanti, ndeko!');
                         handleCheerUser(friend);
                       }}
-                      className="px-3.5 py-1.5 bg-[#FFC800] border-b-4 border-[#E5A500] text-white font-black text-xs uppercase rounded-xl active:translate-y-0.5 flex items-center gap-1 shrink-0"
+                      className="px-3.5 py-1.5 bg-[#F59E0B] border-b-4 border-[#B45309] text-[#150E09] font-black text-xs uppercase rounded-xl active:translate-y-0.5 flex items-center gap-1 shrink-0"
                     >
                       <span>🎉</span>
                       <span>Cheer</span>
@@ -666,14 +666,14 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
       {subTab === 'wisdom' && (
         <div className="space-y-6">
           {/* Post composer */}
-          <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs">
+          <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs">
             <div className="flex items-center gap-3">
               <span className="text-2xl">✍🏾</span>
               <div>
-                <h3 className="font-black text-base text-[#3C3C3C]">
+                <h3 className="font-black text-base text-[#FEF3C7]">
                   Share a Sagelo Phrase with the Community
                 </h3>
-                <p className="text-xs font-bold text-[#777777]">
+                <p className="text-xs font-bold text-[#D4A373]">
                   Practice your evidentiality particles (-ha, -ra, -si, -ni) and let peers review!
                 </p>
               </div>
@@ -687,7 +687,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                   value={newSagelo}
                   onChange={(e) => setNewSagelo(e.target.value)}
                   placeholder="Sagelo phrase (e.g. Yo sagi sago bono ha)"
-                  className="w-full px-4 py-2.5 rounded-2xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C]"
+                  className="w-full px-4 py-2.5 rounded-2xl border-2 border-[#3D2619] focus:border-[#10B981] focus:outline-hidden font-bold text-sm text-[#FEF3C7] bg-[#241710] placeholder:text-[#A38260]"
                 />
               </div>
 
@@ -698,14 +698,14 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                   value={newEnglish}
                   onChange={(e) => setNewEnglish(e.target.value)}
                   placeholder="English translation (e.g. I understand wisdom well)"
-                  className="w-full px-4 py-2.5 rounded-2xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C]"
+                  className="w-full px-4 py-2.5 rounded-2xl border-2 border-[#3D2619] focus:border-[#10B981] focus:outline-hidden font-bold text-sm text-[#FEF3C7] bg-[#241710] placeholder:text-[#A38260]"
                 />
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                 {/* Evidentiality picker */}
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-black uppercase text-[#AFAFAF]">Particle:</span>
+                  <span className="text-xs font-black uppercase text-[#D4A373]">Particle:</span>
                   {(['ha', 'ra', 'si', 'ni'] as const).map((part) => (
                     <button
                       key={part}
@@ -713,8 +713,8 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                       onClick={() => setNewEvidentiality(part)}
                       className={`px-3 py-1 rounded-xl text-xs font-black uppercase transition-all ${
                         newEvidentiality === part
-                          ? 'bg-[#CE82FF] text-white shadow-xs'
-                          : 'bg-[#F7F7F7] text-[#777777] border border-[#E5E5E5]'
+                          ? 'bg-[#0D9488] text-[#FEF3C7] shadow-xs'
+                          : 'bg-[#241710] text-[#D4A373] border border-[#3D2619]'
                       }`}
                     >
                       -{part}
@@ -725,7 +725,7 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                 <button
                   type="submit"
                   disabled={postSubmitting}
-                  className="px-6 py-2.5 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black text-xs uppercase rounded-2xl transition-all active:translate-y-0.5 shadow-xs flex items-center gap-1.5"
+                  className="px-6 py-2.5 bg-[#059669] hover:bg-[#10B981] border-b-4 border-[#047857] text-[#FEF3C7] font-black text-xs uppercase rounded-2xl transition-all active:translate-y-0.5 shadow-xs flex items-center gap-1.5"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{postSubmitting ? 'Posting...' : 'Share Phrase'}</span>
@@ -735,14 +735,14 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
           </div>
 
           {/* Filter Pills: My Connections vs All Community */}
-          <div className="flex items-center justify-between border-b-2 border-[#E5E5E5] pb-3">
+          <div className="flex items-center justify-between border-b-2 border-[#3D2619] pb-3">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setWisdomFilter('connections')}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
                   wisdomFilter === 'connections'
-                    ? 'bg-[#58CC02] text-white shadow-xs'
-                    : 'bg-[#F7F7F7] text-[#777777] hover:bg-[#E5E5E5]'
+                    ? 'bg-[#059669] text-[#FEF3C7] shadow-xs'
+                    : 'bg-[#241710] text-[#D4A373] hover:bg-[#2C1D14] border border-[#3D2619]'
                 }`}
               >
                 My Connections ({posts.filter((p) => p.authorId === currentUser.id || connectedUserIds.includes(p.authorId)).length})
@@ -752,15 +752,15 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                 onClick={() => setWisdomFilter('all')}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
                   wisdomFilter === 'all'
-                    ? 'bg-[#1CB0F6] text-white shadow-xs'
-                    : 'bg-[#F7F7F7] text-[#777777] hover:bg-[#E5E5E5]'
+                    ? 'bg-[#0D9488] text-[#FEF3C7] shadow-xs'
+                    : 'bg-[#241710] text-[#D4A373] hover:bg-[#2C1D14] border border-[#3D2619]'
                 }`}
               >
                 All Community ({posts.length})
               </button>
             </div>
 
-            <span className="text-[11px] font-bold text-[#AFAFAF] hidden sm:inline">
+            <span className="text-[11px] font-bold text-[#D4A373] hidden sm:inline">
               {wisdomFilter === 'connections' ? 'Showing posts from you & people you follow' : 'Showing all public posts'}
             </span>
           </div>
@@ -768,17 +768,17 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
           {/* Posts list */}
           <div className="space-y-4">
             {displayedPosts.length === 0 ? (
-              <div className="p-8 text-center bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl space-y-3">
+              <div className="p-8 text-center bg-[#1E130D] border-2 border-b-4 border-[#3D2619] rounded-3xl space-y-3">
                 <span className="text-3xl">💬</span>
-                <p className="font-black text-base text-[#3C3C3C]">
+                <p className="font-black text-base text-[#FEF3C7]">
                   No phrases shared by your connections yet.
                 </p>
-                <p className="text-xs font-bold text-[#777777] max-w-sm mx-auto">
+                <p className="text-xs font-bold text-[#D4A373] max-w-sm mx-auto">
                   Share your first Sagelo sentence using the box above, or switch to "All Community" to view phrases shared across Africa!
                 </p>
                 <button
                   onClick={() => setWisdomFilter('all')}
-                  className="mt-1 px-4 py-2 bg-[#F7F7F7] hover:bg-[#E5E5E5] border-2 border-[#E5E5E5] text-xs font-black uppercase text-[#1CB0F6] rounded-xl transition-all"
+                  className="mt-1 px-4 py-2 bg-[#241710] hover:bg-[#2C1D14] border-2 border-[#3D2619] text-xs font-black uppercase text-[#14B8A6] rounded-xl transition-all"
                 >
                   View All Community Phrases
                 </button>
@@ -790,11 +790,11 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                 return (
                   <div
                     key={post.id}
-                    className="bg-white border-2 border-b-4 border-[#E5E5E5] rounded-3xl p-5 space-y-4 shadow-xs"
+                    className="bg-[#1E130D] border-2 border-b-4 border-[#3D2619] rounded-3xl p-5 space-y-4 shadow-xs"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] flex items-center justify-center text-2xl shrink-0">
+                        <div className="w-11 h-11 rounded-2xl bg-[#241710] border-2 border-[#3D2619] flex items-center justify-center text-2xl shrink-0">
                           {post.authorAvatarKey === 'mpaka'
                             ? '👴🏾'
                             : post.authorAvatarKey === 'nyango'
@@ -802,35 +802,35 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                             : '🧒🏾'}
                         </div>
                         <div>
-                          <h4 className="text-sm font-black text-[#3C3C3C] leading-snug">
+                          <h4 className="text-sm font-black text-[#FEF3C7] leading-snug">
                             {post.authorName}
                           </h4>
-                          <p className="text-xs font-bold text-[#58CC02]">
+                          <p className="text-xs font-bold text-[#10B981]">
                             {post.authorSageloName || 'Learner'} • {post.authorRegion}
                           </p>
                         </div>
                       </div>
 
-                      <span className="px-2.5 py-1 bg-[#F7F7F7] border border-[#E5E5E5] rounded-xl text-[10px] font-black uppercase text-[#AFAFAF]">
+                      <span className="px-2.5 py-1 bg-[#241710] border border-[#3D2619] rounded-xl text-[10px] font-black uppercase text-[#F59E0B]">
                         -{post.evidentiality}
                       </span>
                     </div>
 
                     {/* Phrase content */}
-                    <div className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] space-y-1">
+                    <div className="p-4 rounded-2xl bg-[#241710] border-2 border-[#3D2619] space-y-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="text-base font-black text-[#3C3C3C]">
+                        <p className="text-base font-black text-[#FEF3C7]">
                           {post.sageloText}
                         </p>
                         <button
                           onClick={() => playSageloPhrase(post.sageloText)}
-                          className="w-8 h-8 rounded-xl bg-[#1CB0F6] text-white flex items-center justify-center shrink-0 border-b-2 border-[#1899D6] hover:brightness-105"
+                          className="w-8 h-8 rounded-xl bg-[#0D9488] text-[#FEF3C7] flex items-center justify-center shrink-0 border-b-2 border-[#0F766E] hover:brightness-110"
                           title="Listen to audio"
                         >
                           <Volume2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <p className="text-xs font-bold text-[#777777]">
+                      <p className="text-xs font-bold text-[#D4A373]">
                         {post.englishTranslation}
                       </p>
                     </div>
@@ -841,19 +841,19 @@ export const ConnectWithOthersView: React.FC<ConnectWithOthersViewProps> = ({
                         onClick={() => handleToggleShanti(post)}
                         className={`px-3.5 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1.5 transition-all ${
                           isLiked
-                            ? 'bg-[#FEF2F2] border-2 border-[#FECACA] text-[#EF4444]'
-                            : 'bg-[#F7F7F7] hover:bg-[#E5E5E5] text-[#777777]'
+                            ? 'bg-[#3D1414] border-2 border-[#991B1B] text-[#F87171]'
+                            : 'bg-[#241710] hover:bg-[#2C1D14] text-[#D4A373] border border-[#3D2619]'
                         }`}
                       >
-                        <Heart className={`w-4 h-4 ${isLiked ? 'fill-[#EF4444]' : ''}`} />
+                        <Heart className={`w-4 h-4 ${isLiked ? 'fill-[#EF4444] text-[#EF4444]' : ''}`} />
                         <span>{post.shantiCount} Shanti</span>
                       </button>
 
                       <button
                         onClick={() => handleSaveToNotebook(post.sageloText, post.englishTranslation)}
-                        className="px-3.5 py-2 bg-white border-2 border-b-4 border-[#E5E5E5] hover:bg-[#F7F7F7] rounded-xl text-xs font-black uppercase text-[#3C3C3C] flex items-center gap-1.5 transition-all active:translate-y-0.5"
+                        className="px-3.5 py-2 bg-[#241710] border-2 border-b-4 border-[#3D2619] hover:border-[#10B981] rounded-xl text-xs font-black uppercase text-[#FEF3C7] flex items-center gap-1.5 transition-all active:translate-y-0.5"
                       >
-                        <BookOpen className="w-3.5 h-3.5 text-[#1CB0F6]" />
+                        <BookOpen className="w-3.5 h-3.5 text-[#14B8A6]" />
                         <span>Save to Notebook</span>
                       </button>
                     </div>

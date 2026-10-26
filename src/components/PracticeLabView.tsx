@@ -102,24 +102,24 @@ export const PracticeLabView: React.FC = () => {
   const numberConversion = numberToSagelo(numberVal);
 
   return (
-    <div className="space-y-8 max-w-full overflow-x-hidden">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E6DFD3] pb-6">
+    <div className="space-y-8 max-w-full overflow-x-hidden text-[#FEF3C7]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#3D2619] pb-6">
         <div className="space-y-1">
-          <div className="text-xs text-[#5C4D43]">
+          <div className="text-xs text-[#D4A373]">
             Interactive Linguistic Sandboxes · Parts I, II, V & VIII
           </div>
-          <h1 className="text-2xl sm:text-3xl font-display font-semibold text-[#1C1613]">
+          <h1 className="text-2xl sm:text-3xl font-display font-semibold text-[#FEF3C7]">
             Sagelo Interactive Practice Labs
           </h1>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1 p-1.5 bg-[#F3EFE6] border border-[#E6DFD3] rounded-xl">
+        <div className="flex flex-wrap items-center gap-1 p-1.5 bg-[#1E130D] border border-[#3D2619] rounded-xl">
           <button
             onClick={() => setActiveLab('morph')}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap ${
+            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               activeLab === 'morph'
-                ? 'bg-[#C84B24] text-white'
-                : 'text-[#5C4D43] hover:text-[#1C1613]'
+                ? 'bg-[#059669] text-[#FEF3C7]'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -127,10 +127,10 @@ export const PracticeLabView: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveLab('resonance')}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap ${
+            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               activeLab === 'resonance'
-                ? 'bg-[#C84B24] text-white'
-                : 'text-[#5C4D43] hover:text-[#1C1613]'
+                ? 'bg-[#0D9488] text-[#FEF3C7]'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             <Sliders className="w-3.5 h-3.5" />
@@ -138,10 +138,10 @@ export const PracticeLabView: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveLab('script')}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap ${
+            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               activeLab === 'script'
-                ? 'bg-[#C84B24] text-white'
-                : 'text-[#5C4D43] hover:text-[#1C1613]'
+                ? 'bg-[#F59E0B] text-[#150E09]'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             <Feather className="w-3.5 h-3.5" />
@@ -149,10 +149,10 @@ export const PracticeLabView: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveLab('numbers')}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap ${
+            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
               activeLab === 'numbers'
-                ? 'bg-[#C84B24] text-white'
-                : 'text-[#5C4D43] hover:text-[#1C1613]'
+                ? 'bg-[#059669] text-[#FEF3C7]'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             <Hash className="w-3.5 h-3.5" />
@@ -163,32 +163,32 @@ export const PracticeLabView: React.FC = () => {
 
       {activeLab === 'morph' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-7 bg-white border border-[#E6DFD3] rounded-2xl p-6 sm:p-8 space-y-6">
+          <div className="lg:col-span-7 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
-              <div className="text-xs text-[#5C4D43]">
+              <div className="text-xs text-[#D4A373]">
                 Live Morphological Synthesis · Lessons 1, 3, 8 & Part VIII
               </div>
-              <span className="text-xs font-mono-num text-[#1B6B4A] font-semibold">
+              <span className="text-xs font-mono-num text-[#10B981] font-semibold">
                 ● ACTIVE MORPHOLOGY STAGE
               </span>
             </div>
 
-            <div className="p-6 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] text-center space-y-4">
-              <div className="text-xs font-mono-num text-[#5C4D43]">
-                Learner Dotted Form: <span className="text-[#C84B24] font-semibold">{dottedWord}</span>
+            <div className="p-6 rounded-xl bg-[#241710] border-2 border-[#3D2619] text-center space-y-4">
+              <div className="text-xs font-mono-num text-[#D4A373]">
+                Learner Dotted Form: <span className="text-[#F59E0B] font-semibold">{dottedWord}</span>
               </div>
 
               <div className="space-y-2">
-                <div className="text-4xl sm:text-5xl font-display font-semibold text-[#1C1613] tracking-tight">
+                <div className="text-4xl sm:text-5xl font-display font-semibold text-[#FEF3C7] tracking-tight">
                   {fluentWord}
                 </div>
-                <div className="font-mono text-sm font-bold text-[#0284C7] bg-[#E0F2FE] px-3 py-1 rounded-xl border border-[#BAE6FD] inline-block tracking-wide">
+                <div className="font-mono text-sm font-bold text-[#14B8A6] bg-[#0F2D28] px-3 py-1 rounded-xl border border-[#0D9488]/40 inline-block tracking-wide">
                   {getWordPhonetic(fluentWord).display}
                 </div>
               </div>
 
-              <div className="text-sm text-[#5C4D43] max-w-md mx-auto">
-                Meaning: <strong className="text-[#1C1613]">{selectedEnding.pattern.replace('___', selectedRoot.meaning)}</strong>
+              <div className="text-sm text-[#D4A373] max-w-md mx-auto">
+                Meaning: <strong className="text-[#FEF3C7]">{selectedEnding.pattern.replace('___', selectedRoot.meaning)}</strong>
                 {selectedPrefix.prefix && ` · Class: ${selectedPrefix.meaning}`}
                 {isPlural && ' · Plural (more than one)'}
               </div>
@@ -196,7 +196,7 @@ export const PracticeLabView: React.FC = () => {
               <div className="pt-2 flex justify-center">
                 <button
                   onClick={() => playSageloPhrase(fluentWord)}
-                  className="px-5 py-2.5 rounded-xl bg-[#C84B24] hover:bg-[#8F2D10] text-white text-sm font-black transition-all shadow-xs active:translate-y-0.5 inline-flex items-center gap-2 whitespace-nowrap cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-[#059669] hover:bg-[#10B981] text-[#FEF3C7] text-sm font-black transition-all shadow-xs active:translate-y-0.5 inline-flex items-center gap-2 whitespace-nowrap cursor-pointer"
                 >
                   <Volume2 className="w-4 h-4" />
                   <span>Pronounce “{fluentWord}” ({getWordPhonetic(fluentWord).display})</span>
@@ -205,16 +205,16 @@ export const PracticeLabView: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <div className="text-xs font-semibold text-[#5C4D43]">
+              <div className="text-xs font-semibold text-[#D4A373]">
                 Chapter 5 Ceremonial Script Syllabary Representation:
               </div>
-              <div className="p-4 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
+              <div className="p-4 rounded-xl bg-[#241710] border-2 border-[#3D2619]">
                 <CeremonialWordRenderer text={fluentWord} size={58} />
               </div>
             </div>
 
             <div className="space-y-2">
-              <div className="text-xs font-semibold text-[#5C4D43]">
+              <div className="text-xs font-semibold text-[#D4A373]">
                 All 6 Derived Forms of Root “{selectedRoot.root}” ({selectedRoot.meaning}):
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -229,22 +229,22 @@ export const PracticeLabView: React.FC = () => {
                         setSelectedEnding(end);
                         playSageloPhrase(word);
                       }}
-                      className={`p-3 rounded-xl border text-left transition-colors ${
+                      className={`p-3 rounded-xl border text-left transition-colors cursor-pointer ${
                         isCurrent
-                          ? 'bg-[#C84B24]/10 border-[#C84B24]'
-                          : 'bg-[#FBF9F5] border-[#E6DFD3] hover:bg-[#F3EFE6]'
+                          ? 'bg-[#064E3B] border-[#059669] text-[#10B981]'
+                          : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-1">
-                        <div className="font-mono-num font-black text-sm text-[#1C1613]">
+                        <div className="font-mono-num font-black text-sm text-[#FEF3C7]">
                           {word}
                         </div>
-                        <Volume2 className="w-3.5 h-3.5 text-[#AFAFAF] shrink-0" />
+                        <Volume2 className="w-3.5 h-3.5 text-[#D4A373] shrink-0" />
                       </div>
-                      <div className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.2 rounded border border-[#BAE6FD] inline-block my-0.5">
+                      <div className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-1.5 py-0.2 rounded border border-[#0D9488]/40 inline-block my-0.5">
                         {phon.display}
                       </div>
-                      <div className="text-xs text-[#5C4D43] truncate">{end.label}</div>
+                      <div className="text-xs text-[#D4A373] truncate">{end.label}</div>
                     </button>
                   );
                 })}
@@ -252,18 +252,18 @@ export const PracticeLabView: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-[#F3EFE6] border border-[#E6DFD3] rounded-2xl p-6 space-y-6">
+          <div className="lg:col-span-5 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 space-y-6">
             <div>
-              <h3 className="text-lg font-display font-semibold text-[#1C1613]">
+              <h3 className="text-lg font-display font-semibold text-[#FEF3C7]">
                 Morphology Control Deck
               </h3>
-              <p className="text-xs text-[#5C4D43]">
+              <p className="text-xs text-[#D4A373]">
                 Select a root, attach a Bantu-inspired noun class prefix, and choose a grammatical vowel ending.
               </p>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-[#1C1613]">
+              <label className="block text-xs font-semibold text-[#FEF3C7]">
                 1. Core Root ({selectedRoot.root} = {selectedRoot.meaning})
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -271,10 +271,10 @@ export const PracticeLabView: React.FC = () => {
                   <button
                     key={r.root}
                     onClick={() => setSelectedRoot(r)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium border text-left transition-colors truncate ${
+                    className={`px-3 py-2 rounded-lg text-xs font-medium border text-left transition-colors truncate cursor-pointer ${
                       selectedRoot.root === r.root
-                        ? 'bg-[#1C1613] text-white border-[#1C1613]'
-                        : 'bg-white text-[#1C1613] border-[#E6DFD3] hover:border-[#C84B24]'
+                        ? 'bg-[#059669] text-[#FEF3C7] border-[#059669]'
+                        : 'bg-[#241710] text-[#FEF3C7] border-[#3D2619] hover:border-[#10B981]'
                     }`}
                   >
                     <span className="font-mono-num font-semibold">{r.root}</span> · {r.meaning.split('/')[0]}
@@ -284,7 +284,7 @@ export const PracticeLabView: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-[#1C1613]">
+              <label className="block text-xs font-semibold text-[#FEF3C7]">
                 2. Semantic Class Prefix (Lesson 3)
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -292,10 +292,10 @@ export const PracticeLabView: React.FC = () => {
                   <button
                     key={nc.label}
                     onClick={() => setSelectedPrefix(nc)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium border text-left transition-colors truncate ${
+                    className={`px-3 py-2 rounded-lg text-xs font-medium border text-left transition-colors truncate cursor-pointer ${
                       selectedPrefix.label === nc.label
-                        ? 'bg-[#1B6B4A] text-white border-[#1B6B4A]'
-                        : 'bg-white text-[#1C1613] border-[#E6DFD3] hover:border-[#1B6B4A]'
+                        ? 'bg-[#0D9488] text-[#FEF3C7] border-[#0D9488]'
+                        : 'bg-[#241710] text-[#FEF3C7] border-[#3D2619] hover:border-[#14B8A6]'
                     }`}
                   >
                     {nc.label}
@@ -304,16 +304,16 @@ export const PracticeLabView: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-2 border-t border-[#E6DFD3] flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#1C1613]">
+            <div className="pt-2 border-t border-[#3D2619] flex items-center justify-between">
+              <span className="text-xs font-semibold text-[#FEF3C7]">
                 3. Universal Plural Particle “hu” (Lesson 8)
               </span>
               <button
                 onClick={() => setIsPlural(p => !p)}
-                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                   isPlural
-                    ? 'bg-[#C84B24] text-white'
-                    : 'bg-white border border-[#E6DFD3] text-[#5C4D43]'
+                    ? 'bg-[#F59E0B] text-[#150E09]'
+                    : 'bg-[#241710] border border-[#3D2619] text-[#D4A373]'
                 }`}
               >
                 {isPlural ? '● Plural (+ hu)' : 'Singular'}
@@ -325,44 +325,44 @@ export const PracticeLabView: React.FC = () => {
 
       {activeLab === 'resonance' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-7 bg-white border border-[#E6DFD3] rounded-2xl p-6 sm:p-8 space-y-6">
+          <div className="lg:col-span-7 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 sm:p-8 space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="text-xs text-[#5C4D43]">
+              <div className="text-xs text-[#D4A373]">
                 Resonance Pitch Modulation · 3:2 Fifth vs. Flat Natural Cadence
               </div>
               <button
                 onClick={() => setUse3to2Ratio(!use3to2Ratio)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 border cursor-pointer ${
                   use3to2Ratio
-                    ? 'bg-[#1B6B4A] text-white border-[#14532D]'
-                    : 'bg-[#FBF9F5] text-[#C84B24] border-[#C84B24] hover:bg-[#F3EFE6]'
+                    ? 'bg-[#059669] text-white border-[#047857]'
+                    : 'bg-[#241710] text-[#D4A373] border-[#3D2619] hover:bg-[#2C1D14]'
                 }`}
                 title="Toggle 3:2 perfect fifth tone lift"
               >
                 <span>3:2 Ratio:</span>
                 <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono-num font-bold ${
-                  use3to2Ratio ? 'bg-white/20 text-white' : 'bg-[#FEE2E2] text-[#991B1B]'
+                  use3to2Ratio ? 'bg-[#047857] text-white' : 'bg-[#150E09] text-[#D4A373]'
                 }`}>
                   {use3to2Ratio ? 'ON (1.50× Fifth Lift)' : 'OFF (Natural Cadence)'}
                 </span>
               </button>
             </div>
 
-            <div className="p-5 rounded-xl bg-[#1C1613] text-[#FBF9F5] space-y-4">
-              <div className="flex items-center justify-between text-xs text-[#E6DFD3]/80 font-mono-num flex-wrap gap-2">
+            <div className="p-5 rounded-xl bg-[#150E09] border border-[#3D2619] text-[#FEF3C7] space-y-4">
+              <div className="flex items-center justify-between text-xs text-[#D4A373] font-mono-num flex-wrap gap-2">
                 <span>Base Hum: {basePitchHz} Hz</span>
                 <span>
                   Tone Lift:{' '}
                   {use3to2Ratio ? (
-                    <strong className="text-[#D99B26]">3:2 Fifth ({Math.round(basePitchHz * 1.5)} Hz)</strong>
+                    <strong className="text-[#F59E0B]">3:2 Fifth ({Math.round(basePitchHz * 1.5)} Hz)</strong>
                   ) : (
-                    <strong className="text-[#34D399]">OFF (Smooth {basePitchHz} Hz)</strong>
+                    <strong className="text-[#10B981]">OFF (Smooth {basePitchHz} Hz)</strong>
                   )}
                 </span>
                 <span>φ Stress: 1.62×</span>
               </div>
 
-              <div className="h-48 flex items-end gap-2 pt-6 pb-2 px-2 overflow-x-auto border-b border-white/15">
+              <div className="h-48 flex items-end gap-2 pt-6 pb-2 px-2 overflow-x-auto border-b border-[#3D2619]">
                 {resonanceSyllables.map((syl, idx) => {
                   const minHz = basePitchHz * 0.85;
                   const maxHz = basePitchHz * (use3to2Ratio ? 1.6 : 1.15);
@@ -376,27 +376,27 @@ export const PracticeLabView: React.FC = () => {
                     <button
                       key={`${syl.raw}-${idx}`}
                       onClick={() => playSageloPhrase(syl.raw, { basePitchHz, use3to2Ratio })}
-                      className="flex-1 min-w-[44px] flex flex-col items-center justify-end h-full group focus:outline-none"
+                      className="flex-1 min-w-[44px] flex flex-col items-center justify-end h-full group focus:outline-none cursor-pointer"
                     >
-                      <span className="text-[11px] font-mono-num text-[#D99B26] mb-1">
+                      <span className="text-[11px] font-mono-num text-[#F59E0B] mb-1">
                         {syl.frequencyHz}Hz
                       </span>
                       <div
                         className={`w-full rounded-t-lg transition-transform duration-150 ${
                           isPlayingNow
-                            ? 'bg-[#D99B26] scale-105'
+                            ? 'bg-[#F59E0B] scale-105'
                             : syl.isHighTone
-                            ? (use3to2Ratio ? 'bg-[#C84B24]' : 'bg-[#D99B26]')
+                            ? (use3to2Ratio ? 'bg-[#0D9488]' : 'bg-[#F59E0B]')
                             : syl.isStressed
-                            ? 'bg-[#1B6B4A]'
-                            : 'bg-white/30 group-hover:bg-white/50'
+                            ? 'bg-[#059669]'
+                            : 'bg-[#3D2619] group-hover:bg-[#5A3825]'
                         }`}
                         style={{ height: `${heightPct}%` }}
                       />
-                      <span className="mt-2 text-xs font-mono-num font-semibold text-white">
+                      <span className="mt-2 text-xs font-mono-num font-semibold text-[#FEF3C7]">
                         {syl.raw}
                       </span>
-                      <span className="text-[10px] text-white/60">
+                      <span className="text-[10px] text-[#D4A373]">
                         {syl.isHighTone ? (use3to2Ratio ? '▲ HIGH (3:2)' : '▲ HIGH (OFF)') : syl.isStressed ? '● φ STRESS' : 'LOW'}
                       </span>
                     </button>
@@ -405,8 +405,8 @@ export const PracticeLabView: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between gap-4 pt-1 flex-wrap">
-                <div className="text-xs text-[#E6DFD3]/80">
-                  Cadence: <span className="font-mono-num text-white">{use3to2Ratio ? '3:2 Perfect Fifth Jump' : 'Natural Smooth Pitch (3:2 OFF)'}</span>
+                <div className="text-xs text-[#D4A373]">
+                  Cadence: <span className="font-mono-num text-[#FEF3C7]">{use3to2Ratio ? '3:2 Perfect Fifth Jump' : 'Natural Smooth Pitch (3:2 OFF)'}</span>
                 </div>
                 <button
                   onClick={() => {
@@ -419,7 +419,7 @@ export const PracticeLabView: React.FC = () => {
                       onComplete: () => setActiveSyllableIdx(null),
                     });
                   }}
-                  className="px-4 py-2 rounded-lg bg-[#C84B24] hover:bg-[#8F2D10] text-white text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+                  className="px-4 py-2 rounded-lg bg-[#059669] hover:bg-[#10B981] text-[#FEF3C7] text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
                 >
                   <Play className="w-3.5 h-3.5" />
                   <span>Play Phrase Resonance</span>
@@ -428,45 +428,45 @@ export const PracticeLabView: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <div className="font-semibold text-[#C84B24] mb-1">
+              <div className="p-3.5 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <div className="font-semibold text-[#F59E0B] mb-1">
                   {use3to2Ratio ? '▲ 3:2 Ratio (Active)' : '▲ 3:2 Ratio (Turned Off)'}
                 </div>
-                <p className="text-[#5C4D43]">
+                <p className="text-[#D4A373]">
                   {use3to2Ratio
                     ? 'High tone (á, é, í, ó, ú) rises by a 3:2 acoustic fifth interval above resting pitch.'
                     : 'Currently turned OFF: pitch stays at natural conversational baseline without musical fifth jumps.'}
                 </p>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <div className="font-semibold text-[#1B6B4A] mb-1">● Natural Downdrift</div>
-                <p className="text-[#5C4D43]">
+              <div className="p-3.5 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <div className="font-semibold text-[#10B981] mb-1">● Natural Downdrift</div>
+                <p className="text-[#D4A373]">
                   Successive syllables taper naturally across the breath group for relaxed vocal flow.
                 </p>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3]">
-                <div className="font-semibold text-[#312E81] mb-1">◆ φ Penultimate Stress</div>
-                <p className="text-[#5C4D43]">
+              <div className="p-3.5 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <div className="font-semibold text-[#14B8A6] mb-1">◆ φ Penultimate Stress</div>
+                <p className="text-[#D4A373]">
                   The second-to-last syllable maintains steady duration (~1.35×) for clear syllable recognition.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-[#F3EFE6] border border-[#E6DFD3] rounded-2xl p-6 space-y-6">
+          <div className="lg:col-span-5 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 space-y-6">
             <div>
-              <h3 className="text-lg font-display font-semibold text-[#1C1613]">
+              <h3 className="text-lg font-display font-semibold text-[#FEF3C7]">
                 Personal Pitch & Phrase Selector
               </h3>
-              <p className="text-xs text-[#5C4D43]">
+              <p className="text-xs text-[#D4A373]">
                 Chapter 3: Tune to your own natural resting hum rather than a rigid external standard.
               </p>
             </div>
 
-            <div className="space-y-2 bg-white p-4 rounded-xl border border-[#E6DFD3]">
-              <div className="flex items-center justify-between text-xs font-semibold text-[#1C1613]">
+            <div className="space-y-2 bg-[#241710] p-4 rounded-xl border border-[#3D2619]">
+              <div className="flex items-center justify-between text-xs font-semibold text-[#FEF3C7]">
                 <label htmlFor="pitch-slider">Personal Resting Hum Pitch</label>
-                <span className="font-mono-num text-[#C84B24]">
+                <span className="font-mono-num text-[#F59E0B]">
                   {basePitchHz} Hz (Fifth: {Math.round(basePitchHz * 1.5)} Hz)
                 </span>
               </div>
@@ -478,9 +478,9 @@ export const PracticeLabView: React.FC = () => {
                 step={5}
                 value={basePitchHz}
                 onChange={e => setBasePitchHz(Number(e.target.value))}
-                className="w-full accent-[#C84B24]"
+                className="w-full accent-[#059669]"
               />
-              <div className="flex justify-between text-[11px] font-mono-num text-[#8C7A6B]">
+              <div className="flex justify-between text-[11px] font-mono-num text-[#D4A373]">
                 <span>150 Hz (Deep Voice)</span>
                 <span>220 Hz (A3 Standard)</span>
                 <span>300 Hz (Bright Voice)</span>
@@ -488,19 +488,19 @@ export const PracticeLabView: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-[#1C1613]">
+              <label className="block text-xs font-semibold text-[#FEF3C7]">
                 Test Any Sagelo Sentence (Use á, é, í, ó, ú for High Tone):
               </label>
               <input
                 type="text"
                 value={resonanceText}
                 onChange={e => setResonanceText(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#E6DFD3] text-sm text-[#1C1613] focus:outline-none focus:border-[#C84B24]"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#241710] border border-[#3D2619] text-sm text-[#FEF3C7] focus:outline-none focus:border-[#10B981]"
               />
             </div>
 
             <div className="space-y-2">
-              <div className="text-xs font-semibold text-[#1C1613]">
+              <div className="text-xs font-semibold text-[#FEF3C7]">
                 Chapter 3 Minimal Pairs & Mantra Contours:
               </div>
               <div className="space-y-2">
@@ -511,14 +511,14 @@ export const PracticeLabView: React.FC = () => {
                       setResonanceText(item.sagelo);
                       playSageloPhrase(item.sagelo, { basePitchHz });
                     }}
-                    className={`w-full p-3 rounded-xl border text-left transition-colors ${
+                    className={`w-full p-3 rounded-xl border text-left transition-colors cursor-pointer ${
                       resonanceText === item.sagelo
-                        ? 'bg-white border-[#C84B24]'
-                        : 'bg-white/70 border-[#E6DFD3] hover:bg-white'
+                        ? 'bg-[#2C1D14] border-[#F59E0B]'
+                        : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14]'
                     }`}
                   >
-                    <div className="text-sm font-semibold text-[#1C1613]">{item.sagelo}</div>
-                    <div className="text-xs text-[#5C4D43]">{item.english}</div>
+                    <div className="text-sm font-semibold text-[#FEF3C7]">{item.sagelo}</div>
+                    <div className="text-xs text-[#D4A373]">{item.english}</div>
                   </button>
                 ))}
               </div>
@@ -529,14 +529,14 @@ export const PracticeLabView: React.FC = () => {
 
       {activeLab === 'script' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-7 bg-white border border-[#E6DFD3] rounded-2xl p-6 sm:p-8 space-y-6">
+          <div className="lg:col-span-7 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
-              <div className="text-xs text-[#5C4D43]">
+              <div className="text-xs text-[#D4A373]">
                 Chapter 5 Featural Syllabary · One Rounded Vessel Block Per Syllable
               </div>
               <button
                 onClick={() => playSageloPhrase(scriptInput)}
-                className="px-3.5 py-1.5 rounded-lg bg-[#C84B24] text-white text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-lg bg-[#059669] hover:bg-[#10B981] text-[#FEF3C7] text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
               >
                 <Volume2 className="w-3.5 h-3.5" />
                 <span>Chant Inscription</span>
@@ -544,7 +544,7 @@ export const PracticeLabView: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-[#5C4D43]">
+              <label className="block text-xs font-semibold text-[#D4A373]">
                 Type Your Name or Any Sagelo Mantra to Inscribe in Ceremonial Vessels:
               </label>
               <input
@@ -552,17 +552,17 @@ export const PracticeLabView: React.FC = () => {
                 value={scriptInput}
                 onChange={e => setScriptInput(e.target.value)}
                 placeholder="e.g. Shanti, yo sagi ha"
-                className="w-full px-4 py-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] text-base font-medium text-[#1C1613] focus:outline-none focus:border-[#C84B24]"
+                className="w-full px-4 py-3 rounded-xl bg-[#241710] border border-[#3D2619] text-base font-medium text-[#FEF3C7] focus:outline-none focus:border-[#10B981]"
               />
             </div>
 
-            <div className="p-6 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] min-h-[150px] flex items-center justify-center">
+            <div className="p-6 rounded-xl bg-[#241710] border border-[#3D2619] min-h-[150px] flex items-center justify-center">
               <CeremonialWordRenderer text={scriptInput || 'Sagelo'} size={68} />
             </div>
 
-            <div className="space-y-3 pt-2 border-t border-[#E6DFD3]">
+            <div className="space-y-3 pt-2 border-t border-[#3D2619]">
               <div className="flex items-center justify-between">
-                <div className="text-xs font-semibold text-[#1C1613]">
+                <div className="text-xs font-semibold text-[#FEF3C7]">
                   Drill 2.1 — Interactive Open-Syllable Vowel Ladder (Click to pronounce & view glyph)
                 </div>
                 <div className="flex flex-wrap gap-1">
@@ -570,10 +570,10 @@ export const PracticeLabView: React.FC = () => {
                     <button
                       key={c}
                       onClick={() => setVowelDrillConsonant(c)}
-                      className={`px-2 py-1 rounded text-xs font-mono-num font-semibold ${
+                      className={`px-2 py-1 rounded text-xs font-mono-num font-semibold cursor-pointer ${
                         vowelDrillConsonant === c
-                          ? 'bg-[#C84B24] text-white'
-                          : 'bg-[#F3EFE6] text-[#5C4D43] hover:text-[#1C1613]'
+                          ? 'bg-[#059669] text-[#FEF3C7]'
+                          : 'bg-[#241710] text-[#D4A373] hover:text-[#FEF3C7]'
                       }`}
                     >
                       {c}
@@ -589,10 +589,10 @@ export const PracticeLabView: React.FC = () => {
                     <button
                       key={syl}
                       onClick={() => playSageloPhrase(syl)}
-                      className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] hover:border-[#C84B24] flex flex-col items-center gap-1 transition-colors"
+                      className="p-3 rounded-xl bg-[#241710] border border-[#3D2619] hover:border-[#10B981] flex flex-col items-center gap-1 transition-colors cursor-pointer"
                     >
                       <CeremonialSyllableBlock syllable={syl} size={52} showLabel={false} />
-                      <span className="text-sm font-mono-num font-semibold text-[#1C1613]">
+                      <span className="text-sm font-mono-num font-semibold text-[#FEF3C7]">
                         {syl}
                       </span>
                     </button>
@@ -602,28 +602,28 @@ export const PracticeLabView: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-[#F3EFE6] border border-[#E6DFD3] rounded-2xl p-6 space-y-4">
-            <h3 className="text-lg font-display font-semibold text-[#1C1613]">
+          <div className="lg:col-span-5 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 space-y-4">
+            <h3 className="text-lg font-display font-semibold text-[#FEF3C7]">
               How to Read a Ceremonial Vessel Block
             </h3>
-            <p className="text-xs text-[#5C4D43] leading-relaxed">
+            <p className="text-xs text-[#D4A373] leading-relaxed">
               Just like Korean Hangul, Sagelo’s ceremonial script teaches its own phonetics through stroke families:
             </p>
             <div className="space-y-2.5 text-xs">
-              <div className="p-3 rounded-xl bg-white border border-[#E6DFD3]">
-                <strong className="text-[#1C1613]">1. Nasals (m, n, ny):</strong> 1 dot for <em>m</em>, 2 dots for <em>n</em>, 3 dots for <em>ny</em> at the top of the vessel (more dots = further back in the mouth).
+              <div className="p-3 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#FEF3C7]">1. Nasals (m, n, ny):</strong> 1 dot for <em>m</em>, 2 dots for <em>n</em>, 3 dots for <em>ny</em> at the top of the vessel (more dots = further back in the mouth).
               </div>
-              <div className="p-3 rounded-xl bg-white border border-[#E6DFD3]">
-                <strong className="text-[#1C1613]">2. Stops (p, t, k / b, d, g):</strong> A diagonal bar. Voiced stops (<em>b, d, g</em>) add a small voicing tick at the bottom for vocal vibration.
+              <div className="p-3 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#FEF3C7]">2. Stops (p, t, k / b, d, g):</strong> A diagonal bar. Voiced stops (<em>b, d, g</em>) add a small voicing tick at the bottom for vocal vibration.
               </div>
-              <div className="p-3 rounded-xl bg-white border border-[#E6DFD3]">
-                <strong className="text-[#1C1613]">3. Fricatives (f, v, s, sh, h):</strong> Zigzag of breath — 1 peak for <em>f</em>, 2 for <em>s</em>, 3 for <em>sh</em>; soft curve for <em>h</em>.
+              <div className="p-3 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#FEF3C7]">3. Fricatives (f, v, s, sh, h):</strong> Zigzag of breath — 1 peak for <em>f</em>, 2 for <em>s</em>, 3 for <em>sh</em>; soft curve for <em>h</em>.
               </div>
-              <div className="p-3 rounded-xl bg-white border border-[#E6DFD3]">
-                <strong className="text-[#1C1613]">4. Liquids & Glides (l, r / w, y):</strong> Open loop curling left (<em>l</em>) or right (<em>r</em>); side flag for glides (<em>w, y</em>).
+              <div className="p-3 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#FEF3C7]">4. Liquids & Glides (l, r / w, y):</strong> Open loop curling left (<em>l</em>) or right (<em>r</em>); side flag for glides (<em>w, y</em>).
               </div>
-              <div className="p-3 rounded-xl bg-white border border-[#E6DFD3]">
-                <strong className="text-[#1C1613]">5. Five Vowels (a, o, i, e, u):</strong> Full center line (<em>a</em>), circle (<em>o</em>), center dot (<em>i</em>), high short line (<em>e</em>), low mirror line (<em>u</em>).
+              <div className="p-3 rounded-xl bg-[#241710] border border-[#3D2619]">
+                <strong className="text-[#FEF3C7]">5. Five Vowels (a, o, i, e, u):</strong> Full center line (<em>a</em>), circle (<em>o</em>), center dot (<em>i</em>), high short line (<em>e</em>), low mirror line (<em>u</em>).
               </div>
             </div>
           </div>
@@ -632,24 +632,24 @@ export const PracticeLabView: React.FC = () => {
 
       {activeLab === 'numbers' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-7 bg-white border border-[#E6DFD3] rounded-2xl p-6 sm:p-8 space-y-6">
+          <div className="lg:col-span-7 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
-              <div className="text-xs text-[#5C4D43]">
+              <div className="text-xs text-[#D4A373]">
                 Lessons 12–13 & Appendix 3 · Transparent Numeral Compounding
               </div>
-              <span className="text-xs font-mono-num text-[#1B6B4A] font-semibold">
+              <span className="text-xs font-mono-num text-[#10B981] font-semibold">
                 ● ZERO IRREGULARITIES
               </span>
             </div>
 
-            <div className="p-6 rounded-xl bg-[#FBF9F5] border border-[#E6DFD3] text-center space-y-3">
-              <div className="text-xs font-mono-num text-[#5C4D43]">
+            <div className="p-6 rounded-xl bg-[#241710] border border-[#3D2619] text-center space-y-3">
+              <div className="text-xs font-mono-num text-[#D4A373]">
                 Mathematical Structure: {numberConversion.breakdown}
               </div>
-              <div className="text-4xl sm:text-5xl font-display font-semibold text-[#1C1613]">
+              <div className="text-4xl sm:text-5xl font-display font-semibold text-[#FEF3C7]">
                 {numberConversion.sagelo}
               </div>
-              <div className="text-sm font-mono-num text-[#C84B24]">
+              <div className="text-sm font-mono-num text-[#F59E0B]">
                 Group Noun (na- class): na·{numberConversion.sagelo} (“a group of {numberVal}”)
               </div>
               <div className="pt-2">
@@ -657,7 +657,7 @@ export const PracticeLabView: React.FC = () => {
                   onClick={() =>
                     playSageloPhrase(numberConversion.sagelo.replace(/-/g, ' '))
                   }
-                  className="px-5 py-2.5 rounded-lg bg-[#C84B24] hover:bg-[#8F2D10] text-white text-sm font-semibold inline-flex items-center gap-2 whitespace-nowrap"
+                  className="px-5 py-2.5 rounded-lg bg-[#059669] hover:bg-[#10B981] text-[#FEF3C7] text-sm font-semibold inline-flex items-center gap-2 whitespace-nowrap cursor-pointer"
                 >
                   <Volume2 className="w-4 h-4" />
                   <span>Hear Number in Sagelo</span>
@@ -666,9 +666,9 @@ export const PracticeLabView: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs font-semibold text-[#1C1613]">
+              <div className="flex items-center justify-between text-xs font-semibold text-[#FEF3C7]">
                 <label htmlFor="num-slider">Select Any Number (0 – 9999)</label>
-                <span className="font-mono-num text-base text-[#C84B24]">{numberVal}</span>
+                <span className="font-mono-num text-base text-[#F59E0B]">{numberVal}</span>
               </div>
               <input
                 id="num-slider"
@@ -677,17 +677,17 @@ export const PracticeLabView: React.FC = () => {
                 max={1000}
                 value={Math.min(1000, numberVal)}
                 onChange={e => setNumberVal(Number(e.target.value))}
-                className="w-full accent-[#C84B24]"
+                className="w-full accent-[#059669]"
               />
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 {[0, 3, 7, 10, 11, 20, 25, 47, 68, 100, 365, 1000].map(preset => (
                   <button
                     key={preset}
                     onClick={() => setNumberVal(preset)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono-num font-semibold border ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono-num font-semibold border cursor-pointer ${
                       numberVal === preset
-                        ? 'bg-[#1C1613] text-white border-[#1C1613]'
-                        : 'bg-[#FBF9F5] text-[#1C1613] border-[#E6DFD3] hover:bg-[#F3EFE6]'
+                        ? 'bg-[#059669] text-[#FEF3C7] border-[#059669]'
+                        : 'bg-[#241710] text-[#FEF3C7] border-[#3D2619] hover:bg-[#2C1D14]'
                     }`}
                   >
                     {preset}
@@ -697,8 +697,8 @@ export const PracticeLabView: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-[#F3EFE6] border border-[#E6DFD3] rounded-2xl p-6 space-y-4">
-            <h3 className="text-lg font-display font-semibold text-[#1C1613]">
+          <div className="lg:col-span-5 bg-[#1E130D] border-2 border-[#3D2619] rounded-2xl p-6 space-y-4">
+            <h3 className="text-lg font-display font-semibold text-[#FEF3C7]">
               Sagelo Mathematical Operators
             </h3>
             <div className="space-y-2.5">
@@ -712,15 +712,15 @@ export const PracticeLabView: React.FC = () => {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="p-3.5 rounded-xl bg-white border border-[#E6DFD3] flex items-center justify-between gap-3"
+                  className="p-3.5 rounded-xl bg-[#241710] border border-[#3D2619] flex items-center justify-between gap-3"
                 >
                   <div>
-                    <div className="text-sm font-semibold text-[#1C1613]">{item.eq}</div>
-                    <div className="text-xs text-[#5C4D43] font-mono-num">{item.eng}</div>
+                    <div className="text-sm font-semibold text-[#FEF3C7]">{item.eq}</div>
+                    <div className="text-xs text-[#D4A373] font-mono-num">{item.eng}</div>
                   </div>
                   <button
                     onClick={() => playSageloPhrase(item.eq)}
-                    className="p-2 rounded-lg bg-[#F3EFE6] hover:bg-[#C84B24] text-[#1C1613] hover:text-white transition-colors shrink-0"
+                    className="p-2 rounded-lg bg-[#1E130D] hover:bg-[#059669] text-[#FEF3C7] transition-colors shrink-0 cursor-pointer"
                     aria-label={`Listen to ${item.eq}`}
                   >
                     <Volume2 className="w-4 h-4" />

@@ -383,28 +383,28 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
   const characterForExercise = currentExercise?.speaker || 'duo';
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#3C3C3C]/80 backdrop-blur-xs flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
-      <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[94vh] shadow-2xl relative">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
+      <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[94vh] shadow-2xl relative text-[#FEF3C7]">
         {/* DUOLINGO TOP STATUS BAR */}
-        <div className="px-5 py-4 border-b-2 border-[#E5E5E5] flex items-center justify-between gap-4 bg-white shrink-0">
+        <div className="px-5 py-4 border-b-2 border-[#3D2619] flex items-center justify-between gap-4 bg-[#1E130D] shrink-0">
           {/* Close X */}
           <button
             onClick={onClose}
-            className="text-[#AFAFAF] hover:text-[#3C3C3C] font-black text-xl p-1 transition-colors"
+            className="text-[#D4A373] hover:text-[#FEF3C7] font-black text-xl p-1 transition-colors"
             aria-label="Exit lesson"
           >
             <X className="w-6 h-6 stroke-[3]" />
           </button>
 
           {/* Duolingo Rounded Progress Bar */}
-          <div className="flex-1 mx-2 sm:mx-6 h-4 bg-[#E5E5E5] rounded-full overflow-hidden p-0.5 relative">
+          <div className="flex-1 mx-2 sm:mx-6 h-4 bg-[#241710] border border-[#3D2619] rounded-full overflow-hidden p-0.5 relative">
             <div
               className={`h-full rounded-full transition-all duration-300 relative shadow-inner ${
-                isReviewPhase ? 'bg-[#FF9600]' : 'bg-[#58CC02]'
+                isReviewPhase ? 'bg-[#F59E0B]' : 'bg-[#059669]'
               }`}
               style={{ width: `${Math.max(5, progressPercent)}%` }}
             >
-              <div className="absolute top-0.5 left-2 right-2 h-1 bg-white/30 rounded-full" />
+              <div className="absolute top-0.5 left-2 right-2 h-1 bg-white/20 rounded-full" />
             </div>
           </div>
 
@@ -415,26 +415,26 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                 onClick={() => setShowRulesDrawer(!showRulesDrawer)}
                 className={`px-3 py-1.5 rounded-xl border-2 font-black text-xs flex items-center gap-1.5 transition-all ${
                   showRulesDrawer
-                    ? 'bg-[#FEF08A] border-[#EAB308] text-[#854D0E]'
-                    : 'bg-[#F7F7F7] border-[#E5E5E5] text-[#777777] hover:bg-[#FFFBEB] hover:border-[#FDE68A] hover:text-[#B45309]'
+                    ? 'bg-[#F59E0B]/20 border-[#F59E0B] text-[#F59E0B]'
+                    : 'bg-[#241710] border-[#3D2619] text-[#D4A373] hover:border-[#F59E0B] hover:text-[#FEF3C7]'
                 }`}
                 title="View lesson formulas & grammar guide"
               >
-                <Lightbulb className="w-4 h-4 text-[#EAB308]" />
+                <Lightbulb className="w-4 h-4 text-[#F59E0B]" />
                 <span className="hidden sm:inline">Tip</span>
                 {showRulesDrawer ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
               </button>
             )}
 
             {comboStreak > 1 && (
-              <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 bg-[#FFF4E5] border border-[#FFD8A8] rounded-xl text-xs font-black text-[#EA580C] animate-pulse">
-                <Flame className="w-4 h-4 fill-[#EA580C] text-[#EA580C]" />
+              <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 bg-[#241710] border border-[#F59E0B]/60 rounded-xl text-xs font-black text-[#F59E0B] animate-pulse">
+                <Flame className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
                 <span>{comboStreak}</span>
               </div>
             )}
 
-            <div className="flex items-center gap-1.5 font-mono-num font-black text-base text-[#FF4B4B]">
-              <Heart className="w-6 h-6 fill-[#FF4B4B] text-[#FF4B4B] animate-pulse" />
+            <div className="flex items-center gap-1.5 font-mono-num font-black text-base text-[#EF4444]">
+              <Heart className="w-6 h-6 fill-[#EF4444] text-[#EF4444] animate-pulse" />
               <span>{hearts}</span>
             </div>
           </div>
@@ -446,28 +446,28 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
           {phase === 'intro' && (
             <div className="space-y-6 flex-1 flex flex-col justify-center max-w-xl mx-auto w-full">
               <div className="text-center space-y-2">
-                <div className="w-20 h-20 mx-auto rounded-3xl bg-[#58CC02]/15 text-[#58CC02] flex items-center justify-center text-4xl shadow-sm mb-2">
+                <div className="w-20 h-20 mx-auto rounded-3xl bg-[#059669]/20 text-[#10B981] flex items-center justify-center text-4xl shadow-sm mb-2 border border-[#059669]/40">
                   <CartoonCharacter character="duo" mood="speaking" size="md" animate={true} />
                 </div>
-                <span className="text-xs font-black uppercase tracking-wider text-[#1CB0F6]">
+                <span className="text-xs font-black uppercase tracking-wider text-[#14B8A6]">
                   {lesson.numberLabel} • Lesson Kickoff
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-[#3C3C3C]">
+                <h2 className="text-2xl sm:text-3xl font-black text-[#FEF3C7]">
                   {lesson.title}
                 </h2>
-                <p className="text-sm font-bold text-[#777777]">
+                <p className="text-sm font-bold text-[#D4A373]">
                   {lesson.subtitle}
                 </p>
               </div>
 
               {/* Introduced Words Card */}
               {lesson.wordsIntroduced.length > 0 && (
-                <div className="bg-[#F7F7F7] border-2 border-[#E5E5E5] rounded-3xl p-5 space-y-3 shadow-xs">
+                <div className="bg-[#241710] border-2 border-[#3D2619] rounded-3xl p-5 space-y-3 shadow-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-black uppercase text-[#AFAFAF] tracking-wider">
+                    <span className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
                       Key Vocabulary to Learn:
                     </span>
-                    <span className="text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD]">
+                    <span className="text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-2 py-0.5 rounded-md border border-[#0D9488]/40">
                       Tap to Pronounce
                     </span>
                   </div>
@@ -480,14 +480,14 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           key={idx}
                           type="button"
                           onClick={() => playSageloPhrase(word, { lang: targetCourseLang })}
-                          className="px-3.5 py-2 bg-white hover:bg-[#F0FDF4] border-2 border-b-4 border-[#E5E5E5] hover:border-[#58CC02] rounded-2xl text-xs font-black text-[#3C3C3C] flex items-center gap-2 transition-all active:translate-y-0.5 shadow-2xs group"
+                          className="px-3.5 py-2 bg-[#1E130D] hover:bg-[#2C1D14] border-2 border-b-4 border-[#3D2619] hover:border-[#10B981] rounded-2xl text-xs font-black text-[#FEF3C7] flex items-center gap-2 transition-all active:translate-y-0.5 shadow-2xs group cursor-pointer"
                           title={isFrenchCourse ? `Pronounce "${word}" in French` : `Listen to "${word}" in IPA (${phon.display})`}
                         >
                           <span className="text-sm">{word}</span>
-                          <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.5 rounded border border-[#BAE6FD]">
+                          <span className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-1.5 py-0.5 rounded border border-[#0D9488]/40">
                             {phon.display}
                           </span>
-                          <Volume2 className="w-3.5 h-3.5 text-[#AFAFAF] group-hover:text-[#58CC02]" />
+                          <Volume2 className="w-3.5 h-3.5 text-[#D4A373] group-hover:text-[#10B981]" />
                         </button>
                       );
                     })}
@@ -497,9 +497,9 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
 
               {/* Mentor Wisdom Tip */}
               {lesson.teachingSlides[0]?.mentorTip && (
-                <div className="p-4 rounded-2xl bg-[#FFFBEB] border-2 border-[#FDE68A] flex items-center gap-3">
+                <div className="p-4 rounded-2xl bg-[#241710] border-2 border-[#F59E0B]/40 flex items-center gap-3">
                   <span className="text-2xl">💡</span>
-                  <p className="text-xs sm:text-sm font-bold text-[#92400E] leading-relaxed">
+                  <p className="text-xs sm:text-sm font-bold text-[#FEF3C7] leading-relaxed">
                     {lesson.teachingSlides[0].mentorTip.text}
                   </p>
                 </div>
@@ -512,13 +512,13 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
             <div className="space-y-6 flex-1">
               {/* Spaced Repetition Review Header if in review mode */}
               {isReviewPhase && (
-                <div className="p-3.5 rounded-2xl bg-[#FFF4E5] border-2 border-[#FFD8A8] flex items-center gap-3 animate-pulse">
+                <div className="p-3.5 rounded-2xl bg-[#241710] border-2 border-[#F59E0B]/60 flex items-center gap-3 animate-pulse">
                   <span className="text-xl">🔁</span>
                   <div>
-                    <h4 className="text-xs font-black uppercase text-[#EA580C] tracking-wider">
+                    <h4 className="text-xs font-black uppercase text-[#F59E0B] tracking-wider">
                       Reviewing Mistakes ({exerciseIdx + 1}/{reviewQueue.length})
                     </h4>
-                    <p className="text-xs font-bold text-[#9A3412]">
+                    <p className="text-xs font-bold text-[#D4A373]">
                       Let's practice this one again to master it!
                     </p>
                   </div>
@@ -542,10 +542,10 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                   />
 
                   <div className="flex-1 space-y-1">
-                    <span className="text-[11px] font-black uppercase tracking-wider text-[#AFAFAF]">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-[#D4A373]">
                       Question {exerciseIdx + 1} of {currentPool.length}
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-black text-[#3C3C3C] leading-snug">
+                    <h3 className="text-xl sm:text-2xl font-black text-[#FEF3C7] leading-snug">
                       {currentExercise.prompt}
                     </h3>
                   </div>
@@ -554,22 +554,22 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
 
               {/* Collapsible Rules Drawer */}
               {showRulesDrawer && (
-                <div className="p-4 rounded-2xl bg-[#FFFBEB] border-2 border-[#FDE68A] text-[#78350F] space-y-3 animate-in fade-in duration-150">
+                <div className="p-4 rounded-2xl bg-[#241710] border-2 border-[#F59E0B]/50 text-[#FEF3C7] space-y-3 animate-in fade-in duration-150">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-black uppercase tracking-wider flex items-center gap-1.5 font-mono">
-                      <Lightbulb className="w-4 h-4 text-[#D97706]" />
+                    <span className="text-xs font-black uppercase tracking-wider flex items-center gap-1.5 font-mono text-[#F59E0B]">
+                      <Lightbulb className="w-4 h-4 text-[#F59E0B]" />
                       Lesson {lesson.numberLabel} Rules & Notes
                     </span>
                   </div>
                   {lesson.teachingSlides.map((slide, sIdx) => (
                     <div
                       key={sIdx}
-                      className="space-y-2 text-xs sm:text-sm bg-white/70 p-3 rounded-xl border border-[#FDE68A]"
+                      className="space-y-2 text-xs sm:text-sm bg-[#1E130D] p-3 rounded-xl border border-[#3D2619]"
                     >
-                      <div className="font-black text-[#92400E]">{slide.title}</div>
-                      <p className="text-[#78350F] leading-relaxed">{slide.body}</p>
+                      <div className="font-black text-[#F59E0B]">{slide.title}</div>
+                      <p className="text-[#FEF3C7] leading-relaxed">{slide.body}</p>
                       {slide.mentorTip && (
-                        <div className="italic text-[12px] text-[#B45309] font-medium bg-[#FEF3C7] px-2.5 py-1.5 rounded-lg">
+                        <div className="italic text-[12px] text-[#FEF3C7] font-medium bg-[#2C1D14] px-2.5 py-1.5 rounded-lg border border-[#F59E0B]/40">
                           💡 Tip: {slide.mentorTip.text}
                         </div>
                       )}
@@ -580,12 +580,12 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
 
               {/* INTERACTIVE PROMPT CARD (WITH DUOLINGO WORD HINTS) */}
               {currentExercise.sageloAudioText && currentExercise.type !== 'listen_tap' && (
-                <div className="p-4 rounded-3xl bg-[#F7F7F7] border-2 border-[#E5E5E5] space-y-2 shadow-xs">
+                <div className="p-4 rounded-3xl bg-[#241710] border-2 border-[#3D2619] space-y-2 shadow-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase text-[#AFAFAF] tracking-wider">
+                    <span className="text-[10px] font-black uppercase text-[#D4A373] tracking-wider">
                       Tap any word for translation & IPA hint:
                     </span>
-                    <span className="text-[10px] font-mono text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD]">
+                    <span className="text-[10px] font-mono text-[#14B8A6] bg-[#0F2D28] px-2 py-0.5 rounded-md border border-[#0D9488]/40">
                       {getPhrasePhoneticDisplay(currentExercise.sageloAudioText)}
                     </span>
                   </div>
@@ -600,8 +600,8 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
 
               {/* LISTENING EXERCISE PROMPT CARD */}
               {currentExercise.type === 'listen_tap' && (
-                <div className="p-6 rounded-3xl bg-[#F0F9FF] border-2 border-[#BAE6FD] text-center space-y-3 shadow-xs">
-                  <span className="text-xs font-black uppercase tracking-wider text-[#0284C7]">
+                <div className="p-6 rounded-3xl bg-[#241710] border-2 border-[#0D9488]/40 text-center space-y-3 shadow-xs">
+                  <span className="text-xs font-black uppercase tracking-wider text-[#14B8A6]">
                     Tap speaker to listen to the phrase:
                   </span>
                   <div className="flex items-center justify-center gap-3">
@@ -613,7 +613,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           { rate: 0.88, lang: targetCourseLang }
                         )
                       }
-                      className="w-16 h-16 rounded-3xl bg-[#1CB0F6] hover:bg-[#20BEFF] active:bg-[#1899D6] border-b-6 border-[#1580B8] text-white flex items-center justify-center active:translate-y-1 transition-all shadow-md"
+                      className="w-16 h-16 rounded-3xl bg-[#0D9488] hover:bg-[#14B8A6] active:bg-[#0F766E] border-b-6 border-[#0F766E] text-white flex items-center justify-center active:translate-y-1 transition-all shadow-md cursor-pointer"
                       title="Normal speed"
                     >
                       <Volume2 className="w-8 h-8 stroke-[2.5]" />
@@ -627,7 +627,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           { rate: 0.62, lang: targetCourseLang }
                         )
                       }
-                      className="w-12 h-12 rounded-2xl bg-white hover:bg-[#F7F7F7] active:bg-[#E5E5E5] border-2 border-b-4 border-[#BAE6FD] text-[#0284C7] flex items-center justify-center active:translate-y-0.5 transition-all text-xl font-black shadow-xs"
+                      className="w-12 h-12 rounded-2xl bg-[#1E130D] hover:bg-[#2C1D14] active:bg-[#150E09] border-2 border-b-4 border-[#3D2619] hover:border-[#14B8A6] text-[#14B8A6] flex items-center justify-center active:translate-y-0.5 transition-all text-xl font-black shadow-xs cursor-pointer"
                       title="Turtle slow speed"
                     >
                       🐢
@@ -638,24 +638,24 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
 
               {/* ROOT MORPH BASE CARD */}
               {currentExercise.type === 'root_morph' && currentExercise.rootBase && (
-                <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-[#F0FDF4] border-2 border-[#BBF7D0]">
+                <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-[#241710] border-2 border-[#059669]/40">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-[#58CC02] text-white flex items-center justify-center shrink-0 shadow-xs border-b-4 border-[#46A302] text-xl font-black">
+                    <div className="w-12 h-12 rounded-2xl bg-[#059669] text-white flex items-center justify-center shrink-0 shadow-xs border-b-4 border-[#047857] text-xl font-black">
                       🌱
                     </div>
                     <div>
-                      <span className="text-[11px] font-black uppercase text-[#166534] tracking-wider block">
+                      <span className="text-[11px] font-black uppercase text-[#10B981] tracking-wider block">
                         Base Root to Transform:
                       </span>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-lg font-black text-[#14532D]">
+                        <span className="text-lg font-black text-[#FEF3C7]">
                           "{currentExercise.rootBase}"
                         </span>
-                        <span className="font-mono text-xs font-bold text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
+                        <span className="font-mono text-xs font-bold text-[#10B981] bg-[#064E3B] px-2 py-0.5 rounded-lg border border-[#059669]/60">
                           {getWordPhonetic(currentExercise.rootBase).display}
                         </span>
                       </div>
-                      <p className="text-xs font-semibold text-[#166534] mt-0.5">
+                      <p className="text-xs font-semibold text-[#D4A373] mt-0.5">
                         Select the correct suffix below to build the target word
                       </p>
                     </div>
@@ -663,7 +663,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                   <button
                     type="button"
                     onClick={() => playSageloPhrase(currentExercise.rootBase!)}
-                    className="px-3.5 py-2 rounded-xl bg-white border-2 border-[#86EFAC] text-[#166534] hover:bg-[#DCFCE7] active:translate-y-0.5 transition-all flex items-center gap-1.5 font-black text-xs shrink-0"
+                    className="px-3.5 py-2 rounded-xl bg-[#1E130D] border-2 border-[#059669] text-[#10B981] hover:bg-[#064E3B] active:translate-y-0.5 transition-all flex items-center gap-1.5 font-black text-xs shrink-0 cursor-pointer"
                     title="Hear base root phonetically"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -690,27 +690,27 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         disabled={feedback !== 'idle'}
                         className={`p-4 rounded-3xl border-2 border-b-6 transition-all flex flex-col items-center justify-between text-center gap-3 relative cursor-pointer active:translate-y-1 ${
                           isSelected
-                            ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6]'
-                            : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C]'
+                            ? 'bg-[#0D382E] border-[#10B981] text-[#FEF3C7]'
+                            : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                         }`}
                       >
                         <span className="text-5xl my-2">{card.emoji}</span>
                         <div className="space-y-0.5">
                           <span className="text-lg font-black block">{card.sagelo}</span>
                           {!isFrenchCourse && (
-                            <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD] inline-block">
+                            <span className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-2 py-0.5 rounded-md border border-[#0D9488]/40 inline-block">
                               {phon.display}
                             </span>
                           )}
-                          <span className="text-xs font-bold text-[#777777] block mt-1">
+                          <span className="text-xs font-bold text-[#D4A373] block mt-1">
                             {card.english}
                           </span>
                         </div>
                         <div
                           className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center text-xs font-black shrink-0 ${
                             isSelected
-                              ? 'border-[#1CB0F6] bg-[#1CB0F6] text-white'
-                              : 'border-[#E5E5E5] text-[#AFAFAF]'
+                              ? 'border-[#10B981] bg-[#10B981] text-[#150E09]'
+                              : 'border-[#3D2619] text-[#D4A373]'
                           }`}
                         >
                           {isSelected ? '✓' : idx + 1}
@@ -725,10 +725,10 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
               {currentExercise.type === 'match_pairs' && (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-black uppercase text-[#AFAFAF] tracking-wider">
+                    <span className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
                       Tap a Sagelo word and its matching translation:
                     </span>
-                    <span className="text-xs font-black text-[#58CC02]">
+                    <span className="text-xs font-black text-[#10B981]">
                       {matchedPairs.length} / {currentExercise.matchingPairs?.length || 0} matched
                     </span>
                   </div>
@@ -747,23 +747,23 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             type="button"
                             onClick={() => !isMatched && handleMatchSelect('left', item.id)}
                             disabled={isMatched}
-                            className={`w-full p-3.5 rounded-2xl border-2 border-b-4 font-black text-left flex items-center justify-between gap-2 transition-all ${
+                            className={`w-full p-3.5 rounded-2xl border-2 border-b-4 font-black text-left flex items-center justify-between gap-2 transition-all cursor-pointer ${
                               isMatched
-                                ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534] opacity-70 cursor-default'
+                                ? 'bg-[#064E3B] border-[#059669] text-[#10B981] opacity-80 cursor-default'
                                 : isSelected
-                                ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6] scale-102'
+                                ? 'bg-[#0D382E] border-[#14B8A6] text-[#FEF3C7] scale-102'
                                 : pairError && isSelected
-                                ? 'bg-[#FEE2E2] border-[#EF4444] text-[#991B1B]'
-                                : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C]'
+                                ? 'bg-[#3D1414] border-[#EF4444] text-[#FCA5A5]'
+                                : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                             }`}
                           >
                             <div className="flex items-center gap-2">
                               <span>{item.text}</span>
-                              <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.2 rounded border border-[#BAE6FD]">
+                              <span className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-1.5 py-0.2 rounded border border-[#0D9488]/40">
                                 {phon.display}
                               </span>
                             </div>
-                            {isMatched && <Check className="w-4 h-4 text-[#166534]" />}
+                            {isMatched && <Check className="w-4 h-4 text-[#10B981]" />}
                           </button>
                         );
                       })}
@@ -781,18 +781,18 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             type="button"
                             onClick={() => !isMatched && handleMatchSelect('right', item.id, item.text)}
                             disabled={isMatched}
-                            className={`w-full p-3.5 rounded-2xl border-2 border-b-4 font-black text-left flex items-center justify-between gap-2 transition-all ${
+                            className={`w-full p-3.5 rounded-2xl border-2 border-b-4 font-black text-left flex items-center justify-between gap-2 transition-all cursor-pointer ${
                               isMatched
-                                ? 'bg-[#DCFCE7] border-[#86EFAC] text-[#166534] opacity-70 cursor-default'
+                                ? 'bg-[#064E3B] border-[#059669] text-[#10B981] opacity-80 cursor-default'
                                 : isSelected
-                                ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6] scale-102'
+                                ? 'bg-[#0D382E] border-[#14B8A6] text-[#FEF3C7] scale-102'
                                 : pairError && isSelected
-                                ? 'bg-[#FEE2E2] border-[#EF4444] text-[#991B1B]'
-                                : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C]'
+                                ? 'bg-[#3D1414] border-[#EF4444] text-[#FCA5A5]'
+                                : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                             }`}
                           >
                             <span>{item.text}</span>
-                            {isMatched && <Check className="w-4 h-4 text-[#166534]" />}
+                            {isMatched && <Check className="w-4 h-4 text-[#10B981]" />}
                           </button>
                         );
                       })}
@@ -819,16 +819,16 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           disabled={feedback !== 'idle'}
                           className={`p-4 rounded-2xl border-2 border-b-4 text-left transition-all flex items-center justify-between gap-4 font-black active:translate-y-0.5 cursor-pointer ${
                             isSelected
-                              ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6]'
-                              : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C]'
+                              ? 'bg-[#0D382E] border-[#10B981] text-[#FEF3C7]'
+                              : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                           }`}
                         >
                           <span className="text-sm sm:text-base leading-snug">{opt}</span>
                           <span
                             className={`w-7 h-7 rounded-xl border-2 flex items-center justify-center text-xs font-black shrink-0 ${
                               isSelected
-                                ? 'border-[#1CB0F6] bg-[#1CB0F6] text-white'
-                                : 'border-[#E5E5E5] text-[#AFAFAF]'
+                                ? 'border-[#10B981] bg-[#10B981] text-[#150E09]'
+                                : 'border-[#3D2619] text-[#D4A373]'
                             }`}
                           >
                             {isSelected ? '✓' : letter}
@@ -843,9 +843,9 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
               {(currentExercise.type === 'word_bank' || currentExercise.type === 'listen_tap') && (
                 <div className="space-y-4">
                   {/* Selected Answer Slot */}
-                  <div className="min-h-[64px] p-3 rounded-2xl border-2 border-dashed border-[#AFAFAF] bg-[#F7F7F7] flex flex-wrap items-center gap-2">
+                  <div className="min-h-[64px] p-3 rounded-2xl border-2 border-dashed border-[#5A3825] bg-[#150E09] flex flex-wrap items-center gap-2">
                     {bankSelected.length === 0 ? (
-                      <span className="text-xs font-bold text-[#AFAFAF] italic px-2">
+                      <span className="text-xs font-bold text-[#D4A373] italic px-2">
                         Tap words below to arrange your sentence...
                       </span>
                     ) : (
@@ -857,7 +857,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             if (feedback !== 'idle') return;
                             setBankSelected((prev) => prev.filter((_, i) => i !== idx));
                           }}
-                          className="px-4 py-2 bg-white border-2 border-b-4 border-[#1CB0F6] text-[#1CB0F6] font-black text-sm rounded-xl active:translate-y-1 transition-all"
+                          className="px-4 py-2 bg-[#059669] border-2 border-b-4 border-[#047857] text-[#FEF3C7] font-black text-sm rounded-xl active:translate-y-1 transition-all cursor-pointer"
                         >
                           {word}
                         </button>
@@ -888,15 +888,15 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             }
                           }}
                           disabled={isExhausted || feedback !== 'idle'}
-                          className={`px-3.5 py-2 rounded-xl border-2 border-b-4 font-black text-sm transition-all flex items-center gap-2 active:translate-y-1 ${
+                          className={`px-3.5 py-2 rounded-xl border-2 border-b-4 font-black text-sm transition-all flex items-center gap-2 active:translate-y-1 cursor-pointer ${
                             isExhausted
-                              ? 'bg-[#E5E5E5] border-[#D0D0D0] text-[#AFAFAF] cursor-default'
-                              : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C]'
+                              ? 'bg-[#150E09] border-[#2A1810] text-[#5A3825] cursor-default'
+                              : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] hover:border-[#10B981] text-[#FEF3C7]'
                           }`}
                         >
                           <span>{word}</span>
                           {!isWordEng && !isFrenchCourse && (
-                            <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1 py-0.2 rounded border border-[#BAE6FD]">
+                            <span className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-1 py-0.2 rounded border border-[#0D9488]/40">
                               {getWordPhonetic(word).display}
                             </span>
                           )}
@@ -921,10 +921,10 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             setBlankAnswer(opt);
                             playSageloPhrase(opt, { lang: targetCourseLang });
                           }}
-                          className={`p-3.5 rounded-2xl border-2 border-b-4 font-black text-center text-sm transition-all active:translate-y-0.5 ${
+                          className={`p-3.5 rounded-2xl border-2 border-b-4 font-black text-center text-sm transition-all active:translate-y-0.5 cursor-pointer ${
                             blankAnswer === opt
-                              ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6]'
-                              : 'bg-white border-[#E5E5E5] text-[#3C3C3C]'
+                              ? 'bg-[#0D382E] border-[#10B981] text-[#FEF3C7]'
+                              : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                           }`}
                         >
                           {opt}
@@ -938,7 +938,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                       onChange={(e) => setBlankAnswer(e.target.value)}
                       placeholder="Type the Sagelo particle or root..."
                       disabled={feedback !== 'idle'}
-                      className="w-full p-4 rounded-2xl border-2 border-b-4 border-[#E5E5E5] focus:border-[#1CB0F6] outline-hidden text-lg font-black text-[#3C3C3C] bg-white transition-all"
+                      className="w-full p-4 rounded-2xl border-2 border-b-4 border-[#3D2619] focus:border-[#10B981] outline-hidden text-lg font-black text-[#FEF3C7] bg-[#241710] placeholder:text-[#A38260] transition-all"
                     />
                   )}
                 </div>
@@ -957,34 +957,34 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
               </div>
 
               <div className="space-y-1 max-w-md">
-                <span className="text-xs font-black uppercase tracking-wider text-[#58CC02]">
+                <span className="text-xs font-black uppercase tracking-wider text-[#10B981]">
                   LESSON COMPLETE!
                 </span>
-                <h3 className="text-3xl font-black text-[#3C3C3C]">
+                <h3 className="text-3xl font-black text-[#FEF3C7]">
                   Shanti, Champion!
                 </h3>
-                <p className="text-xs sm:text-sm font-bold text-[#777777]">
+                <p className="text-xs sm:text-sm font-bold text-[#D4A373]">
                   You successfully mastered {lesson.title}!
                 </p>
               </div>
 
               {/* Stats Tally */}
               <div className="grid grid-cols-3 gap-3 max-w-sm w-full">
-                <div className="p-3.5 bg-[#FFFBEB] border-2 border-[#FDE68A] rounded-2xl text-center">
-                  <div className="text-xs font-black uppercase text-[#92400E]">XP Earned</div>
-                  <div className="text-2xl font-black text-[#D97706] mt-0.5">+{lesson.xpReward}</div>
+                <div className="p-3.5 bg-[#241710] border-2 border-[#F59E0B]/60 rounded-2xl text-center">
+                  <div className="text-xs font-black uppercase text-[#F59E0B]">XP Earned</div>
+                  <div className="text-2xl font-black text-[#FEF3C7] mt-0.5">+{lesson.xpReward}</div>
                 </div>
 
-                <div className="p-3.5 bg-[#DCFCE7] border-2 border-[#86EFAC] rounded-2xl text-center">
-                  <div className="text-xs font-black uppercase text-[#166534]">Accuracy</div>
-                  <div className="text-2xl font-black text-[#15803D] mt-0.5">
+                <div className="p-3.5 bg-[#241710] border-2 border-[#059669]/60 rounded-2xl text-center">
+                  <div className="text-xs font-black uppercase text-[#10B981]">Accuracy</div>
+                  <div className="text-2xl font-black text-[#FEF3C7] mt-0.5">
                     {Math.round((correctCount / lesson.exercises.length) * 100)}%
                   </div>
                 </div>
 
-                <div className="p-3.5 bg-[#DDF4FF] border-2 border-[#BAE6FD] rounded-2xl text-center">
-                  <div className="text-xs font-black uppercase text-[#0369A1]">Streak</div>
-                  <div className="text-2xl font-black text-[#0284C7] mt-0.5">
+                <div className="p-3.5 bg-[#241710] border-2 border-[#0D9488]/60 rounded-2xl text-center">
+                  <div className="text-xs font-black uppercase text-[#14B8A6]">Streak</div>
+                  <div className="text-2xl font-black text-[#FEF3C7] mt-0.5">
                     {comboStreak > 0 ? `${comboStreak} 🔥` : 'Active'}
                   </div>
                 </div>
@@ -992,8 +992,8 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
 
               {/* Introduced Words Badge List */}
               {lesson.wordsIntroduced.length > 0 && (
-                <div className="max-w-md w-full bg-[#F7F7F7] p-3 rounded-2xl border-2 border-[#E5E5E5] text-left">
-                  <div className="text-[11px] font-black uppercase text-[#AFAFAF] tracking-wider mb-1.5">
+                <div className="max-w-md w-full bg-[#241710] p-3.5 rounded-2xl border-2 border-[#3D2619] text-left">
+                  <div className="text-[11px] font-black uppercase text-[#D4A373] tracking-wider mb-1.5">
                     New Roots Added to Memory:
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -1004,14 +1004,14 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                           key={idx}
                           type="button"
                           onClick={() => playSageloPhrase(w)}
-                          className="px-3 py-1.5 bg-white border-2 border-[#E5E5E5] hover:border-[#1CB0F6] rounded-xl text-xs font-black text-[#3C3C3C] flex items-center gap-2 transition-all shadow-2xs group cursor-pointer active:translate-y-0.5"
+                          className="px-3 py-1.5 bg-[#1E130D] border-2 border-[#3D2619] hover:border-[#10B981] rounded-xl text-xs font-black text-[#FEF3C7] flex items-center gap-2 transition-all shadow-2xs group cursor-pointer active:translate-y-0.5"
                           title={`Pronounce "${w}" phonetically (${phon.display})`}
                         >
                           <span>{w}</span>
-                          <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.2 rounded border border-[#BAE6FD]">
+                          <span className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-1.5 py-0.2 rounded border border-[#0D9488]/40">
                             {phon.display}
                           </span>
-                          <Volume2 className="w-3.5 h-3.5 text-[#AFAFAF] group-hover:text-[#1CB0F6]" />
+                          <Volume2 className="w-3.5 h-3.5 text-[#D4A373] group-hover:text-[#10B981]" />
                         </button>
                       );
                     })}
@@ -1022,21 +1022,21 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
           )}
 
           {/* DUOLINGO BOTTOM ACTION BAR */}
-          <div className="pt-4 border-t-2 border-[#E5E5E5] shrink-0">
+          <div className="pt-4 border-t-2 border-[#3D2619] shrink-0">
             {phase === 'intro' && (
               <div className="flex items-center justify-between gap-4">
                 <button
                   type="button"
                   onClick={() => setShowRulesDrawer(!showRulesDrawer)}
-                  className="text-xs font-black uppercase text-[#AFAFAF] hover:text-[#3C3C3C] tracking-wider transition-colors flex items-center gap-1.5"
+                  className="text-xs font-black uppercase text-[#D4A373] hover:text-[#FEF3C7] tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
-                  <Lightbulb className="w-4 h-4 text-[#EAB308]" />
+                  <Lightbulb className="w-4 h-4 text-[#F59E0B]" />
                   <span>View Lesson Notes</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setPhase('practice')}
-                  className="px-8 py-3.5 bg-[#58CC02] hover:bg-[#61E002] border-b-6 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md flex items-center gap-2"
+                  className="px-8 py-3.5 bg-[#059669] hover:bg-[#10B981] border-b-6 border-[#047857] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md flex items-center gap-2 cursor-pointer"
                 >
                   <span>Start Exercises</span>
                   <ArrowRight className="w-4 h-4 stroke-[3]" />
@@ -1060,19 +1060,19 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                         (currentExercise?.type === 'picture_choice' && !selectedPictureId) ||
                         (currentExercise?.type === 'fill_blank' && !blankAnswer.trim())
                       }
-                      className="w-full sm:w-auto px-8 py-3.5 bg-[#58CC02] hover:bg-[#61E002] active:bg-[#46A302] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="w-full sm:w-auto px-8 py-3.5 bg-[#059669] hover:bg-[#10B981] active:bg-[#047857] border-b-4 border-[#047857] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                     >
                       Check Answer
                     </button>
                   </div>
                 ) : feedback === 'correct' ? (
-                  <div className="p-4 rounded-2xl bg-[#D7FFB8] border-2 border-[#58CC02] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
+                  <div className="p-4 rounded-2xl bg-[#064E3B] border-2 border-[#059669] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
                     <div className="flex items-center gap-3 text-left w-full sm:w-auto">
-                      <div className="w-10 h-10 rounded-2xl bg-[#58CC02] text-white flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-2xl bg-[#059669] text-white flex items-center justify-center shrink-0">
                         <CheckCircle2 className="w-6 h-6 stroke-[3]" />
                       </div>
                       <div className="flex-1">
-                        <div className="text-base font-black text-[#166534] flex items-center gap-2 flex-wrap">
+                        <div className="text-base font-black text-[#FEF3C7] flex items-center gap-2 flex-wrap">
                           <span>Awesome! Shanti!</span>
                           {(() => {
                             const sageloTarget = currentExercise?.sageloAudioText;
@@ -1088,14 +1088,14 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                               return (
                                 <div className="flex items-center gap-1.5 flex-wrap">
                                   {!isFrenchCourse && (
-                                    <span className="font-mono text-xs font-black text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
+                                    <span className="font-mono text-xs font-black text-[#10B981] bg-[#0F2D28] px-2 py-0.5 rounded-lg border border-[#059669]">
                                       {phonetic}
                                     </span>
                                   )}
                                   <button
                                     type="button"
                                     onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
-                                    className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                    className="px-2.5 py-1 rounded-xl bg-[#1E130D] border border-[#059669] text-[#10B981] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                     title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
                                   >
                                     <Volume2 className="w-3.5 h-3.5" />
@@ -1108,7 +1108,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                                 <button
                                   type="button"
                                   onClick={() => playEnglishPhrase(phraseToSpeak)}
-                                  className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                  className="px-2.5 py-1 rounded-xl bg-[#1E130D] border border-[#059669] text-[#10B981] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                   title="Read solution in proper English"
                                 >
                                   <Volume2 className="w-3.5 h-3.5" />
@@ -1118,13 +1118,13 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             }
                           })()}
                         </div>
-                        <div className="text-xs font-bold text-[#15803D] flex items-center gap-2">
+                        <div className="text-xs font-bold text-[#A7F3D0] flex items-center gap-2">
                           <span>{currentExercise?.explanation}</span>
                           {currentExercise?.explanation && (
                             <button
                               type="button"
                               onClick={() => playEnglishPhrase(currentExercise.explanation)}
-                              className="text-[#166534] hover:text-[#15803D] p-0.5 rounded hover:bg-white/50 transition-all shrink-0 cursor-pointer"
+                              className="text-[#10B981] hover:text-[#A7F3D0] p-0.5 rounded transition-all shrink-0 cursor-pointer"
                               title="Read explanation in English"
                             >
                               <Volume2 className="w-3.5 h-3.5" />
@@ -1136,19 +1136,19 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                     <button
                       type="button"
                       onClick={handleNextStep}
-                      className="w-full sm:w-auto px-8 py-3 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm"
+                      className="w-full sm:w-auto px-8 py-3 bg-[#059669] hover:bg-[#10B981] border-b-4 border-[#047857] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm cursor-pointer"
                     >
                       Continue
                     </button>
                   </div>
                 ) : (
-                  <div className="p-4 rounded-2xl bg-[#FFDFE0] border-2 border-[#FF4B4B] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
+                  <div className="p-4 rounded-2xl bg-[#3D1414] border-2 border-[#DC2626] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
                     <div className="flex items-center gap-3 text-left w-full sm:w-auto">
-                      <div className="w-10 h-10 rounded-2xl bg-[#FF4B4B] text-white flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-2xl bg-[#DC2626] text-white flex items-center justify-center shrink-0">
                         <AlertCircle className="w-6 h-6 stroke-[3]" />
                       </div>
                       <div className="flex-1">
-                        <div className="text-base font-black text-[#991B1B] flex items-center gap-2 flex-wrap">
+                        <div className="text-base font-black text-[#FEF3C7] flex items-center gap-2 flex-wrap">
                           <span>Correct solution: {currentExercise?.correctAnswer}</span>
                           {(() => {
                             const sageloTarget = currentExercise?.sageloAudioText;
@@ -1164,14 +1164,14 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                               return (
                                 <div className="flex items-center gap-1.5 flex-wrap">
                                   {!isFrenchCourse && (
-                                    <span className="font-mono text-xs font-black text-[#991B1B] bg-white px-2 py-0.5 rounded-lg border border-[#FCA5A5]">
+                                    <span className="font-mono text-xs font-black text-[#FCA5A5] bg-[#2A0E0E] px-2 py-0.5 rounded-lg border border-[#DC2626]">
                                       {phonetic}
                                     </span>
                                   )}
                                   <button
                                     type="button"
                                     onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
-                                    className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                    className="px-2.5 py-1 rounded-xl bg-[#241710] border border-[#DC2626] text-[#FCA5A5] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                     title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
                                   >
                                     <Volume2 className="w-3.5 h-3.5" />
@@ -1184,7 +1184,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                                 <button
                                   type="button"
                                   onClick={() => playEnglishPhrase(phraseToSpeak)}
-                                  className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                  className="px-2.5 py-1 rounded-xl bg-[#241710] border border-[#DC2626] text-[#FCA5A5] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                   title="Read solution in proper English"
                                 >
                                   <Volume2 className="w-3.5 h-3.5" />
@@ -1194,7 +1194,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                             }
                           })()}
                         </div>
-                        <div className="text-xs font-bold text-[#B91C1C]">
+                        <div className="text-xs font-bold text-[#FCA5A5]">
                           {currentExercise?.explanation}
                         </div>
                       </div>
@@ -1202,7 +1202,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                     <button
                       type="button"
                       onClick={handleNextStep}
-                      className="w-full sm:w-auto px-8 py-3 bg-[#FF4B4B] hover:bg-[#FF6666] border-b-4 border-[#CC3B3B] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm"
+                      className="w-full sm:w-auto px-8 py-3 bg-[#DC2626] hover:bg-[#EF4444] border-b-4 border-[#991B1B] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm cursor-pointer"
                     >
                       Got It
                     </button>
@@ -1215,7 +1215,7 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
               <button
                 type="button"
                 onClick={handleFinishLesson}
-                className="w-full py-4 bg-[#58CC02] hover:bg-[#61E002] border-b-6 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md"
+                className="w-full py-4 bg-[#059669] hover:bg-[#10B981] border-b-6 border-[#047857] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md cursor-pointer"
               >
                 Complete Lesson & Return to Path
               </button>

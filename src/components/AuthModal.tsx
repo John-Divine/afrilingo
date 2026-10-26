@@ -174,12 +174,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     : 'https://console.firebase.google.com';
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#3C3C3C]/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl relative max-h-[92vh] overflow-y-auto text-[#FEF3C7]">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-[#AFAFAF] hover:text-[#3C3C3C] text-xl font-black p-1 transition-colors"
+          className="absolute top-5 right-5 text-[#D4A373] hover:text-[#FEF3C7] text-xl font-black p-1 transition-colors cursor-pointer"
           aria-label="Close modal"
         >
           <X className="w-6 h-6" />
@@ -187,14 +187,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Mascot Greeting */}
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#58CC02] border-b-4 border-[#46A302] text-white flex items-center justify-center text-3xl shrink-0 shadow-sm">
+          <div className="w-14 h-14 rounded-2xl bg-[#059669] border-b-4 border-[#047857] text-[#FEF3C7] flex items-center justify-center text-3xl shrink-0 shadow-sm">
             🦜
           </div>
           <div>
-            <h3 className="text-2xl font-black text-[#3C3C3C] tracking-tight">
+            <h3 className="text-2xl font-black text-[#FEF3C7] tracking-tight">
               {mode === 'signup' ? 'Create Your Profile' : 'Welcome Back!'}
             </h3>
-            <p className="text-xs font-bold text-[#777777]">
+            <p className="text-xs font-bold text-[#D4A373]">
               {mode === 'signup'
                 ? 'Save your streak, earn badges, and sync your wisdom progress!'
                 : 'Sign in to sync your Sagelo wisdom journey.'}
@@ -207,7 +207,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           type="button"
           onClick={handleGoogleSignIn}
           disabled={loading}
-          className="w-full py-3.5 px-4 bg-white hover:bg-[#F7F7F7] active:bg-[#EEEEEE] text-[#3C3C3C] font-black text-sm rounded-2xl border-2 border-b-4 border-[#E5E5E5] hover:border-[#CCCCCC] transition-all flex items-center justify-center gap-3 shadow-xs active:translate-y-0.5 disabled:opacity-60"
+          className="w-full py-3.5 px-4 bg-[#241710] hover:bg-[#2C1D14] active:bg-[#1A1009] text-[#FEF3C7] font-black text-sm rounded-2xl border-2 border-b-4 border-[#3D2619] hover:border-[#F59E0B] transition-all flex items-center justify-center gap-3 shadow-xs active:translate-y-0.5 disabled:opacity-60 cursor-pointer"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
@@ -232,13 +232,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Divider */}
         <div className="flex items-center gap-3">
-          <div className="flex-1 h-0.5 bg-[#E5E5E5]" />
-          <span className="text-[11px] font-black text-[#AFAFAF] uppercase tracking-wider">or with email</span>
-          <div className="flex-1 h-0.5 bg-[#E5E5E5]" />
+          <div className="flex-1 h-0.5 bg-[#3D2619]" />
+          <span className="text-[11px] font-black text-[#A38260] uppercase tracking-wider">or with email</span>
+          <div className="flex-1 h-0.5 bg-[#3D2619]" />
         </div>
 
         {/* Mode Toggle Tabs */}
-        <div className="flex bg-[#F7F7F7] p-1.5 rounded-2xl border-2 border-[#E5E5E5]">
+        <div className="flex bg-[#150E09] p-1.5 rounded-2xl border-2 border-[#3D2619]">
           <button
             type="button"
             onClick={() => {
@@ -246,10 +246,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               setErrorMsg(null);
               setShowConsoleGuide(false);
             }}
-            className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all ${
+            className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
               mode === 'signup'
-                ? 'bg-white text-[#58CC02] shadow-xs border-2 border-[#58CC02]/30'
-                : 'text-[#777777] hover:text-[#3C3C3C]'
+                ? 'bg-[#059669] text-[#FEF3C7] shadow-xs border-2 border-[#047857]'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             Create Profile
@@ -261,10 +261,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               setErrorMsg(null);
               setShowConsoleGuide(false);
             }}
-            className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all ${
+            className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
               mode === 'login'
-                ? 'bg-white text-[#1CB0F6] shadow-xs border-2 border-[#1CB0F6]/30'
-                : 'text-[#777777] hover:text-[#3C3C3C]'
+                ? 'bg-[#0D9488] text-[#FEF3C7] shadow-xs border-2 border-[#0F766E]'
+                : 'text-[#D4A373] hover:text-[#FEF3C7]'
             }`}
           >
             Sign In
@@ -273,29 +273,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Error / Success Feedback */}
         {errorMsg && (
-          <div className="p-3.5 bg-[#FEF2F2] border-2 border-[#FECACA] rounded-2xl text-xs font-bold text-[#DC2626] space-y-2">
+          <div className="p-3.5 bg-[#381B1B] border-2 border-[#7F1D1D] rounded-2xl text-xs font-bold text-[#FCA5A5] space-y-2">
             <div className="flex items-start gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 text-[#EF4444] mt-0.5" />
               <span className="leading-snug">{errorMsg}</span>
             </div>
 
             {showConsoleGuide && (
-              <div className="pt-2 border-t border-[#FECACA]/60">
+              <div className="pt-2 border-t border-[#7F1D1D]/60">
                 <button
                   type="button"
                   onClick={() => setShowConsoleGuide(!showConsoleGuide)}
-                  className="flex items-center gap-1.5 text-[11px] font-black text-[#B91C1C] hover:underline"
+                  className="flex items-center gap-1.5 text-[11px] font-black text-[#F87171] hover:underline cursor-pointer"
                 >
                   <span>How to enable Email/Password in Firebase</span>
                   {showConsoleGuide ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                 </button>
-                <div className="mt-2 text-[11px] space-y-1.5 text-[#7F1D1D] bg-white/70 p-2.5 rounded-xl border border-[#FECACA]">
+                <div className="mt-2 text-[11px] space-y-1.5 text-[#FECACA] bg-[#241710] p-2.5 rounded-xl border border-[#7F1D1D]">
                   <p>1. Open your Firebase project console:</p>
                   <a
                     href={consoleUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[#2563EB] font-bold hover:underline"
+                    className="inline-flex items-center gap-1 text-[#60A5FA] font-bold hover:underline"
                   >
                     <span>Firebase Auth Sign-in Providers</span>
                     <ExternalLink className="w-3 h-3" />
@@ -309,8 +309,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         )}
 
         {successMsg && (
-          <div className="p-3.5 bg-[#DCFCE7] border-2 border-[#86EFAC] rounded-2xl text-xs font-black text-[#166534] flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 shrink-0 text-[#166534]" />
+          <div className="p-3.5 bg-[#064E3B] border-2 border-[#059669] rounded-2xl text-xs font-black text-[#A7F3D0] flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-[#10B981]" />
             <span>{successMsg}</span>
           </div>
         )}
@@ -321,102 +321,102 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <>
               {/* Full Name */}
               <div className="space-y-1">
-                <label className="text-xs font-black uppercase text-[#777777] tracking-wider">
+                <label className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
                   Full Name / Learner Name
                 </label>
                 <div className="relative">
-                  <User className="w-5 h-5 absolute left-3.5 top-3 text-[#AFAFAF]" />
+                  <User className="w-5 h-5 absolute left-3.5 top-3 text-[#A38260]" />
                   <input
                     type="text"
                     required
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     placeholder="e.g. Kwame Mensah"
-                    className="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C]"
+                    className="w-full pl-11 pr-4 py-2.5 rounded-2xl bg-[#241710] border-2 border-[#3D2619] focus:border-[#059669] focus:outline-hidden font-bold text-sm text-[#FEF3C7] placeholder-[#8A6C53]"
                   />
                 </div>
               </div>
 
               {/* Sagelo Moniker */}
               <div className="space-y-1">
-                <label className="text-xs font-black uppercase text-[#777777] tracking-wider">
+                <label className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
                   Sagelo Chosen Title / Clan Moniker
                 </label>
                 <div className="relative">
-                  <Sparkles className="w-5 h-5 absolute left-3.5 top-3 text-[#AFAFAF]" />
+                  <Sparkles className="w-5 h-5 absolute left-3.5 top-3 text-[#F59E0B]" />
                   <input
                     type="text"
                     value={sageloName}
                     onChange={(e) => setSageloName(e.target.value)}
                     placeholder="e.g. Misaga Kwame"
-                    className="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#58CC02]/50 focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C]"
+                    className="w-full pl-11 pr-4 py-2.5 rounded-2xl bg-[#241710] border-2 border-[#3D2619] focus:border-[#F59E0B] focus:outline-hidden font-bold text-sm text-[#FEF3C7] placeholder-[#8A6C53]"
                   />
                 </div>
               </div>
 
               {/* Avatar Character Picker */}
               <div className="space-y-1.5">
-                <label className="text-xs font-black uppercase text-[#777777] tracking-wider">
+                <label className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
                   Choose Avatar Persona
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
                     onClick={() => setAvatarKey('mwana')}
-                    className={`p-2.5 rounded-2xl border-2 text-center transition-all ${
+                    className={`p-2.5 rounded-2xl border-2 text-center transition-all cursor-pointer ${
                       avatarKey === 'mwana'
-                        ? 'border-[#58CC02] bg-[#58CC02]/10 ring-2 ring-[#58CC02]'
-                        : 'border-[#E5E5E5] bg-[#F7F7F7] hover:bg-white'
+                        ? 'border-[#059669] bg-[#059669]/25 ring-2 ring-[#059669]'
+                        : 'border-[#3D2619] bg-[#241710] hover:bg-[#2C1D14]'
                     }`}
                   >
                     <div className="text-2xl mb-0.5">🧒🏾</div>
-                    <div className="text-[11px] font-black text-[#3C3C3C]">Mwana</div>
-                    <div className="text-[9px] font-bold text-[#AFAFAF]">Youth Sage</div>
+                    <div className="text-[11px] font-black text-[#FEF3C7]">Mwana</div>
+                    <div className="text-[9px] font-bold text-[#D4A373]">Youth Sage</div>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setAvatarKey('nyango')}
-                    className={`p-2.5 rounded-2xl border-2 text-center transition-all ${
+                    className={`p-2.5 rounded-2xl border-2 text-center transition-all cursor-pointer ${
                       avatarKey === 'nyango'
-                        ? 'border-[#58CC02] bg-[#58CC02]/10 ring-2 ring-[#58CC02]'
-                        : 'border-[#E5E5E5] bg-[#F7F7F7] hover:bg-white'
+                        ? 'border-[#059669] bg-[#059669]/25 ring-2 ring-[#059669]'
+                        : 'border-[#3D2619] bg-[#241710] hover:bg-[#2C1D14]'
                     }`}
                   >
                     <div className="text-2xl mb-0.5">👩🏾</div>
-                    <div className="text-[11px] font-black text-[#3C3C3C]">Nyango</div>
-                    <div className="text-[9px] font-bold text-[#AFAFAF]">Scholar</div>
+                    <div className="text-[11px] font-black text-[#FEF3C7]">Nyango</div>
+                    <div className="text-[9px] font-bold text-[#D4A373]">Scholar</div>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setAvatarKey('mpaka')}
-                    className={`p-2.5 rounded-2xl border-2 text-center transition-all ${
+                    className={`p-2.5 rounded-2xl border-2 text-center transition-all cursor-pointer ${
                       avatarKey === 'mpaka'
-                        ? 'border-[#58CC02] bg-[#58CC02]/10 ring-2 ring-[#58CC02]'
-                        : 'border-[#E5E5E5] bg-[#F7F7F7] hover:bg-white'
+                        ? 'border-[#059669] bg-[#059669]/25 ring-2 ring-[#059669]'
+                        : 'border-[#3D2619] bg-[#241710] hover:bg-[#2C1D14]'
                     }`}
                   >
                     <div className="text-2xl mb-0.5">👴🏾</div>
-                    <div className="text-[11px] font-black text-[#3C3C3C]">Mpaka</div>
-                    <div className="text-[9px] font-bold text-[#AFAFAF]">Elder Guide</div>
+                    <div className="text-[11px] font-black text-[#FEF3C7]">Mpaka</div>
+                    <div className="text-[9px] font-bold text-[#D4A373]">Elder Guide</div>
                   </button>
                 </div>
               </div>
 
               {/* Region */}
               <div className="space-y-1">
-                <label className="text-xs font-black uppercase text-[#777777] tracking-wider">
+                <label className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
                   Region / Homeland
                 </label>
                 <div className="relative">
-                  <Globe className="w-5 h-5 absolute left-3.5 top-3 text-[#AFAFAF]" />
+                  <Globe className="w-5 h-5 absolute left-3.5 top-3 text-[#A38260]" />
                   <input
                     type="text"
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
                     placeholder="e.g. Buea, Cameroon"
-                    className="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C]"
+                    className="w-full pl-11 pr-4 py-2.5 rounded-2xl bg-[#241710] border-2 border-[#3D2619] focus:border-[#059669] focus:outline-hidden font-bold text-sm text-[#FEF3C7] placeholder-[#8A6C53]"
                   />
                 </div>
               </div>
@@ -425,36 +425,36 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           {/* Email */}
           <div className="space-y-1">
-            <label className="text-xs font-black uppercase text-[#777777] tracking-wider">
+            <label className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="w-5 h-5 absolute left-3.5 top-3 text-[#AFAFAF]" />
+              <Mail className="w-5 h-5 absolute left-3.5 top-3 text-[#A38260]" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@domain.com"
-                className="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C]"
+                className="w-full pl-11 pr-4 py-2.5 rounded-2xl bg-[#241710] border-2 border-[#3D2619] focus:border-[#059669] focus:outline-hidden font-bold text-sm text-[#FEF3C7] placeholder-[#8A6C53]"
               />
             </div>
           </div>
 
           {/* Password */}
           <div className="space-y-1">
-            <label className="text-xs font-black uppercase text-[#777777] tracking-wider">
+            <label className="text-xs font-black uppercase text-[#D4A373] tracking-wider">
               Password
             </label>
             <div className="relative">
-              <Lock className="w-5 h-5 absolute left-3.5 top-3 text-[#AFAFAF]" />
+              <Lock className="w-5 h-5 absolute left-3.5 top-3 text-[#A38260]" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="At least 6 characters"
-                className="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#E5E5E5] focus:border-[#58CC02] focus:outline-hidden font-bold text-sm text-[#3C3C3C]"
+                className="w-full pl-11 pr-4 py-2.5 rounded-2xl bg-[#241710] border-2 border-[#3D2619] focus:border-[#059669] focus:outline-hidden font-bold text-sm text-[#FEF3C7] placeholder-[#8A6C53]"
               />
             </div>
           </div>
@@ -463,10 +463,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3.5 rounded-2xl font-black uppercase text-sm tracking-wider text-white transition-all active:translate-y-1 shadow-md ${
+            className={`w-full py-3.5 rounded-2xl font-black uppercase text-sm tracking-wider text-[#FEF3C7] transition-all active:translate-y-1 shadow-md cursor-pointer ${
               mode === 'signup'
-                ? 'bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302]'
-                : 'bg-[#1CB0F6] hover:bg-[#24B8FB] border-b-4 border-[#1899D6]'
+                ? 'bg-[#059669] hover:bg-[#047857] border-b-4 border-[#065F46]'
+                : 'bg-[#0D9488] hover:bg-[#0F766E] border-b-4 border-[#115E59]'
             } ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
             {loading ? (
@@ -486,15 +486,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="button"
             onClick={handleGuestSave}
-            className="w-full py-2.5 text-xs font-black text-[#777777] hover:text-[#3C3C3C] hover:bg-[#F7F7F7] rounded-xl border border-dashed border-[#E5E5E5] transition-colors flex items-center justify-center gap-2"
+            className="w-full py-2.5 text-xs font-black text-[#D4A373] hover:text-[#FEF3C7] hover:bg-[#241710] rounded-xl border border-dashed border-[#3D2619] transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Save Profile Locally as Guest (No Account Required)</span>
           </button>
         </div>
 
         {/* Security / Free Tier Note */}
-        <div className="text-center pt-2 border-t-2 border-[#E5E5E5] flex items-center justify-center gap-1.5 text-[11px] font-bold text-[#AFAFAF]">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#58CC02]" />
+        <div className="text-center pt-2 border-t-2 border-[#3D2619] flex items-center justify-center gap-1.5 text-[11px] font-bold text-[#A38260]">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" />
           <span>Secured via Firebase Firestore & Authentication Free Tier</span>
         </div>
       </div>

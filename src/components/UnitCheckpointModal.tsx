@@ -214,13 +214,13 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
   const progressPercent = Math.round(((questionIdx + (feedback !== 'idle' ? 1 : 0)) / totalQuestions) * 100);
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#3C3C3C]/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-white border-2 border-b-6 border-[#E5E5E5] rounded-3xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[92vh] shadow-2xl relative">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+      <div className="bg-[#1E130D] border-2 border-b-6 border-[#3D2619] rounded-3xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[92vh] shadow-2xl relative text-[#FEF3C7]">
         {/* TOP STATUS BAR */}
-        <div className="px-5 py-4 border-b-2 border-[#E5E5E5] flex items-center justify-between gap-4 bg-white shrink-0">
+        <div className="px-5 py-4 border-b-2 border-[#3D2619] flex items-center justify-between gap-4 bg-[#1E130D] shrink-0">
           <button
             onClick={onClose}
-            className="text-[#AFAFAF] hover:text-[#3C3C3C] font-black text-xl p-1 transition-colors"
+            className="text-[#D4A373] hover:text-[#FEF3C7] font-black text-xl p-1 transition-colors cursor-pointer"
             aria-label="Exit checkpoint"
           >
             <X className="w-6 h-6 stroke-[3]" />
@@ -228,24 +228,24 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
 
           {/* Progress Bar in Exam Mode */}
           {phase === 'exam' && (
-            <div className="flex-1 mx-3 sm:mx-6 h-4 bg-[#E5E5E5] rounded-full overflow-hidden p-0.5 relative">
+            <div className="flex-1 mx-3 sm:mx-6 h-4 bg-[#241710] border border-[#3D2619] rounded-full overflow-hidden p-0.5 relative">
               <div
-                className="h-full bg-[#FF9600] rounded-full transition-all duration-300 relative shadow-inner"
+                className="h-full bg-[#F59E0B] rounded-full transition-all duration-300 relative shadow-inner"
                 style={{ width: `${progressPercent}%` }}
               >
-                <div className="absolute top-0.5 left-2 right-2 h-1 bg-white/30 rounded-full" />
+                <div className="absolute top-0.5 left-2 right-2 h-1 bg-white/20 rounded-full" />
               </div>
             </div>
           )}
 
           {/* Checkpoint Title Badge or Lives */}
           {phase === 'exam' ? (
-            <div className="flex items-center gap-1.5 font-mono-num font-black text-sm text-[#FF4B4B] shrink-0">
-              <Heart className="w-5 h-5 fill-[#FF4B4B] text-[#FF4B4B] animate-pulse" />
+            <div className="flex items-center gap-1.5 font-mono-num font-black text-sm text-[#EF4444] shrink-0">
+              <Heart className="w-5 h-5 fill-[#EF4444] text-[#EF4444] animate-pulse" />
               <span>{lives} Lives</span>
             </div>
           ) : (
-            <div className="flex items-center gap-2 font-black text-xs uppercase tracking-wider text-[#FF9600]">
+            <div className="flex items-center gap-2 font-black text-xs uppercase tracking-wider text-[#F59E0B]">
               <span>{checkpoint.badgeIcon}</span>
               <span>{checkpoint.isFinalGraduation ? 'Grand Graduation' : 'Unit Checkpoint'}</span>
             </div>
@@ -263,55 +263,55 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                 size="lg"
                 animate={true}
               />
-              <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-2xl bg-[#FF9600] border-b-3 border-[#D97706] text-white flex items-center justify-center text-2xl shadow-md">
+              <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-2xl bg-[#F59E0B] border-b-3 border-[#B45309] text-[#150E09] flex items-center justify-center text-2xl shadow-md">
                 {checkpoint.badgeIcon}
               </div>
             </div>
 
             <div className="space-y-2 max-w-md">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFF4E5] border border-[#FFD8A8] rounded-full text-xs font-black uppercase text-[#D97706] tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#241710] border border-[#F59E0B]/60 rounded-full text-xs font-black uppercase text-[#F59E0B] tracking-wider">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{checkpoint.title}</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#3C3C3C] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#FEF3C7] tracking-tight">
                 {checkpoint.isFinalGraduation
                   ? 'Grand Graduation Exam'
                   : 'Pass the Unit Gateway'}
               </h2>
-              <p className="text-xs sm:text-sm font-bold text-[#777777] leading-relaxed">
+              <p className="text-xs sm:text-sm font-bold text-[#D4A373] leading-relaxed">
                 {checkpoint.subtitle}
               </p>
             </div>
 
             {/* Guardian Speech Bubble */}
-            <div className="p-4 rounded-2xl bg-[#F7F7F7] border-2 border-[#E5E5E5] text-left max-w-md w-full relative">
-              <div className="text-[11px] font-black uppercase text-[#AFAFAF] tracking-wider mb-1">
+            <div className="p-4 rounded-2xl bg-[#241710] border-2 border-[#3D2619] text-left max-w-md w-full relative">
+              <div className="text-[11px] font-black uppercase text-[#F59E0B] tracking-wider mb-1">
                 Guardian Council Guidance:
               </div>
-              <p className="text-xs sm:text-sm font-bold text-[#3C3C3C] leading-relaxed">
+              <p className="text-xs sm:text-sm font-bold text-[#FEF3C7] leading-relaxed">
                 "{checkpoint.guardianSpeech}"
               </p>
             </div>
 
             {/* Rewards Banner */}
             <div className="grid grid-cols-2 gap-3 max-w-md w-full">
-              <div className="p-3 bg-[#FFFBEB] border-2 border-[#FDE68A] rounded-2xl flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#FFC800] text-white flex items-center justify-center text-lg font-black shadow-xs">
+              <div className="p-3 bg-[#241710] border-2 border-[#F59E0B]/40 rounded-2xl flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#F59E0B] text-[#150E09] flex items-center justify-center text-lg font-black shadow-xs">
                   ⚡
                 </div>
                 <div className="text-left">
-                  <div className="text-xs font-black text-[#3C3C3C]">+{checkpoint.xpReward} XP</div>
-                  <div className="text-[10px] font-bold text-[#92400E]">Upon Completion</div>
+                  <div className="text-xs font-black text-[#FEF3C7]">+{checkpoint.xpReward} XP</div>
+                  <div className="text-[10px] font-bold text-[#F59E0B]">Upon Completion</div>
                 </div>
               </div>
 
-              <div className="p-3 bg-[#DCFCE7] border-2 border-[#86EFAC] rounded-2xl flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#58CC02] text-white flex items-center justify-center text-lg font-black shadow-xs">
+              <div className="p-3 bg-[#241710] border-2 border-[#059669]/40 rounded-2xl flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#059669] text-white flex items-center justify-center text-lg font-black shadow-xs">
                   {checkpoint.badgeIcon}
                 </div>
                 <div className="text-left">
-                  <div className="text-xs font-black text-[#166534] truncate">{checkpoint.badgeName}</div>
-                  <div className="text-[10px] font-bold text-[#15803D]">Unlocked Badge</div>
+                  <div className="text-xs font-black text-[#10B981] truncate">{checkpoint.badgeName}</div>
+                  <div className="text-[10px] font-bold text-[#D4A373]">Unlocked Badge</div>
                 </div>
               </div>
             </div>
@@ -319,10 +319,10 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
             {/* Action Button */}
             <button
               onClick={handleStartExam}
-              className={`w-full max-w-md py-4 rounded-2xl font-black uppercase text-sm tracking-wider text-white shadow-lg active:translate-y-1 transition-all ${
+              className={`w-full max-w-md py-4 rounded-2xl font-black uppercase text-sm tracking-wider text-white shadow-lg active:translate-y-1 transition-all cursor-pointer ${
                 checkpoint.isFinalGraduation
-                  ? 'bg-[#FF9600] hover:bg-[#FFA524] border-b-6 border-[#D97706]'
-                  : 'bg-[#58CC02] hover:bg-[#61E002] border-b-6 border-[#46A302]'
+                  ? 'bg-[#F59E0B] hover:bg-[#D97706] border-b-6 border-[#B45309] text-[#150E09]'
+                  : 'bg-[#059669] hover:bg-[#10B981] border-b-6 border-[#047857]'
               }`}
             >
               Start Checkpoint Challenge (5 Questions)
@@ -343,10 +343,10 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                   animate={false}
                 />
                 <div className="flex-1">
-                  <span className="text-[11px] font-black uppercase tracking-wider text-[#AFAFAF]">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-[#D4A373]">
                     Question {questionIdx + 1} of {totalQuestions}
                   </span>
-                  <h3 className="text-lg sm:text-xl font-black text-[#3C3C3C] leading-snug">
+                  <h3 className="text-lg sm:text-xl font-black text-[#FEF3C7] leading-snug">
                     {currentQ.prompt}
                   </h3>
                 </div>
@@ -372,20 +372,20 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
 
                 if (isSecretAnswer) {
                   return (
-                    <div className="p-3.5 rounded-2xl bg-[#F0FDF4] border-2 border-[#BBF7D0] flex items-center justify-between gap-3">
+                    <div className="p-3.5 rounded-2xl bg-[#241710] border-2 border-[#059669]/40 flex items-center justify-between gap-3">
                       <div className="flex items-center gap-2.5">
                         <span className="text-xl">🌱</span>
                         <div>
-                          <span className="text-[11px] font-black uppercase text-[#166534] tracking-wider block">
+                          <span className="text-[11px] font-black uppercase text-[#10B981] tracking-wider block">
                             Checkpoint Challenge
                           </span>
-                          <span className="text-sm font-black text-[#14532D]">
+                          <span className="text-sm font-black text-[#FEF3C7]">
                             Demonstrate your root derivation mastery
                           </span>
                         </div>
                       </div>
                       {currentQ.sageloAudioText && (
-                        <span className="text-[11px] font-bold text-[#166534] bg-white px-2.5 py-1 rounded-lg border border-[#86EFAC]">
+                        <span className="text-[11px] font-bold text-[#10B981] bg-[#064E3B] px-2.5 py-1 rounded-lg border border-[#059669]">
                           Pick the correct ending below
                         </span>
                       )}
@@ -395,12 +395,12 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
 
                 if (currentQ.sageloAudioText) {
                   return (
-                    <div className="p-4 rounded-3xl bg-[#F7F7F7] border-2 border-[#E5E5E5] space-y-2 shadow-xs">
+                    <div className="p-4 rounded-3xl bg-[#241710] border-2 border-[#3D2619] space-y-2 shadow-xs">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase text-[#AFAFAF] tracking-wider">
+                        <span className="text-[10px] font-black uppercase text-[#D4A373] tracking-wider">
                           Tap any word for translation & IPA hint:
                         </span>
-                        <span className="text-[10px] font-mono text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD]">
+                        <span className="text-[10px] font-mono text-[#14B8A6] bg-[#0F2D28] px-2 py-0.5 rounded-md border border-[#0D9488]/40">
                           {getPhrasePhoneticDisplay(currentQ.sageloAudioText)}
                         </span>
                       </div>
@@ -428,21 +428,20 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                           onClick={() => {
                             if (feedback !== 'idle') return;
                             setSelectedOption(opt);
-                            // Do not play audio on select - no spoilers!
                           }}
                           disabled={feedback !== 'idle'}
-                          className={`p-4 rounded-2xl border-2 border-b-4 text-left transition-all flex items-center justify-between gap-4 font-black ${
+                          className={`p-4 rounded-2xl border-2 border-b-4 text-left transition-all flex items-center justify-between gap-4 font-black cursor-pointer ${
                             isSelected
-                              ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6]'
-                              : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C]'
+                              ? 'bg-[#0D382E] border-[#10B981] text-[#FEF3C7]'
+                              : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                           }`}
                         >
                           <span className="text-sm sm:text-base leading-snug">{opt}</span>
                           <span
                             className={`w-7 h-7 rounded-xl border-2 flex items-center justify-center text-xs font-black shrink-0 ${
                               isSelected
-                                ? 'border-[#1CB0F6] bg-[#1CB0F6] text-white'
-                                : 'border-[#E5E5E5] text-[#AFAFAF]'
+                                ? 'border-[#10B981] bg-[#10B981] text-[#150E09]'
+                                : 'border-[#3D2619] text-[#D4A373]'
                             }`}
                           >
                             {isSelected ? '✓' : idx + 1}
@@ -457,9 +456,9 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
               {currentQ.type === 'word_bank' && (
                 <div className="space-y-4">
                   {/* Assembled Answer Slot */}
-                  <div className="min-h-[64px] p-3 rounded-2xl border-2 border-dashed border-[#AFAFAF] bg-[#F7F7F7] flex flex-wrap items-center gap-2">
+                  <div className="min-h-[64px] p-3 rounded-2xl border-2 border-dashed border-[#5A3825] bg-[#150E09] flex flex-wrap items-center gap-2">
                     {bankSelected.length === 0 ? (
-                      <span className="text-xs font-bold text-[#AFAFAF] italic px-2">
+                      <span className="text-xs font-bold text-[#D4A373] italic px-2">
                         Tap words below in order to build the translation...
                       </span>
                     ) : (
@@ -470,7 +469,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                             if (feedback !== 'idle') return;
                             setBankSelected((prev) => prev.filter((_, i) => i !== idx));
                           }}
-                          className="px-3.5 py-2 bg-white border-2 border-b-4 border-[#1CB0F6] text-[#1CB0F6] font-black text-sm rounded-xl active:translate-y-0.5 transition-all"
+                          className="px-3.5 py-2 bg-[#059669] border-2 border-b-4 border-[#047857] text-[#FEF3C7] font-black text-sm rounded-xl active:translate-y-0.5 transition-all cursor-pointer"
                         >
                           {word}
                         </button>
@@ -494,10 +493,10 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                             playSageloPhrase(word, { lang: targetCourseLang });
                           }}
                           disabled={isExhausted || feedback !== 'idle'}
-                          className={`px-4 py-2.5 rounded-xl border-2 border-b-4 font-black text-sm transition-all ${
+                          className={`px-4 py-2.5 rounded-xl border-2 border-b-4 font-black text-sm transition-all cursor-pointer ${
                             isExhausted
-                              ? 'bg-[#E5E5E5] border-[#D0D0D0] text-[#AFAFAF] cursor-default'
-                              : 'bg-white border-[#E5E5E5] hover:bg-[#F7F7F7] text-[#3C3C3C] active:translate-y-0.5'
+                              ? 'bg-[#150E09] border-[#2A1810] text-[#5A3825] cursor-default'
+                              : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] hover:border-[#10B981] text-[#FEF3C7] active:translate-y-0.5'
                           }`}
                         >
                           {word}
@@ -521,10 +520,10 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                             setBlankAnswer(opt);
                             playSageloPhrase(opt, { lang: targetCourseLang });
                           }}
-                          className={`p-3.5 rounded-2xl border-2 border-b-4 font-black text-center text-sm transition-all ${
+                          className={`p-3.5 rounded-2xl border-2 border-b-4 font-black text-center text-sm transition-all cursor-pointer ${
                             blankAnswer === opt
-                              ? 'bg-[#DDF4FF] border-[#1CB0F6] text-[#1CB0F6]'
-                              : 'bg-white border-[#E5E5E5] text-[#3C3C3C]'
+                              ? 'bg-[#0D382E] border-[#10B981] text-[#FEF3C7]'
+                              : 'bg-[#241710] border-[#3D2619] hover:bg-[#2C1D14] text-[#FEF3C7]'
                           }`}
                         >
                           {opt}
@@ -538,7 +537,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                       onChange={(e) => setBlankAnswer(e.target.value)}
                       placeholder="Type the word here..."
                       disabled={feedback !== 'idle'}
-                      className="w-full p-4 rounded-2xl border-2 border-b-4 border-[#E5E5E5] focus:border-[#1CB0F6] outline-hidden text-lg font-black text-[#3C3C3C] bg-white transition-all"
+                      className="w-full p-4 rounded-2xl border-2 border-b-4 border-[#3D2619] focus:border-[#10B981] outline-hidden text-lg font-black text-[#FEF3C7] bg-[#241710] placeholder:text-[#A38260] transition-all"
                     />
                   )}
                 </div>
@@ -546,7 +545,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
             </div>
 
             {/* DUOLINGO SLIDING BOTTOM FEEDBACK BAR */}
-            <div className="pt-4 border-t-2 border-[#E5E5E5]">
+            <div className="pt-4 border-t-2 border-[#3D2619]">
               {feedback === 'idle' ? (
                 <div className="flex justify-end">
                   <button
@@ -556,19 +555,19 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                       ((currentQ.type === 'multiple_choice' || currentQ.type === 'root_morph') && !selectedOption) ||
                       (currentQ.type === 'fill_blank' && !blankAnswer.trim())
                     }
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[#58CC02] hover:bg-[#61E002] active:bg-[#46A302] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-[#059669] hover:bg-[#10B981] active:bg-[#047857] border-b-4 border-[#047857] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Check Answer
                   </button>
                 </div>
               ) : feedback === 'correct' ? (
-                <div className="p-4 rounded-2xl bg-[#D7FFB8] border-2 border-[#58CC02] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
+                <div className="p-4 rounded-2xl bg-[#064E3B] border-2 border-[#059669] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
                   <div className="flex items-center gap-3 text-left w-full sm:w-auto">
-                    <div className="w-10 h-10 rounded-2xl bg-[#58CC02] text-white flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-2xl bg-[#059669] text-white flex items-center justify-center shrink-0">
                       <CheckCircle2 className="w-6 h-6 stroke-[3]" />
                     </div>
                     <div className="flex-1">
-                      <div className="text-base font-black text-[#166534] flex items-center gap-2 flex-wrap">
+                      <div className="text-base font-black text-[#FEF3C7] flex items-center gap-2 flex-wrap">
                         <span>Excellent! Shanti!</span>
                         {(() => {
                           const sageloTarget = currentQ?.sageloAudioText;
@@ -584,14 +583,14 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                               return (
                                 <div className="flex items-center gap-1.5 flex-wrap">
                                   {!isFrenchCourse && (
-                                    <span className="font-mono text-xs font-black text-[#166534] bg-white px-2 py-0.5 rounded-lg border border-[#86EFAC]">
+                                    <span className="font-mono text-xs font-black text-[#10B981] bg-[#0F2D28] px-2 py-0.5 rounded-lg border border-[#059669]">
                                       {phonetic}
                                     </span>
                                   )}
                                   <button
                                     type="button"
                                     onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
-                                    className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                    className="px-2.5 py-1 rounded-xl bg-[#1E130D] border border-[#059669] text-[#10B981] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                     title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
                                   >
                                     <Volume2 className="w-3.5 h-3.5" />
@@ -604,7 +603,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                                 <button
                                   type="button"
                                   onClick={() => playEnglishPhrase(phraseToSpeak)}
-                                  className="px-2.5 py-1 rounded-xl bg-white border border-[#86EFAC] text-[#166534] font-black text-xs flex items-center gap-1 hover:bg-[#F0FDF4] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                  className="px-2.5 py-1 rounded-xl bg-[#1E130D] border border-[#059669] text-[#10B981] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                   title="Read solution in proper English"
                                 >
                                   <Volume2 className="w-3.5 h-3.5" />
@@ -614,26 +613,26 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                             }
                           })()}
                         </div>
-                        <div className="text-xs font-bold text-[#15803D]">
+                        <div className="text-xs font-bold text-[#A7F3D0]">
                           {currentQ.explanation}
                         </div>
                       </div>
                     </div>
                     <button
                       onClick={handleNextQuestion}
-                      className="w-full sm:w-auto px-8 py-3 bg-[#58CC02] hover:bg-[#61E002] border-b-4 border-[#46A302] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm"
+                      className="w-full sm:w-auto px-8 py-3 bg-[#059669] hover:bg-[#10B981] border-b-4 border-[#047857] text-[#FEF3C7] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm cursor-pointer"
                     >
                       Continue
                     </button>
                   </div>
                 ) : (
-                  <div className="p-4 rounded-2xl bg-[#FFDFE0] border-2 border-[#FF4B4B] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
+                  <div className="p-4 rounded-2xl bg-[#3D1414] border-2 border-[#DC2626] flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
                     <div className="flex items-center gap-3 text-left w-full sm:w-auto">
-                      <div className="w-10 h-10 rounded-2xl bg-[#FF4B4B] text-white flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-2xl bg-[#DC2626] text-white flex items-center justify-center shrink-0">
                         <AlertCircle className="w-6 h-6 stroke-[3]" />
                       </div>
                       <div className="flex-1">
-                        <div className="text-base font-black text-[#991B1B] flex items-center gap-2 flex-wrap">
+                        <div className="text-base font-black text-[#FEF3C7] flex items-center gap-2 flex-wrap">
                           <span>Correct solution: {currentQ.correctAnswer}</span>
                           {(() => {
                             const sageloTarget = currentQ?.sageloAudioText;
@@ -649,14 +648,14 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                               return (
                                 <div className="flex items-center gap-1.5 flex-wrap">
                                   {!isFrenchCourse && (
-                                    <span className="font-mono text-xs font-black text-[#991B1B] bg-white px-2 py-0.5 rounded-lg border border-[#FCA5A5]">
+                                    <span className="font-mono text-xs font-black text-[#FCA5A5] bg-[#2A0E0E] px-2 py-0.5 rounded-lg border border-[#DC2626]">
                                       {phonetic}
                                     </span>
                                   )}
                                   <button
                                     type="button"
                                     onClick={() => playSageloPhrase(phraseToSpeak, { lang: targetCourseLang })}
-                                    className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                    className="px-2.5 py-1 rounded-xl bg-[#241710] border border-[#DC2626] text-[#FCA5A5] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                     title={`Hear authentic ${isFrenchCourse ? 'French' : 'Sagelo'} pronunciation`}
                                   >
                                     <Volume2 className="w-3.5 h-3.5" />
@@ -669,7 +668,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                               <button
                                 type="button"
                                 onClick={() => playEnglishPhrase(phraseToSpeak)}
-                                className="px-2.5 py-1 rounded-xl bg-white border border-[#FCA5A5] text-[#991B1B] font-black text-xs flex items-center gap-1 hover:bg-[#FFF1F2] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
+                                className="px-2.5 py-1 rounded-xl bg-[#241710] border border-[#DC2626] text-[#FCA5A5] font-black text-xs flex items-center gap-1 hover:bg-[#2C1D14] active:translate-y-0.5 transition-all shadow-2xs cursor-pointer"
                                 title="Read solution in proper English"
                               >
                                 <Volume2 className="w-3.5 h-3.5" />
@@ -679,14 +678,14 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
                           }
                         })()}
                       </div>
-                      <div className="text-xs font-bold text-[#B91C1C]">
+                      <div className="text-xs font-bold text-[#FCA5A5]">
                         {currentQ.explanation}
                       </div>
                     </div>
                   </div>
                   <button
                     onClick={handleNextQuestion}
-                    className="w-full sm:w-auto px-8 py-3 bg-[#FF4B4B] hover:bg-[#FF6666] border-b-4 border-[#CC3B3B] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm"
+                    className="w-full sm:w-auto px-8 py-3 bg-[#DC2626] hover:bg-[#EF4444] border-b-4 border-[#991B1B] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-sm cursor-pointer"
                   >
                     Got It
                   </button>
@@ -701,17 +700,17 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
           <div className="p-6 sm:p-8 space-y-6 text-center flex flex-col items-center overflow-y-auto">
             <CartoonCharacter character="duo" mood="encouraging" size="lg" />
             <div className="space-y-2 max-w-md">
-              <h3 className="text-2xl font-black text-[#3C3C3C]">
+              <h3 className="text-2xl font-black text-[#FEF3C7]">
                 Don't Give Up!
               </h3>
-              <p className="text-xs sm:text-sm font-bold text-[#777777] leading-relaxed">
+              <p className="text-xs sm:text-sm font-bold text-[#D4A373] leading-relaxed">
                 You scored {correctCount} of {totalQuestions} on this gateway exam. Take a deep breath, review the roots, and try again!
               </p>
             </div>
 
             <button
               onClick={handleStartExam}
-              className="w-full max-w-xs py-3.5 bg-[#FF9600] hover:bg-[#FFA524] border-b-4 border-[#D97706] text-white font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2"
+              className="w-full max-w-xs py-3.5 bg-[#F59E0B] hover:bg-[#D97706] border-b-4 border-[#B45309] text-[#150E09] font-black uppercase text-sm rounded-2xl active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4 stroke-[3]" />
               <span>Retry Checkpoint</span>
@@ -736,64 +735,64 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
             </div>
 
             <div className="space-y-1 max-w-md">
-              <span className="text-xs font-black uppercase tracking-wider text-[#58CC02]">
+              <span className="text-xs font-black uppercase tracking-wider text-[#10B981]">
                 GATEWAY CONQUERED!
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#3C3C3C]">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#FEF3C7]">
                 {checkpoint.isFinalGraduation
                   ? 'Master of Sagelo Certified!'
                   : `${checkpoint.badgeName} Unlocked!`}
               </h2>
-              <p className="text-xs sm:text-sm font-bold text-[#777777]">
+              <p className="text-xs sm:text-sm font-bold text-[#D4A373]">
                 You scored {correctCount} / {totalQuestions} and passed the {checkpoint.title}!
               </p>
             </div>
 
             {/* GRAND FINAL GRADUATION DIPLOMA */}
             {checkpoint.isFinalGraduation ? (
-              <div className="w-full max-w-lg p-6 rounded-3xl bg-[#FFFDF5] border-4 border-[#D99B26] shadow-xl text-center space-y-4 relative overflow-hidden">
-                <div className="absolute top-2 left-2 text-[#D99B26] opacity-30 text-4xl font-serif">
+              <div className="w-full max-w-lg p-6 rounded-3xl bg-[#241710] border-4 border-[#F59E0B] shadow-xl text-center space-y-4 relative overflow-hidden text-[#FEF3C7]">
+                <div className="absolute top-2 left-2 text-[#F59E0B] opacity-30 text-4xl font-serif">
                   ⚜️
                 </div>
-                <div className="absolute top-2 right-2 text-[#D99B26] opacity-30 text-4xl font-serif">
+                <div className="absolute top-2 right-2 text-[#F59E0B] opacity-30 text-4xl font-serif">
                   ⚜️
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#B45309]">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#F59E0B]">
                     CIRCLE OF SAGES • OFFICIAL GRADUATION DIPLOMA
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-serif font-black text-[#451A03]">
+                  <h3 className="text-xl sm:text-2xl font-serif font-black text-[#FEF3C7]">
                     Certificate of Supreme Sagelo Mastery
                   </h3>
-                  <div className="h-0.5 w-24 bg-[#D99B26] mx-auto my-1" />
+                  <div className="h-0.5 w-24 bg-[#F59E0B] mx-auto my-1" />
                 </div>
 
                 <div className="space-y-1">
-                  <p className="text-xs font-bold text-[#78350F]">
+                  <p className="text-xs font-bold text-[#D4A373]">
                     This certifies that the esteemed seeker:
                   </p>
-                  <p className="text-xl sm:text-2xl font-black text-[#B45309] font-serif">
+                  <p className="text-xl sm:text-2xl font-black text-[#F59E0B] font-serif">
                     {userName} ({userSageloName})
                   </p>
-                  <p className="text-xs font-bold text-[#78350F] max-w-md mx-auto leading-relaxed">
+                  <p className="text-xs font-bold text-[#D4A373] max-w-md mx-auto leading-relaxed">
                     has successfully demonstrated complete command over all 9 Units of Sagelo, including Lonkundo Bantu root morphology, the 5-vowel system, the 4 truth evidentialities, numbers, and philosophical fluency.
                   </p>
                 </div>
 
-                <div className="pt-2 flex items-center justify-between border-t border-[#FDE68A] text-[11px] font-black text-[#92400E]">
+                <div className="pt-2 flex items-center justify-between border-t border-[#3D2619] text-[11px] font-black text-[#FEF3C7]">
                   <div>
                     <span>Seal of Elder Mpaka</span>
-                    <div className="text-[9px] text-[#AFAFAF] font-mono-num font-normal">
+                    <div className="text-[9px] text-[#D4A373] font-mono-num font-normal">
                       Verified via Firestore
                     </div>
                   </div>
-                  <div className="w-12 h-12 rounded-full bg-[#D99B26] border-2 border-white text-white flex items-center justify-center text-xl shadow-md">
+                  <div className="w-12 h-12 rounded-full bg-[#F59E0B] border-2 border-[#FEF3C7] text-[#150E09] flex items-center justify-center text-xl shadow-md">
                     👑
                   </div>
                   <div>
                     <span>Date: {new Date().toLocaleDateString()}</span>
-                    <div className="text-[9px] text-[#AFAFAF] font-mono-num font-normal">
+                    <div className="text-[9px] text-[#D4A373] font-mono-num font-normal">
                       Master Misaga
                     </div>
                   </div>
@@ -801,18 +800,18 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
               </div>
             ) : (
               /* Regular Unit Checkpoint Badge */
-              <div className="p-5 rounded-2xl bg-[#FFFBEB] border-2 border-[#FDE68A] max-w-md w-full flex items-center gap-4 text-left">
-                <div className="w-16 h-16 rounded-2xl bg-[#FF9600] border-b-4 border-[#D97706] text-white flex items-center justify-center text-3xl shrink-0 shadow-md">
+              <div className="p-5 rounded-2xl bg-[#241710] border-2 border-[#F59E0B]/50 max-w-md w-full flex items-center gap-4 text-left">
+                <div className="w-16 h-16 rounded-2xl bg-[#F59E0B] border-b-4 border-[#B45309] text-[#150E09] flex items-center justify-center text-3xl shrink-0 shadow-md">
                   {checkpoint.badgeIcon}
                 </div>
                 <div>
-                  <div className="text-xs font-black uppercase text-[#D97706]">
+                  <div className="text-xs font-black uppercase text-[#F59E0B]">
                     Permanent Badge Earned
                   </div>
-                  <div className="text-base font-black text-[#3C3C3C]">
+                  <div className="text-base font-black text-[#FEF3C7]">
                     {checkpoint.badgeName}
                   </div>
-                  <div className="text-xs font-bold text-[#92400E]">
+                  <div className="text-xs font-bold text-[#D4A373]">
                     +{checkpoint.xpReward} XP Added to Your Streak!
                   </div>
                 </div>
@@ -821,7 +820,7 @@ export const UnitCheckpointModal: React.FC<UnitCheckpointModalProps> = ({
 
             <button
               onClick={onClose}
-              className="w-full max-w-md py-4 bg-[#58CC02] hover:bg-[#61E002] border-b-6 border-[#46A302] text-white font-black uppercase text-sm tracking-wider rounded-2xl active:translate-y-1 transition-all shadow-lg"
+              className="w-full max-w-md py-4 bg-[#059669] hover:bg-[#10B981] border-b-6 border-[#047857] text-[#FEF3C7] font-black uppercase text-sm tracking-wider rounded-2xl active:translate-y-1 transition-all shadow-lg cursor-pointer"
             >
               Continue Learning Path
             </button>

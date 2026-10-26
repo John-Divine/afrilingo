@@ -82,7 +82,7 @@ export const InteractiveDuolingoSentence: React.FC<InteractiveDuolingoSentencePr
           <button
             type="button"
             onClick={handlePlayNormal}
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#1CB0F6] hover:bg-[#20BEFF] active:bg-[#1899D6] border-b-4 border-[#1580B8] text-white flex items-center justify-center shrink-0 active:translate-y-1 transition-all shadow-xs"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#0D9488] hover:bg-[#14B8A6] active:bg-[#0F766E] border-b-4 border-[#0F766E] text-white flex items-center justify-center shrink-0 active:translate-y-1 transition-all shadow-xs"
             title="Listen to full phrase (Normal speed)"
             aria-label="Listen at normal speed"
           >
@@ -92,7 +92,7 @@ export const InteractiveDuolingoSentence: React.FC<InteractiveDuolingoSentencePr
           <button
             type="button"
             onClick={handlePlayTurtle}
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white hover:bg-[#F7F7F7] active:bg-[#E5E5E5] border-2 border-b-4 border-[#E5E5E5] hover:border-[#1CB0F6] text-[#1CB0F6] flex items-center justify-center shrink-0 active:translate-y-0.5 transition-all text-sm font-black shadow-2xs"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#241710] hover:bg-[#2C1D14] active:bg-[#1E130D] border-2 border-b-4 border-[#3D2619] hover:border-[#14B8A6] text-[#14B8A6] flex items-center justify-center shrink-0 active:translate-y-0.5 transition-all text-sm font-black shadow-2xs"
             title="Listen slowly (Turtle speed)"
             aria-label="Listen at turtle slow speed"
           >
@@ -102,12 +102,12 @@ export const InteractiveDuolingoSentence: React.FC<InteractiveDuolingoSentencePr
       )}
 
       {/* Interactive Word Tokens */}
-      <div className={`flex items-baseline flex-wrap gap-x-1.5 gap-y-1 font-black ${fontSizeClass} text-[#3C3C3C]`}>
+      <div className={`flex items-baseline flex-wrap gap-x-1.5 gap-y-1 font-black ${fontSizeClass} text-[#FEF3C7]`}>
         {tokens.map((token, i) => {
           const isWord = /[a-zA-ZáéíóúÁÉÍÓÚ]/.test(token);
           if (!isWord) {
             return (
-              <span key={i} className="text-[#777777] select-none">
+              <span key={i} className="text-[#D4A373] select-none">
                 {token}
               </span>
             );
@@ -122,8 +122,8 @@ export const InteractiveDuolingoSentence: React.FC<InteractiveDuolingoSentencePr
               onClick={(e) => handleWordClick(token, e)}
               className={`relative cursor-pointer transition-all border-b-2 border-dotted rounded-sm px-0.5 ${
                 isActive
-                  ? 'border-[#1CB0F6] text-[#1CB0F6] bg-[#DDF4FF]'
-                  : 'border-[#AFAFAF] hover:border-[#1CB0F6] hover:text-[#1CB0F6]'
+                  ? 'border-[#10B981] text-[#10B981] bg-[#064E3B]'
+                  : 'border-[#A38260] hover:border-[#10B981] hover:text-[#10B981]'
               }`}
               title={`Tap to see meaning and hear "${token}"`}
             >
@@ -136,7 +136,7 @@ export const InteractiveDuolingoSentence: React.FC<InteractiveDuolingoSentencePr
       {/* Floating Duolingo Word Hint Tooltip Card */}
       {activeHint && (
         <div
-          className="absolute z-50 bg-white border-2 border-b-4 border-[#1CB0F6] rounded-2xl p-3.5 shadow-xl text-left animate-in fade-in zoom-in-95 duration-150 min-w-[210px] max-w-[280px]"
+          className="absolute z-50 bg-[#241710] border-2 border-b-4 border-[#10B981] rounded-2xl p-3.5 shadow-xl text-left animate-in fade-in zoom-in-95 duration-150 min-w-[210px] max-w-[280px]"
           style={{
             top: '100%',
             left: '0',
@@ -144,30 +144,30 @@ export const InteractiveDuolingoSentence: React.FC<InteractiveDuolingoSentencePr
           }}
         >
           {/* Duolingo Carrot Pointer */}
-          <div className="absolute -top-2 left-6 w-3.5 h-3.5 bg-white border-t-2 border-l-2 border-[#1CB0F6] rotate-45" />
+          <div className="absolute -top-2 left-6 w-3.5 h-3.5 bg-[#241710] border-t-2 border-l-2 border-[#10B981] rotate-45" />
 
           <div className="space-y-1.5 relative z-10">
-            <div className="flex items-center justify-between gap-2 border-b border-[#F0F0F0] pb-1.5">
-              <span className="text-sm font-black text-[#1CB0F6]">{activeHint.hint.word}</span>
-              <span className="font-mono text-[10px] font-bold text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.5 rounded border border-[#BAE6FD]">
+            <div className="flex items-center justify-between gap-2 border-b border-[#3D2619] pb-1.5">
+              <span className="text-sm font-black text-[#10B981]">{activeHint.hint.word}</span>
+              <span className="font-mono text-[10px] font-bold text-[#14B8A6] bg-[#0F2D28] px-1.5 py-0.5 rounded border border-[#0D9488]/40">
                 {activeHint.hint.ipa}
               </span>
               <button
                 type="button"
                 onClick={() => playSageloPhrase(activeHint.hint.clean)}
-                className="w-6 h-6 rounded-lg bg-[#1CB0F6] hover:bg-[#1899D6] text-white flex items-center justify-center shrink-0 active:scale-95 transition-all"
+                className="w-6 h-6 rounded-lg bg-[#0D9488] hover:bg-[#14B8A6] text-white flex items-center justify-center shrink-0 active:scale-95 transition-all"
                 title="Hear word audio"
               >
                 <Volume2 className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="text-xs font-black text-[#3C3C3C] leading-snug">
+            <div className="text-xs font-black text-[#FEF3C7] leading-snug">
               {activeHint.hint.translation}
             </div>
 
             {activeHint.hint.grammaticalRole && (
-              <div className="text-[10px] font-bold text-[#AFAFAF] uppercase tracking-wider">
+              <div className="text-[10px] font-bold text-[#D4A373] uppercase tracking-wider">
                 {activeHint.hint.grammaticalRole}
               </div>
             )}
