@@ -24,17 +24,20 @@ import { InteractiveDuolingoSentence } from './InteractiveDuolingoSentence';
 
 interface LessonSessionModalProps {
   lesson: CurriculumLesson;
+  isAlreadyCompleted?: boolean;
   onClose: () => void;
   onComplete: (result: {
     lessonId: string;
     score: number;
     xpEarned: number;
     newWords: string[];
+    isFirstTime: boolean;
   }) => void;
 }
 
 export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
   lesson,
+  isAlreadyCompleted = false,
   onClose,
   onComplete,
 }) => {
@@ -43,6 +46,10 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
     lesson.unitId.startsWith('fr-') ||
     lesson.unitId.includes('fr');
   const targetCourseLang: 'sagelo' | 'french' = isFrenchCourse ? 'french' : 'sagelo';
+
+  // Only award XP on the very first completion of a lesson; repeating awards 0 XP
+  const isFirstTime = !isAlreadyCompleted;
+  const xpReward = isFirstTime ? lesson.xpReward : 0;
 
   // Phase: start directly in interactive practice or quick intro
   const [phase, setPhase] = useState<'intro' | 'practice' | 'summary'>('intro');
@@ -326,8 +333,9 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
     onComplete({
       lessonId: lesson.id,
       score,
-      xpEarned: lesson.xpReward,
+      xpEarned: xpReward,
       newWords: lesson.wordsIntroduced,
+      isFirstTime,
     });
   };
 
@@ -449,15 +457,33 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                 <div className="w-20 h-20 mx-auto rounded-3xl bg-[#059669]/20 text-[#10B981] flex items-center justify-center text-4xl shadow-sm mb-2 border border-[#059669]/40">
                   <CartoonCharacter character="duo" mood="speaking" size="md" animate={true} />
                 </div>
-                <span className="text-xs font-black uppercase tracking-wider text-[#14B8A6]">
-                  {lesson.numberLabel} • Lesson Kickoff
-                </span>
+                <div className="flex items-center justify-center gap-2 flex-wrap">
+                  <span className="text-xs font-black uppercase tracking-wider text-[#14B8A6]">
+                    {lesson.numberLabel} • Lesson Kickoff
+                  </span>
+                  {isAlreadyCompleted ? (
+                    <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] border border-[#F59E0B]/40">
+                      Repeat Practice (0 XP)
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-[#059669]/20 text-[#10B981] border border-[#059669]/40">
+                      First Completion (+{lesson.xpReward} XP)
+                    </span>
+                  )}
+                </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-[#FEF3C7]">
                   {lesson.title}
                 </h2>
                 <p className="text-sm font-bold text-[#D4A373]">
                   {lesson.subtitle}
                 </p>
+
+                {isAlreadyCompleted && (
+                  <div className="mt-2 p-2.5 rounded-2xl bg-[#241710] border border-[#3D2619] flex items-center justify-center gap-2 text-xs font-bold text-[#D4A373]">
+                    <span className="text-base">🔁</span>
+                    <span>Points are awarded once on first completion. Repeating gives <strong>0 points</strong>.</span>
+                  </div>
+                )}
               </div>
 
               {/* Introduced Words Card */}
@@ -972,7 +998,14 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
               <div className="grid grid-cols-3 gap-3 max-w-sm w-full">
                 <div className="p-3.5 bg-[#241710] border-2 border-[#F59E0B]/60 rounded-2xl text-center">
                   <div className="text-xs font-black uppercase text-[#F59E0B]">XP Earned</div>
-                  <div className="text-2xl font-black text-[#FEF3C7] mt-0.5">+{lesson.xpReward}</div>
+                  <div className="text-2xl font-black text-[#FEF3C7] mt-0.5">
+                    +{xpReward}
+                  </div>
+                  {isAlreadyCompleted && (
+                    <div className="text-[9px] font-bold text-[#D4A373] mt-0.5">
+                      Repeat (0 pts)
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-3.5 bg-[#241710] border-2 border-[#059669]/60 rounded-2xl text-center">
@@ -989,6 +1022,29 @@ export const LessonSessionModal: React.FC<LessonSessionModalProps> = ({
                   </div>
                 </div>
               </div>
+
+              {/* Single Award Enforcement Banner */}
+              {isAlreadyCompleted ? (
+                <div className="max-w-sm w-full p-3.5 rounded-2xl bg-[#241710] border border-[#F59E0B]/50 text-center space-y-1">
+                  <div className="text-xs font-black text-[#F59E0B] flex items-center justify-center gap-1.5">
+                    <span>🔁</span>
+                    <span>Repeat Practice: +0 Points</span>
+                  </div>
+                  <p className="text-[11px] font-bold text-[#D4A373]">
+                    Points are only earned once per lesson. You already collected the points for this lesson on your first run.
+                  </p>
+                </div>
+              ) : (
+                <div className="max-w-sm w-full p-3.5 rounded-2xl bg-[#064E3B] border border-[#059669] text-center space-y-1">
+                  <div className="text-xs font-black text-[#10B981] flex items-center justify-center gap-1.5">
+                    <span>🌟</span>
+                    <span>First Completion: +{lesson.xpReward} Points!</span>
+                  </div>
+                  <p className="text-[11px] font-bold text-[#A7F3D0]">
+                    Points have been credited to your profile. Repeating this lesson in the future will give 0 points.
+                  </p>
+                </div>
+              )}
 
               {/* Introduced Words Badge List */}
               {lesson.wordsIntroduced.length > 0 && (

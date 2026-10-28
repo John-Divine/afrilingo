@@ -12,6 +12,7 @@ export interface UserAccount {
   todayXp: number;
   completedLessons: string[];
   completedCheckpoints?: string[];
+  completedStories?: string[];
   lessonScores: Record<string, number>;
   masteredWords: string[];
   masteryCertified?: boolean;

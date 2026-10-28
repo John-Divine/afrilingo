@@ -459,18 +459,23 @@ export default function App() {
     score: number;
     xpEarned: number;
     newWords: string[];
+    isFirstTime?: boolean;
   }) => {
     setActiveLesson(null);
-    const updatedCompleted = user.completedLessons.includes(result.lessonId)
-      ? user.completedLessons
-      : [...user.completedLessons, result.lessonId];
+    const isFirstTime = !user.completedLessons.includes(result.lessonId);
+    // Strict enforcement: points are earned once. Repeating a lesson gives 0 points.
+    const effectiveXpEarned = isFirstTime ? result.xpEarned : 0;
+
+    const updatedCompleted = isFirstTime
+      ? [...user.completedLessons, result.lessonId]
+      : user.completedLessons;
     const updatedWords = Array.from(
       new Set([...user.masteredWords, ...result.newWords])
     );
     const updated: UserAccount = {
       ...user,
-      xp: user.xp + result.xpEarned,
-      todayXp: user.todayXp + result.xpEarned,
+      xp: user.xp + effectiveXpEarned,
+      todayXp: user.todayXp + effectiveXpEarned,
       completedLessons: updatedCompleted,
       lessonScores: {
         ...user.lessonScores,
@@ -520,14 +525,18 @@ export default function App() {
     xpEarned: number,
     isFinalGraduation?: boolean
   ) => {
-    const updatedCheckpoints = user.completedCheckpoints?.includes(checkpointId)
-      ? user.completedCheckpoints
+    const isAlreadyDone = (user.completedCheckpoints || []).includes(checkpointId);
+    // Strict enforcement: checkpoints also only award XP on first pass
+    const effectiveXp = isAlreadyDone ? 0 : xpEarned;
+
+    const updatedCheckpoints = isAlreadyDone
+      ? user.completedCheckpoints || []
       : [...(user.completedCheckpoints || []), checkpointId];
 
     const updated: UserAccount = {
       ...user,
-      xp: user.xp + xpEarned,
-      todayXp: user.todayXp + xpEarned,
+      xp: user.xp + effectiveXp,
+      todayXp: user.todayXp + effectiveXp,
       completedCheckpoints: updatedCheckpoints,
       masteryCertified: isFinalGraduation ? true : user.masteryCertified,
       graduationDate: isFinalGraduation ? new Date().toISOString() : user.graduationDate,
@@ -1156,6 +1165,13 @@ export default function App() {
                               <button
                                 onClick={() => !isLocked && setActiveLesson(lesson)}
                                 disabled={isLocked}
+                                title={
+                                  isCompleted
+                                    ? `Review ${lesson.title} (0 XP - points already earned)`
+                                    : isCurrent
+                                    ? `Start ${lesson.title} (+${lesson.xpReward} XP)`
+                                    : `Locked - ${lesson.title}`
+                                }
                                 className={`relative w-20 h-20 rounded-full flex flex-col items-center justify-center transition-all duration-150 active:translate-y-1 ${
                                   isCompleted
                                     ? 'bg-[#F59E0B] border-b-6 border-[#D97706] hover:brightness-105 shadow-md text-[#1E130D] cursor-pointer'
@@ -1179,7 +1195,9 @@ export default function App() {
                                   {lesson.title}
                                 </p>
                                 <span className="text-[10px] font-bold text-[#D4A373]">
-                                  {lesson.numberLabel}
+                                  {isCompleted
+                                    ? `${lesson.numberLabel} • Review (0 XP)`
+                                    : `${lesson.numberLabel} • +${lesson.xpReward} XP`}
                                 </span>
                               </div>
                             </div>
@@ -1757,11 +1775,18 @@ export default function App() {
             {activeTab === 'stories' && (
               <DuolingoStoriesView
                 activeCourse={activeCourse}
+                completedStoryIds={user.completedStories || []}
                 onCompleteStory={(storyId, xp) => {
+                  const isFirstTime = !(user.completedStories || []).includes(storyId);
+                  const effectiveXp = isFirstTime ? xp : 0;
+                  const updatedStories = isFirstTime
+                    ? [...(user.completedStories || []), storyId]
+                    : user.completedStories || [];
                   updateUser({
                     ...user,
-                    xp: user.xp + xp,
-                    todayXp: user.todayXp + xp,
+                    xp: user.xp + effectiveXp,
+                    todayXp: user.todayXp + effectiveXp,
+                    completedStories: updatedStories,
                   });
                 }}
               />
@@ -2479,6 +2504,7 @@ export default function App() {
       {activeLesson && (
         <LessonSessionModal
           lesson={activeLesson}
+          isAlreadyCompleted={user.completedLessons.includes(activeLesson.id)}
           onClose={() => setActiveLesson(null)}
           onComplete={handleLessonComplete}
         />

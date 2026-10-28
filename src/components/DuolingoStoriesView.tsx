@@ -204,11 +204,13 @@ export const DUOLINGO_STORIES: DuolingoStory[] = [
 interface DuolingoStoriesViewProps {
   onCompleteStory: (storyId: string, xp: number) => void;
   activeCourse?: 'sagelo' | 'french';
+  completedStoryIds?: string[];
 }
 
 export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
   onCompleteStory,
   activeCourse = 'sagelo',
+  completedStoryIds = [],
 }) => {
   const isFrench = activeCourse === 'french';
   const targetLang = isFrench ? 'french' : 'sagelo';
@@ -219,6 +221,8 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [questionFeedback, setQuestionFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [storyFinished, setStoryFinished] = useState(false);
+
+  const isCurrentStoryRepeat = Boolean(activeStory && completedStoryIds.includes(activeStory.id));
 
   const handleStartStory = (story: DuolingoStory) => {
     setActiveStory(story);
@@ -249,7 +253,9 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
       }
     } else {
       setStoryFinished(true);
-      onCompleteStory(activeStory.id, activeStory.xpReward);
+      // Only award points on the first completion; repeats give 0 XP
+      const xpToAward = isCurrentStoryRepeat ? 0 : activeStory.xpReward;
+      onCompleteStory(activeStory.id, xpToAward);
     }
   };
 
@@ -310,7 +316,7 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
 
               <div className="flex items-center gap-3 shrink-0">
                 <span className="font-mono-num font-black text-sm text-[#F59E0B]">
-                  +{story.xpReward} XP
+                  {completedStoryIds.includes(story.id) ? 'Review (0 XP)' : `+${story.xpReward} XP`}
                 </span>
                 <button
                   className="w-10 h-10 rounded-xl bg-[#059669] border-b-4 border-[#047857] text-[#FEF3C7] flex items-center justify-center hover:bg-[#047857] active:translate-y-1 transition-all cursor-pointer"
@@ -464,7 +470,7 @@ export const DuolingoStoriesView: React.FC<DuolingoStoriesViewProps> = ({
           </div>
 
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-[#241710] border-2 border-[#F59E0B] rounded-2xl font-black text-base text-[#F59E0B]">
-            <span>+{activeStory.xpReward} XP Earned!</span>
+            <span>{isCurrentStoryRepeat ? '+0 XP (Repeat Review • Points earned once)' : `+${activeStory.xpReward} XP Earned!`}</span>
           </div>
 
           <div>

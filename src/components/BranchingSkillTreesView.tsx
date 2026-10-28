@@ -277,7 +277,7 @@ export const BranchingSkillTreesView: React.FC<BranchingSkillTreesViewProps> = (
                                   : 'bg-[#0D9488] hover:bg-[#0F766E] text-white border-b-2 border-[#115E59]'
                               }`}
                             >
-                              <span>{isLessonDone ? 'Review' : 'Start'}</span>
+                              <span>{isLessonDone ? 'Review (0 XP)' : `Start (+${bLesson.xpReward} XP)`}</span>
                               <ArrowRight className="w-3.5 h-3.5 stroke-[3]" />
                             </button>
                           </div>
