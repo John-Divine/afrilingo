@@ -21,17 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-
-      - name: Validate Firebase Secret Configuration
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_KEY || secrets.FIREBASE_CREDENTIALS || secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        run: |
-          if [ -z "$SERVICE_ACCOUNT" ]; then
-            echo "::warning title=Missing Firebase Deployment Secret::No Firebase service account secret found for PR preview. Skipping deploy."
-            exit 0
-          fi
-          echo "Firebase credentials detected for PR preview deploy."
+          node-version: 20
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
@@ -39,20 +29,9 @@ jobs:
       - name: Build production bundle
         run: npm run build
 
-      - name: Verify build artifact directory
-        run: |
-          if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
-            echo "::error title=Build Failed::Production output directory 'dist' or 'dist/index.html' does not exist."
-            exit 1
-          fi
-
       - name: Deploy Preview Channel
-        if: ${{ env.HAS_SERVICE_ACCOUNT == 'true' }}
-        env:
-          HAS_SERVICE_ACCOUNT: ${{ (secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_KEY || secrets.FIREBASE_CREDENTIALS || secrets.GOOGLE_APPLICATION_CREDENTIALS) != '' }}
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_KEY || secrets.FIREBASE_CREDENTIALS || secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT }}'
           projectId: gen-lang-client-0930548530
-
