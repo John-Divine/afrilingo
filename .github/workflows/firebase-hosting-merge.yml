@@ -20,7 +20,26 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+
+      - name: Validate Firebase Secret Configuration
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_KEY || secrets.FIREBASE_CREDENTIALS || secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [ -z "$SERVICE_ACCOUNT" ] && [ -z "$FIREBASE_TOKEN" ]; then
+            echo "::error title=Missing Firebase Deployment Secret::No Firebase deployment secret was found in your GitHub repository secrets!"
+            echo "----------------------------------------------------------------------------------"
+            echo "Action Required to Fix This Error:"
+            echo "1. Go to your GitHub repository -> Settings -> Secrets and variables -> Actions"
+            echo "2. Click 'New repository secret'"
+            echo "3. Name: FIREBASE_SERVICE_ACCOUNT"
+            echo "4. Value: Paste your Firebase/GCP Service Account JSON key (with 'Firebase Hosting Admin' role)"
+            echo "   Alternatively, if you generated a CI token with 'firebase login:ci', add secret 'FIREBASE_TOKEN'"
+            echo "----------------------------------------------------------------------------------"
+            exit 1
+          fi
+          echo "Firebase credentials successfully detected in GitHub Secrets."
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
@@ -28,10 +47,29 @@ jobs:
       - name: Build production bundle
         run: npm run build
 
-      - name: Deploy to Firebase Hosting (Live)
+      - name: Verify build artifact directory
+        run: |
+          if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
+            echo "::error title=Build Failed::Production output directory 'dist' or 'dist/index.html' does not exist."
+            exit 1
+          fi
+          echo "Build artifact verified in dist/"
+
+      - name: Deploy to Firebase Hosting via Service Account
+        if: ${{ env.HAS_SERVICE_ACCOUNT == 'true' }}
+        env:
+          HAS_SERVICE_ACCOUNT: ${{ (secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_KEY || secrets.FIREBASE_CREDENTIALS || secrets.GOOGLE_APPLICATION_CREDENTIALS) != '' }}
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_KEY || secrets.FIREBASE_CREDENTIALS || secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
           channelId: live
           projectId: gen-lang-client-0930548530
+
+      - name: Deploy to Firebase Hosting via CI Token (Fallback)
+        if: ${{ env.HAS_SERVICE_ACCOUNT != 'true' && secrets.FIREBASE_TOKEN != '' }}
+        env:
+          HAS_SERVICE_ACCOUNT: ${{ (secrets.FIREBASE_SERVICE_ACCOUNT_GEN_LANG_CLIENT_0930548530 || secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_KEY || secrets.FIREBASE_CREDENTIALS || secrets.GOOGLE_APPLICATION_CREDENTIALS) != '' }}
+        run: |
+          npx --yes firebase-tools deploy --only hosting --project gen-lang-client-0930548530 --token "${{ secrets.FIREBASE_TOKEN }}"
+
